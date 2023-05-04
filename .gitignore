@@ -32,3 +32,5 @@
 *.app
 /.metadata/
 /Debug/
+/build
+/build/
