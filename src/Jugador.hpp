@@ -1,7 +1,7 @@
 #ifndef _JUGADOR_
 #define _JUGADOR_
 
-#include "Array.hpp"
+#include "Lista.hpp"
 #include "Carta.hpp"
 #include "Soldado.hpp"
 #include "Mina.hpp"
@@ -11,14 +11,12 @@ class Jugador
 {
 private:
     int id;
-    Array<Carta> mano;
-    Array<Soldado> Soldados;
-    Array<Mina> minas;
-    Array<Armamento> Armamentos;
-    
+    Lista<Carta> mano;
+    Lista<Soldado> Soldados;
+    Lista<Mina> minas;
+    Lista<Armamento> Armamentos;
 
 public:
-
 };
 
 #endif
