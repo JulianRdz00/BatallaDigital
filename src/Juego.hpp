@@ -5,13 +5,14 @@
 #include "Jugador.hpp"
 #include "Array.hpp"
 #include "Constantes.hpp"
+#include "ListaC.hpp"
 
 class Juego
 {
 private:
     //  ATRIBUTOS
     Tablero *mapa;
-    Array<Jugador> jugadores; // Usar una lista circular
+    ListaC<Jugador> jugadores; // Usar una lista circular
     // Jugador &jugadorEnTurno;
 
     /*

@@ -12,8 +12,8 @@ int main()
     while (true)
     {
         batallaDigital->RenderDev();
-
-        wait(200);
+        std::cout << "NEXT_____________\n";
+        wait(100);
     }
 
     return 0;
