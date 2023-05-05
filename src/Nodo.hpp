@@ -10,7 +10,7 @@ template <class T>
 class Nodo
 {
 private:
-    T dato;
+    T* dato;
     Nodo<T> *siguiente;
 
 public:

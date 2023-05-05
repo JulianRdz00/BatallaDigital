@@ -14,11 +14,41 @@ private:
     Tablero *mapa;
     ListaC<Jugador> jugadores; // Usar una lista circular
     // Jugador &jugadorEnTurno;
+    Jugador *jugadorActivo = new Jugador();
+
+    void preguntarUsoCarta()
+    {
+        char respuesta;
+        std::cout << "Queres usar una carta?\n";
+        std::cout << "[S]Si [N]No\n";
+        std::cin >> respuesta;
+
+        if (respuesta == 'S')
+        {
+
+            std::cout << "Tus cartas disponibles:\n";
+
+            const Lista<Carta>* = jugadorActivo->getListaDeCartas();
+
+            for (size_t i = 0; i < jugadorActivo->cantidadDeCarta(); i++)
+            {
+                std::cout << 
+            }
+        }
+    }
+
+    /*
+    POS: Cambia el jugador en turno al siguiente en la lista de Jugadores
+    */
+    void pasarTurno();
 
     /*
     POS: Añade una Carta aleatoria a la Mano del jugador
     */
-    void darCarta(Jugador &jugador);
+    void darCarta()
+    {
+        jugadorActivo->agregarCartaAMano(new Carta());
+    }
 
     /* ____UTILIZAR SOLAMENTE DURANTE EL DESARROLLO___
     Dibuja una capa XY del mapa
@@ -60,11 +90,6 @@ public:
     void comprobarColisiones();
 
     /*
-    POS: Cambia el jugador en turno al siguiente en la lista de Jugadores
-    */
-    void pasarTurno();
-
-    /*
     PRE: Debe haber almenos un jugador en el juego.
 
     POS: Busca la cantidad de jugadores vivos restantes.
@@ -83,9 +108,24 @@ public:
         for (int z = 0; z < mapa->getAltura(); z++)
         {
             renderDevCapa(z);
-            wait(100);
+            wait(300);
             system("clear");
         }
+    }
+
+    /*
+    PRE:
+    POST: Le da al jugador una nueva carta, le pregunta al jugador que acciones va a realizar,
+        ejecuta las reglas del juego y luego pasa de turno al siguiente jugador.
+    */
+    void ejecutarTurno()
+    {
+        darCarta();
+        preguntarUsoCarta();
+        preguntarDondePonerMina();
+        preguntarMovimiento();
+
+        pasarTurno();
     }
 };
 
