@@ -4,7 +4,7 @@ class Carta
 {
 private:
     enum nombre{ASALTO, BOMBA, RADAR, ETC};
-    int id;
+    unsigned int id;
 public:
 
 };
