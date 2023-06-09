@@ -13,7 +13,6 @@ private:
     //  ATRIBUTOS
     Tablero *mapa;
     ListaC<Jugador> jugadores; // Usar una lista circular
-    // Jugador &jugadorEnTurno;
     Jugador *jugadorActivo = new Jugador();
 
     void preguntarUsoCarta()
@@ -118,14 +117,14 @@ public:
     POST: Le da al jugador una nueva carta, le pregunta al jugador que acciones va a realizar,
         ejecuta las reglas del juego y luego pasa de turno al siguiente jugador.
     */
-    void ejecutarTurno()
+    void ejecutarTurno(Jugador* jugador)
     {
         darCarta();
         preguntarUsoCarta();
         preguntarDondePonerMina();
         preguntarMovimiento();
-
-        pasarTurno();
+        comprobarColisiones();
+        buscarGanador();
     }
 };
 

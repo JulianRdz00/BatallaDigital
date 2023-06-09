@@ -31,9 +31,6 @@ public:
 
     }
 
-
-
-
     //Devuelve la altura maxima que puede tener una posicion dentro del tablero
     int getAltura()
     {

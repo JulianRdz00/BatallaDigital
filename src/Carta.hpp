@@ -1,6 +1,7 @@
 #ifndef _CARTA_
 #define _CARTA_
 class Carta
+/*FRANCO*/
 {
 private:
     enum nombre{ASALTO, BOMBA, RADAR, ETC};

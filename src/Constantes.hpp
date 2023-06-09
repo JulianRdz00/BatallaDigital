@@ -9,8 +9,6 @@ static const char ICONO_AIRE = ' ';
 static const char ICONO_TIERRA = '#';
 
 
-
-
 int getRandom(int min, int max)
 {
     return min + (rand() % (max - min + 1));

@@ -9,12 +9,14 @@ int main()
 
     srand((unsigned)time(NULL));
     Juego *batallaDigital = new Juego();
-    while (true)
+    reiniciarCursor();
+    while (avanzarCursor())//lista de jugadores
     {
-        batallaDigital->RenderDev();
-        std::cout << "NEXT_____________\n";
-        wait(100);
+        Jugador* jugador = getNodo();//lista de jugadores
+        ejecutarTurno(jugador);
     }
+
+
 
     return 0;
 }
