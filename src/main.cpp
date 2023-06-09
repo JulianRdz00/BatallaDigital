@@ -16,7 +16,10 @@ int main()
         ejecutarTurno(jugador);
     }
 
+    // lista con un solo nodo que tiene el jugador ganador
+    Judagor* jugadorGanador = getNodo();//lista de jugadores
 
+    //cout mensaje del ganador
 
     return 0;
 }
