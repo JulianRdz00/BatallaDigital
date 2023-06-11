@@ -5,8 +5,6 @@
 #include "Unidad.hpp"
 #include "Constantes.hpp"
 
-using namespace std;
-
 class Casilla
 {
 private:
@@ -45,12 +43,12 @@ public:
         return this->jugadorPosicion;
     }
 
-    void setTipoOcupante(string ocupante)
+    void setTipoOcupante(std::string ocupante)
     {
         this->tipoOcupante = ocupante;   
     }
 
-    string getTipoOcupante(){
+    std::string getTipoOcupante(){
         return this->tipoOcupante;
     }    
 
