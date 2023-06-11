@@ -5,17 +5,13 @@
 #include "Unidad.hpp"
 #include "Constantes.hpp"
 
+
 class Casilla
 {
 private:
     Coordenada ubicacion;
     int tipo;
-    enum tipoTerreno
-    {
-        TIERRA,
-        MAR,
-        AIRE
-    };
+    tipoTerreno tipoTerreno;
     bool esActiva;
     Unidad *ocupante;
 

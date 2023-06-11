@@ -3,10 +3,18 @@
 
 #include <unistd.h>
 #include <cstdlib>
+#include <iostream>
+
 
 static const char ICONO_MAR = '~';
 static const char ICONO_AIRE = ' ';
 static const char ICONO_TIERRA = '#';
+const enum tipoTerreno
+{
+    TIERRA,
+    MAR,
+    AIRE
+};
 
 
 int getRandom(int min, int max)

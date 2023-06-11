@@ -5,14 +5,13 @@
 #include "Jugador.hpp"
 #include "Array.hpp"
 #include "Constantes.hpp"
-#include "ListaC.hpp"
 
 class Juego
 {
 private:
     //  ATRIBUTOS
     Tablero *mapa;
-    ListaC<Jugador> jugadores; // Usar una lista circular
+    Lista <Jugador*> *jugadores;
     Jugador *jugadorActivo = new Jugador();
 
     void preguntarUsoCarta()
