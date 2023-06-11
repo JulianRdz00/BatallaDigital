@@ -27,7 +27,7 @@ public:
         mano->add(*nuevaCarta);
     }
 
-    int cantidadDeCarta()
+    int cantidadDeCartas()
     {
         return mano->contarElementos();
     }
@@ -36,6 +36,9 @@ public:
     {
         return mano; // Revisar la encapsulacion
     }
+
+   
+
+        
 };
 
-#endif
