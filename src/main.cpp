@@ -8,18 +8,22 @@ int main()
 {
 
     srand((unsigned)time(NULL));
+    Coordenada puntoMasLejano = Coordenada(10, 10, 10);
+
     Juego *batallaDigital = new Juego();
-    reiniciarCursor();
-    while (avanzarCursor())//lista de jugadores
+
+    while (batallaDigital->partidaEnCurso()) // lista de jugadores
     {
-        Jugador* jugador = getNodo();//lista de jugadores
+        batallaDigital->
+
+                Jugador *jugador = getNodo(); // lista de jugadores
         ejecutarTurno(jugador);
     }
 
     // lista con un solo nodo que tiene el jugador ganador
-    Judagor* jugadorGanador = getNodo();//lista de jugadores
+    Judagor *jugadorGanador = getNodo(); // lista de jugadores
 
-    //cout mensaje del ganador
+    // cout mensaje del ganador
 
     return 0;
 }

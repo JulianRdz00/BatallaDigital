@@ -5,7 +5,6 @@
 #include "Unidad.hpp"
 #include "Constantes.hpp"
 
-template <class T>
 class Casilla
 {
 private:
@@ -18,7 +17,6 @@ private:
         AIRE
     };
     bool esActiva;
-    T *contenido;
 
 public:
     Casilla(Coordenada &ubicacion)
@@ -26,7 +24,11 @@ public:
         this->ubicacion = ubicacion;
         tipo = getRandom(0, 2);
         esActiva = true;
-        contenido = NULL;
+    }
+
+    void setCoordenada(Coordenada &nuevaPosicion)
+    {
+        this->ubicacion = Coordenada(nuevaPosicion);
     }
 
     Coordenada getCoordenada()

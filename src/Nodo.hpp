@@ -1,6 +1,5 @@
-
-#ifndef _NODO_
-#define _NODO_
+#ifndef _NODO_H_
+#define _NODO_H_
 
 #ifndef NULL
 #define NULL 0
@@ -11,7 +10,7 @@ class Nodo
 {
 private:
     Nodo<T> *anterior;
-    T* dato;
+    T dato;
     Nodo<T> *siguiente;
 
 public:

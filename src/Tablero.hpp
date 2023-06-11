@@ -6,9 +6,7 @@
 class Tablero
 {
 private:
-    Lista<Casilla<Mina *> *> *minas;
-    Lista<Casilla<Soldado *> *> *soldados;
-    Lista<Casilla<Armamento *> *> *armamentos;
+    Lista<Casilla *> *mapa;
 
     int largoMaximo;
     int anchoMaximo;
@@ -32,13 +30,20 @@ private:
         }
     }
 
+    Coordenada obtenerPosicionAleatoria()
+    {
+        int x = getRandom(1, anchoMaximo);
+        int y = getRandom(1, largoMaximo);
+        int z = getRandom(1, alturaMaxima);
+
+        return Coordenada(x, y, z);
+    }
+
 public:
     // POST: Crea un tablero con las dimensiones dadas como argumento.
     Tablero(int ancho, int largo, int alto)
     {
-        minas = new Lista<Casilla<Mina *> *>;
-        soldados = new Lista<Casilla<Soldado *> *>;
-        armamentos = new Lista<Casilla<Armamento *> *>;
+        mapa = new Lista<Casilla *>();
 
         this->anchoMaximo = ancho;
         this->largoMaximo = largo;
@@ -46,126 +51,50 @@ public:
     }
 
     // POST: Inserta un soldado en el tablero en la posicion de la casilla dada.
-    void insertar(Casilla<Soldado *> *elemento)
+    void insertar(Casilla *elemento)
     {
         if (laUbicacionEsValida(elemento->getCoordenada()))
         {
-            soldados->add(elemento);
+            mapa->add(elemento);
         }
     }
 
-    // POST: Inserta un mina en el tablero en la posicion de la casilla dada.
-    void insertar(Casilla<Mina *> *elemento)
+    // PRE: Existe almenos una casilla vacia.
+    // POST: Coloca una unidad soldado en una casilla vacia elejida aleatoriamente.
+    void colococarAleatoriamente(Casilla &nuevaCasilla)
     {
-        if (laUbicacionEsValida(elemento->getCoordenada()))
-        {
-            minas->add(elemento);
-        }
-    }
-
-    // POST: Inserta un mina en el tablero en la posicion de la casilla dada.
-    void insertar(Casilla<Armamento *> *elemento)
-    {
-        if (laUbicacionEsValida(elemento->getCoordenada()))
-        {
-            armamentos->add(elemento);
-        }
-    }
-
-    // Devuelve el icono de lo que haya en una casilla en una posicion dada, si esta vacia devuelve ICONO_CASILLA_VACIA
-    char obtenerIcono(Coordenada posicion)
-    {
-        char icono = 'X';
         bool buscando = true;
-        soldados->reiniciarCursor();
-        while (buscando && soldados->avanzarCursor())
+        Coordenada posicionRandom = obtenerPosicionAleatoria();
+        while (buscando)
         {
-            if (soldados->getCursor()->getCoordenada().esIgualA(posicion))
+            Lista<Casilla *> *objetosEnPosicion = obtenerEnPosicion(nuevaCasilla.getCoordenada());
+
+            if (objetosEnPosicion->vacia())
             {
-                icono = soldados->getCursor()->getIcono();
                 buscando = false;
             }
-        }
-        minas->reiniciarCursor();
-        while (buscando && minas->avanzarCursor())
-        {
-            if (minas->getCursor()->getCoordenada().esIgualA(posicion))
+            else
             {
-                icono = minas->getCursor()->getIcono();
-                buscando = false;
+                posicionRandom = obtenerPosicionAleatoria();
             }
         }
-        armamentos->reiniciarCursor();
-        while (buscando && minas->avanzarCursor())
-        {
-            if (minas->getCursor()->getCoordenada().esIgualA(posicion))
-            {
-                icono = minas->getCursor()->getIcono();
-                buscando = false;
-            }
-        }
-        return icono;
+        nuevaCasilla.setCoordenada(posicionRandom);
+        insertar(&nuevaCasilla);
     }
 
-    // POST: Devuelve la casilla con un soldado en una posicion dada.
-    Casilla<Soldado *> *ObtenerSoldado(Coordenada &posicion)
+    // POST: Devuelve un puntero a una lista con las casillas con la posicion dada.
+    Lista<Casilla *> *obtenerEnPosicion(Coordenada &posicion)
     {
-        Casilla<Soldado *> *resultado = NULL;
+        Lista<Casilla *> *resultado = new Lista<Casilla *>();
 
         if (laUbicacionEsValida(posicion))
         {
-            bool buscando = true;
-            soldados->reiniciarCursor();
-            while (buscando && soldados->avanzarCursor())
+            mapa->reiniciarCursor();
+            while (mapa->avanzarCursor())
             {
-                if (soldados->getCursor()->getCoordenada().esIgualA(posicion))
+                if (mapa->getCursor()->getCoordenada().esIgualA(posicion))
                 {
-                    resultado = soldados->getCursor();
-                    buscando = false;
-                }
-            }
-        }
-
-        return resultado;
-    }
-
-    // POST: Devuelve la casilla con una mina en una posicion dada.
-    Casilla<Mina *> *obtenerMina(Coordenada &posicion)
-    {
-        Casilla<Mina *> *resultado = NULL;
-
-        if (laUbicacionEsValida(posicion))
-        {
-            bool buscando = true;
-            minas->reiniciarCursor();
-            while (buscando && minas->avanzarCursor())
-            {
-                if (minas->getCursor()->getCoordenada().esIgualA(posicion))
-                {
-                    resultado = minas->getCursor();
-                    buscando = false;
-                }
-            }
-        }
-
-        return resultado;
-    }
-
-    // POST: Devuelve la casilla con una armamento en una posicion dada.
-    Casilla<Armamento *> *obtenerArmamento(Coordenada &posicion)
-    {
-        Casilla<Armamento *> *resultado = NULL;
-
-        if (laUbicacionEsValida(posicion))
-        {
-            bool buscando = true;
-            armamentos->reiniciarCursor();
-            while (buscando && armamentos->avanzarCursor())
-            {
-                if (armamentos->getCursor()->getCoordenada().esIgualA(posicion))
-                {
-                    resultado = armamentos->getCursor();
-                    buscando = false;
+                    resultado->add(mapa->getCursor());
                 }
             }
         }
@@ -177,9 +106,6 @@ public:
     Lista<Coordenada> *obtenerAdyacentes(Coordenada posicion)
     {
         Lista<Coordenada> *adyacentes = new Lista<Coordenada>();
-        int x = 0;
-        int y = 0;
-        int z = 0;
 
         for (int i = -1; i <= 1; i++)
         {
