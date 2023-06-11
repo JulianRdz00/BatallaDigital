@@ -9,7 +9,15 @@ class Casilla
 {
 private:
     Coordenada ubicacion;
-    int tipo;
+    Jugador *jugadorPosicion;
+    enum tipoOcupante
+    {
+        AVION,
+        BARCO,
+        MINA,
+        SOLDADO,
+        VACIO
+    };
     enum tipoTerreno
     {
         TIERRA,
@@ -22,9 +30,27 @@ public:
     Casilla(Coordenada &ubicacion)
     {
         this->ubicacion = ubicacion;
-        tipo = getRandom(0, 2);
+        this->tipoOcupante = VACIO;
         esActiva = true;
+        this->jugadorPosicion = NULL;
     }
+
+    void setJugadorCasilla(Jugador *jugador){
+        this->jugadorPosicion = jugador;
+    }
+
+    Jugador *getJugadorCasilla(){
+        return this->jugadorPosicion;
+    }
+
+    void setTipoOcupante(std::string ocupante)
+    {
+        this->tipoOcupante = ocupante;   
+    }
+
+    std::string getTipoOcupante(){
+        return this->tipoOcupante;
+    }    
 
     void setCoordenada(Coordenada &nuevaPosicion)
     {
@@ -39,7 +65,7 @@ public:
     char getIcono()
     {
         char icono;
-        switch (tipo)
+        switch (tipoOcupante)
         {
         case AIRE:
             return ICONO_AIRE;
