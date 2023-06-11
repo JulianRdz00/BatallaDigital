@@ -6,6 +6,7 @@
 template <class T>
 class ListaC
 {
+    /* JULIAN + libreria */
 public:
     ListaC(); // constructor
     // Escribir el constructor copia como ej
