@@ -28,11 +28,11 @@ private:
 
             std::cout << "Tus cartas disponibles:\n";
 
-            const Lista<Carta>* = jugadorActivo->getListaDeCartas();
+            const Lista<Carta> * = jugadorActivo->getListaDeCartas();
 
             for (size_t i = 0; i < jugadorActivo->cantidadDeCarta(); i++)
             {
-                std::cout << 
+                std::cout <<
             }
         }
     }

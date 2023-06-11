@@ -1,12 +1,11 @@
-#ifndef _JUGADOR_
-#define _JUGADOR_
+#ifndef _JUGADOR_H_
+#define _JUGADOR_H_
 
 #include "Lista.hpp"
 #include "Carta.hpp"
 #include "Soldado.hpp"
 #include "Mina.hpp"
 #include "Armamento.hpp"
-#include "Array.hpp"
 
 class Jugador
 {

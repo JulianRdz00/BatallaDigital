@@ -5,6 +5,7 @@
 #include "Unidad.hpp"
 #include "Constantes.hpp"
 
+template <class T>
 class Casilla
 {
 private:
@@ -17,17 +18,24 @@ private:
         AIRE
     };
     bool esActiva;
-    Unidad *ocupante;
+    T *contenido;
 
 public:
-    Casilla()
+    Casilla(Coordenada &ubicacion)
     {
-        tipo = getRandom(0,2);
+        this->ubicacion = ubicacion;
+        tipo = getRandom(0, 2);
         esActiva = true;
-        ocupante = NULL;
+        contenido = NULL;
     }
 
-    char getIcono(){
+    Coordenada getCoordenada()
+    {
+        return this->ubicacion;
+    }
+
+    char getIcono()
+    {
         char icono;
         switch (tipo)
         {
