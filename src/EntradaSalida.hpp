@@ -16,7 +16,7 @@ public:
 
     EntradaSalida();
 
-    /*POS: devuelve el valor de la coordenada ingresada por consola*/
+    /*POS: devuelve el valor de la coordenada ingresada por consola */
 
     int pedirCordenada(string nombreCoordenada){
 
