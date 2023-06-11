@@ -6,7 +6,6 @@
 #include "Soldado.hpp"
 #include "Mina.hpp"
 #include "Armamento.hpp"
-#include "Array.hpp"
 
 class Jugador
 {
