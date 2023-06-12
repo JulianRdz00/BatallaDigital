@@ -93,6 +93,8 @@ public:
             jugadores.add(new Jugador()) //Completar constructor
 
         }
+
+        
         // Invocar al metodo para devolver los soldados de los jugadores y usarlos con el metodo, colococarAleatoriamente() del Tablero.
     }
 
