@@ -72,11 +72,13 @@ public:
     */
     Juego()
     {
-        mapa = NULL;
+        Juego(ANCHO_TABLERO_DEFAULT, LARGO_TABLERO_DEFAULT, ALTO_TABLERO_DEFAULT, CANTIDAD_JUGADORES_DEFAULT, CANTIDAD_SOLDADOS_DEFAULT)
     }
 
     /*
     Pre: Los valores deben ser mayores a 0.
+        La cantidad de soldados por jugador * la cantidad de jugadores debe ser menor a la cantidad de casillas del tablero
+        es decir, ancho * largo * alto
 
     POS: Inicia un Juego con la cantidad de jugadores especificada,
         con la cantidad de soldados por jugador especificada. El terreno de juego es generado
@@ -86,7 +88,13 @@ public:
     Juego(int ancho, int largo, int alto, int cantidadJugadores, int soldadosPorJugador)
     {
         mapa = new Tablero(ancho, largo, alto);
-        // Crear cada jugador.
+
+        for(int i=0; i<4; i++){
+            jugadores.add(new Jugador()) //Completar constructor
+
+        }
+
+        
         // Invocar al metodo para devolver los soldados de los jugadores y usarlos con el metodo, colococarAleatoriamente() del Tablero.
     }
 
