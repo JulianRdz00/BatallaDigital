@@ -18,6 +18,9 @@ int preguntarEnteroPositivo(std::string pregunta){
 
 //Post devuelve un puntero a un Juego con unos parametros elejidos por el usuario.
 Juego* inicializarPartida(){
+    bool invalido = true
+    while(invalido){
+
     int ancho = preguntarEnteroPositivo("ingrese el Ancho del tablero.");
     int largo = preguntarEnteroPositivo("ingrese el Ancho del tablero.");
     int alto = preguntarEnteroPositivo("ingrese el Ancho del tablero.");
@@ -25,7 +28,18 @@ Juego* inicializarPartida(){
     int cantidadJugadores = preguntarEnteroPositivo("ingrese la cantidad de jugadores.");
     int cantidadSoldadosPorJugador = preguntarEnteroPositivo("ingrese la cantidad de soldados iniciales para cada jugador.");
 
-    Juego* partida = new Juego(ancho, largo, alto, cantidadJugadores, cantidadSoldadosPorJugador);
+    espaciosNecesarios = cantidadJugadores*cantidadSoldadosPorJugador;
+    espaciosTotales = ancho * largo * alto;
+
+    if(espaciosNecesarios*2 < espaciosTotales ){
+       std::cout << "El tamanio del tablero no cumple los requisitos de tamanio para la cantidad de jugadores y soldados. \n";
+    }else{
+        std::cout << "Datos correctos."
+        invalido = false;
+    }
+
+    }
+    return new Juego(ancho, largo, alto, cantidadJugadores, cantidadSoldadosPorJugador);
 }
 
 
@@ -37,20 +51,30 @@ int main()
 
 
 
-    Juego *batallaDigital = new Juego();
+    Juego *batallaDigital = inicializarPartida();
 
-    while (batallaDigital->partidaEnCurso()) // lista de jugadores
+    while (batallaDigital->avanzarTurno()) // lista de jugadores
     {
-        batallaDigital->
+        batallaDigital->actualizarImagenes();
 
-                Jugador *jugador = getNodo(); // lista de jugadores
-        ejecutarTurno(jugador);
+        batallaDigital->darCartaAJugador();
+        batallaDigital->preguntarUsoCarta();
+        batallaDigital->preguntarPonerMina();
+        batallaDigital->preguntarMoverUnidad();
+
+        batallaDigital->actualizarImagenes();
+
+        batallaDigital->ejecutarLogica();
     }
 
-    // lista con un solo nodo que tiene el jugador ganador
-    Judagor *jugadorGanador = getNodo(); // lista de jugadores
+    resultado = batallaDigital->obtenerResultado();
 
-    // cout mensaje del ganador
+    switch(resultado){
+        case EMPATE:
+            std::cout << "Hubo un empate\n";
+        case GANADOR:
+            std:cout << "Hay un ganador!\n";
+    }
 
     return 0;
 }
