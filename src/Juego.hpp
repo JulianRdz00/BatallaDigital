@@ -3,7 +3,6 @@
 
 #include "Tablero.hpp"
 #include "Jugador.hpp"
-#include "Array.hpp"
 #include "Constantes.hpp"
 
 class Juego
@@ -26,11 +25,12 @@ private:
 
             std::cout << "Tus cartas disponibles:\n";
 
-            const Lista<Carta>* = jugadorActivo->getListaDeCartas();
+            // Crear un metodo obtener Lista de cartas para poder loopear la lista de cartas en consola.
+            // const Lista<Carta> * = jugadorActivo->getListaDeCartas();
 
             for (size_t i = 0; i < jugadorActivo->cantidadDeCarta(); i++)
             {
-                std::cout << 
+                std::cout << 'c';
             }
         }
     }
@@ -53,6 +53,7 @@ private:
     */
     void renderDevCapa(int z)
     {
+        /*
         for (int y = 0; y < mapa->getLargo(); y++)
         {
             for (int x = 0; x < mapa->getAncho(); x++)
@@ -61,6 +62,7 @@ private:
             }
             std::cout << "\n";
         }
+        */
     }
 
 public:
@@ -69,7 +71,7 @@ public:
     */
     Juego()
     {
-        mapa = new Tablero();
+        mapa = NULL;
     }
 
     /*
@@ -80,7 +82,12 @@ public:
         con las dimensiones dadas.
         Si no hay suficiente espacio para ubicar a los Soldados de todos los jugadores, entonces devuelve un Error
     */
-    Juego(int largo, int ancho, int alto, int cantidadJugadores, int soldadosPorJugador);
+    Juego(int ancho, int largo, int alto, int cantidadJugadores, int soldadosPorJugador)
+    {
+        mapa = new Tablero(ancho, largo, alto);
+        // Crear cada jugador.
+        // Invocar al metodo para devolver los soldados de los jugadores y usarlos con el metodo, colococarAleatoriamente() del Tablero.
+    }
 
     /*
     Elimina a los Soldados en casillas inactivas o minadas
@@ -106,7 +113,6 @@ public:
         for (int z = 0; z < mapa->getAltura(); z++)
         {
             renderDevCapa(z);
-            wait(300);
             system("clear");
         }
     }
@@ -116,12 +122,12 @@ public:
     POST: Le da al jugador una nueva carta, le pregunta al jugador que acciones va a realizar,
         ejecuta las reglas del juego y luego pasa de turno al siguiente jugador.
     */
-    void ejecutarTurno(Jugador* jugador)
+    void ejecutarTurno(Jugador *jugador)
     {
         darCarta();
         preguntarUsoCarta();
-        preguntarDondePonerMina();
-        preguntarMovimiento();
+        // preguntarDondePonerMina();
+        // preguntarMovimiento();
         comprobarColisiones();
         buscarGanador();
     }

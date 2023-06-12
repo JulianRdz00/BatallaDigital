@@ -2,7 +2,6 @@
 #define _CASILLA_
 
 #include "Coordenada.hpp"
-#include "Unidad.hpp"
 #include "Constantes.hpp"
 
 
@@ -10,22 +9,63 @@ class Casilla
 {
 private:
     Coordenada ubicacion;
-    int tipo;
-    tipoTerreno tipoTerreno;
+    Jugador *jugadorPosicion;
+    enum tipoOcupante
+    {
+        AVION,
+        BARCO,
+        MINA,
+        SOLDADO,
+        VACIO
+    };
+    enum tipoTerreno
+    {
+        TIERRA,
+        MAR,
+        AIRE
+    };
     bool esActiva;
-    Unidad *ocupante;
 
 public:
-    Casilla()
+    Casilla(Coordenada &ubicacion)
     {
-        tipo = getRandom(0,2);
+        this->ubicacion = ubicacion;
+        this->tipoOcupante = VACIO;
         esActiva = true;
-        ocupante = NULL;
+        this->jugadorPosicion = NULL;
     }
 
-    char getIcono(){
+    void setJugadorCasilla(Jugador *jugador){
+        this->jugadorPosicion = jugador;
+    }
+
+    Jugador *getJugadorCasilla(){
+        return this->jugadorPosicion;
+    }
+
+    void setTipoOcupante(std::string ocupante)
+    {
+        this->tipoOcupante = ocupante;   
+    }
+
+    std::string getTipoOcupante(){
+        return this->tipoOcupante;
+    }    
+
+    void setCoordenada(Coordenada &nuevaPosicion)
+    {
+        this->ubicacion = Coordenada(nuevaPosicion);
+    }
+
+    Coordenada getCoordenada()
+    {
+        return this->ubicacion;
+    }
+
+    char getIcono()
+    {
         char icono;
-        switch (tipo)
+        switch (tipoOcupante)
         {
         case AIRE:
             return ICONO_AIRE;

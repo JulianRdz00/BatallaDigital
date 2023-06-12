@@ -1,5 +1,5 @@
-#ifndef _LISTA_
-#define _LISTA_
+#ifndef _LISTA_H_
+#define _LISTA_H_
 
 #ifndef NULL
 #define NULL 0

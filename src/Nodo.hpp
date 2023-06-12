@@ -1,6 +1,5 @@
-
-#ifndef _NODO_
-#define _NODO_
+#ifndef _NODO_H_
+#define _NODO_H_
 
 #ifndef NULL
 #define NULL 0
@@ -10,7 +9,8 @@ template <class T>
 class Nodo
 {
 private:
-    T* dato;
+    Nodo<T> *anterior;
+    T dato;
     Nodo<T> *siguiente;
 
 public:

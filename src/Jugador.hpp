@@ -1,5 +1,5 @@
-#ifndef _JUGADOR_
-#define _JUGADOR_
+#ifndef _JUGADOR_H_
+#define _JUGADOR_H_
 
 #include "Lista.hpp"
 #include "Carta.hpp"
@@ -27,7 +27,7 @@ public:
         mano->add(*nuevaCarta);
     }
 
-    int cantidadDeCarta()
+    int cantidadDeCartas()
     {
         return mano->contarElementos();
     }
@@ -36,6 +36,9 @@ public:
     {
         return mano; // Revisar la encapsulacion
     }
+
+   
+
+        
 };
 
-#endif

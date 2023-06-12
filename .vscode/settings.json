@@ -55,6 +55,7 @@
   "C_Cpp_Runner.useLeakSanitizer": false,
   "C_Cpp_Runner.showCompilationTime": false,
   "files.associations": {
+<<<<<<< HEAD
     "cstring": "cpp",
     "array": "cpp",
     "atomic": "cpp",
@@ -101,5 +102,8 @@
     "stdexcept": "cpp",
     "streambuf": "cpp",
     "typeinfo": "cpp"
+=======
+    "string": "cpp"
+>>>>>>> 573a79bdf01928927a6c7309f3d5147038d00a75
   }
 }

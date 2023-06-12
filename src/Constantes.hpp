@@ -1,7 +1,6 @@
 #ifndef __CONSTANTES__
 #define __CONSTANTES__
 
-#include <unistd.h>
 #include <cstdlib>
 #include <iostream>
 
@@ -17,14 +16,19 @@ const enum tipoTerreno
 };
 
 
+
+
+
+
+static const char ICONO_CASILLA_VACIA = 'X';
+
+
+static const int EMPATE = 98;
+static const int UNGANADOR = 99;
+
 int getRandom(int min, int max)
 {
     return min + (rand() % (max - min + 1));
-}
-
-void wait(int milisegundos)
-{
-    usleep(milisegundos * 1000); // sleeps for 3 second
 }
 
 #endif
