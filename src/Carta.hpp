@@ -59,7 +59,7 @@ public:
         }else if (tipo == RADAR){
             jugarRadar(posicion);
         }else if (tipo == SUPERMINA){
-            jugarRadar(posicion);
+            jugarMina(posicion);
         }
     }
 
