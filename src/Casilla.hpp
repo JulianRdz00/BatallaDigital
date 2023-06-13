@@ -16,6 +16,7 @@ private:
         BARCO,
         MINA,
         SOLDADO,
+        QUIMICO,
         VACIO
     };
     int turnosInactiva;
