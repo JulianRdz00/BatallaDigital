@@ -1,9 +1,13 @@
 #ifndef _CARTA_
 #define _CARTA_
 
+#include "Lista.hpp"
 #include "Tablero3D.hpp"
+#include "Casilla.hpp"
+#include "jugador.hpp"
+#include "Coordenada.hpp"
 
-enum tipoDeCarta{SUPERMINA, RADAR, ATAQUEQUIMICO, BARCO, DESTRUCTORARMAMENTO, PASARTURNO, ETC};
+enum tipoDeCarta{SUPERMINA, RADAR, ATAQUEQUIMICO, BARCO, DESTRUCTORARMAMENTO, PASARTURNO};
 
 class Carta
 
@@ -11,6 +15,75 @@ class Carta
 private:
     tipoDeCarta tipo;
     unsigned int id;
+
+     /*Pre: mapa no debe ser nulo;
+	*  Post: determina la cantidad de turnos que se mantendra el ataque en cada casilla.
+	*/
+    void determinarTurnos(Lista<Casilla *> *mapa, Coordenda* posicion, Coordenda* nuevaPosicion){
+
+    	if (mapa == NULL){
+    		throw "mapa no debe ser nulo"
+    	}
+
+    	mapa->obtenerAdyacentes(posicion)->reiniciarCursor();
+    	while(mapa->obtenerAdyacentes(posicion)->avanzarCursor()){
+    		Coordenada* posicionAdyacente = mapa->obtenerAdyacentes(posicion)->getCursor();
+    		if(nuevaPosicion == posicion){
+    		//10 turnos
+    		}else if (nuevaPosicion == posicionAdyacente){
+    		//8 turnos
+    		}else{
+    		//6 turnos
+    		}
+    	}
+    }
+
+    /*Pre: casilla no debe ser nula
+	*Post: ataca las posiciones adyacentes a la casilla indicada con el tipoOcupante indicado
+	*/
+    void atacarAdyacentes(Casilla* casilla, String tipoOcupante){
+
+    	if (casilla == NULL){
+    		throw "casilla no debe ser nula"
+    	}
+
+		for (int i = 1; i < 3; ++i){
+           
+            mapa->obtenerAdyacentes(casilla->getCoordenada()).reiniciarCursor();
+            while(mapa->obtenerAdyacentes(casilla->getCoordenada()).avanzarCursor()){
+                Coordenada* coordenada = mapa->obtenerAdyacentes(casilla->getCoordenada()).getCursor();
+                casilla->setTipoOcupante(tipoOcupante);
+            }
+        }
+	}
+
+	/*Pre: el tablero no debe ser nulo.
+	*Post: detecta las posiciones donde hay minas y las devuelve.
+	*/
+	Lista<String>* detectarOcupantes(Lista<Casilla *> *mapa){
+
+		if (mapa == NULL){
+    		throw "mapa no debe ser nulo"
+    	}
+
+    	Lista<String>* ocupantes = new Lista<String>();
+
+    	for (int i = 5; i < mapa->getAltura(); ++i){
+            for (int j = 0; j < mapa->getAncho(); ++j){
+                for (int k = 0; k < mapa->getLargo(); ++k){
+                	Coordenada* posicionAux = NULL;
+                	posicionAux->Coordenada(i,j,k);
+                	if (mapa->obteneEnPosicion(posicionAux)->getTipoOcupante() == MINA){
+                		ocupantes->add(mapa->obteneEnPosicion(posicionAux)->getTipoOcupante()); 
+                	}
+                }
+            }
+        }
+
+        return ocupantes;
+    }
+
+
 public:
     /*Pre: El id debe ser mayor a 0
 	*Post: Crea la carta con su tipo e id indicado
@@ -43,111 +116,111 @@ public:
 		return this->id;
 	}
 
-	 /*Pre: La posicion debe estar dentro de los limites del tablero y el tipo de la carta debe existir
-    *Post: Juega la carta del tipo indicado y en la posicion indicada
-    */
-    void jugar(tipoDeCarta tipo, Coordenada* posicion){
+	 /*Pre: El tablero no debe ser nulo.
+	 *		La posicion debe estar dentro de los limites del tablero.
+	 *Post: ataca a la posicion indicada y contamina 125 casilleros,
+	 *		por 10 turnos en el centro, 8 en el siguiente radio y asi.
+	*/
+    void jugarAtaqueQuimico(tipoDeCarta tipo, Lista<Casilla *> *mapa, Coordenada* posicion){
 
-        if (!tablero->laUbicacionEsValida(posicion)){ 
-            throw "La posicion ingresada debe estar dentro de los limites del tablero"
-        }
-      
-        if(tipo == ATAQUEQUIMICO){
-            jugarAtaqueQuimico(posicion);
-        }else if (tipo == BARCO){
-            jugarBarco(posicion);
-        }else if (tipo == RADAR){
-            jugarRadar(posicion);
-        }else if (tipo == SUPERMINA){
-            jugarSuperMina(posicion);
-        }else if (tipo == DESTRUCTORARMAMENTO){
-            jugarDestructorArmamento(posicion);
-        }else if (tipo == PASARTURNO){
-        	jugarPasarTurno();
-        }
+    	if(!tipo == ATAQUEQUIMICO){
+    		throw "El tipo de carta debe ser ATAQUEQUIMICO"
+    	}
 
-        throw "No exsite este tipo de carta"
-    }
-
-private:
-
-	void atacarAdyacentes(Casilla* casilla, String tipoOcupante){
-
-		for (int i = 1; i < 3; ++i){
-           
-            mapa->obtenerAdyacentes(casilla->getCoordenada()).reiniciarCursor();
-            while(mapa->obtenerAdyacentes(casilla->getCoordenada()).avanzarCursor()){
-                Coordenada* coordenada = mapa->obtenerAdyacentes(casilla->getCoordenada()).getCursor();
-                casilla->setTipoOcupante(tipoOcupante);
-            }
-        }
-	}
-
-    void jugarAtaqueQuimico(Coordenada* posicion){//falta algo 
+    	if(mapa == NULL){
+    		throw "El tablero no debe ser nulo"
+    	}
 
         if (!mapa->laUbicacionEsValida(posicion)){
             throw "La posicion ingresada debe estar dentro de los limites del tablero"
         }
 
+        for (int i = 0; i < 5; ++i){
+    		for (int j = 0; j < 5; ++j){
+    			for (int k = 0; k < 5; ++k){
+
+    				posicion->getX()-2+i;
+    				posicion->getY()-2+j;
+    				posicion->getZ()-2+k;
+    				Coordenada* posicionAux = NULL;
+                	posicionAux->Coordenada(posicion->getX()-2+i,posicion->getY()-2+j, posicion->getZ()-2+k);
+                	mapa->obtenerEnPosicion(posicionAux)->setOcupante(QUIMICO);
+    				mapa->insertar(mapa->obtenerEnPosicion(posicionAux));
+    				determinarTurnos(mapa, posicion, posicionAux)
+    			}
+    		}
+    	}
+    
+/*
         mapa->reiniciarCursor();
-       		while(mapa->avanzarCursor()){
-        		Casilla* casilla = mapa->getCursor();
-        		if (casilla->getCoordenada() == posicion){
-        			casilla->setTipoOcupante(ATAQUEQUIMICO);
-        			mapa->insertar(casilla->tipoOcupante);
-        			atacarAdyacentes(casilla, ATAQUEQUIMICO);
-        		}
-        		
-        	}
+       	while(mapa->avanzarCursor()){
+        	Casilla* casilla = mapa->getCursor();
+        	if (casilla->getCoordenada() == posicion){
+        		casilla->setTipoOcupante(ATAQUEQUIMICO);
+        		mapa->insertar(casilla);
+        		atacarAdyacentes(casilla, ATAQUEQUIMICO);
+
+        	}	
+        }
+        */
     }
 
-    /*Pre: La posicion debe estar dentro de los limites del tablero y en regiones con agua
+
+    /*Pre: El tablero no debe ser nulo.
+	*	La posicion debe estar dentro de los limites del tablero y en regiones con agua.
     *Post: Dispara un misil hacia la posicion indicada del tablero
     */
-    void jugarBarco(Coordenada* posicion){
+    void jugarBarco(tipoDeCarta tipo, Lista<Casilla *> *mapa, Coordenada* posicionAtacada, Coordenada* posicionBarco){
+
+    	if(!tipo == BARCO){
+    		throw "El tipo de carta debe ser BARCO"
+    	}
+
+    	if(mapa == NULL){
+    		throw "El tablero no debe ser nulo"
+    	}
 
         if (!mapa->laUbicacionEsValida(posicion)){
             throw "La posicion ingresada debe estar dentro de los limites del tablero"
         }
-        if (!mapa->obtenerPosicion(posicion)->getIcono() == ICONO_TIERRA){
+        if (!mapa->obtenerEnPosicion(posicion)->getIcono() == ICONO_TIERRA){
             throw "Esta carta solo es valida en las regiones con agua"
         }
 
         mapa->reiniciarCursor();
         while(mapa->avanzarCursor()){
         	Casilla* casilla = mapa->getCursor();
-        	if (casilla->getCoordenada() == posicion){
+        	if (casilla->getCoordenada() == posicionAtacada){
         		casilla->setTipoOcupante(MINA);
-        		mapa->insertar(casilla->tipoOcupante);
+        		casilla->getJugadorCasilla()->getArmamentos()->add(casilla->getTipoOcupante());
+        		mapa->insertar(casilla);
+        	}
+
+        	if (casilla->getCoordenada() == posicionBarco){
+        		casilla->setTipoOcupante(BARCO);
+        		mapa->insertar(casilla);
         	}
         }
     }
 
-    Lista<String>* detectarOcupantes(Casilla* casilla){
-
-    	Lista<String>* ocupantes = new Lista<String>();
-
-    	for (int i = 5; i < getAltura; ++i){
-            for (int j = 0; j < getAncho; ++j){
-                for (int k = 0; k < getLargo; ++k){
-                	if (casilla->getTipoOcupante() == MINA){
-                		ocupantes->add(casilla->getTipoOcupante()); 
-                	}
-                }
-            }
-        }
-
-        return ocupantes;
-    }
-
-    /*Pre: La posicion debe estar dentro de los limites del tablero y en regiones con aire
+     /*Pre: El tablero no debe ser nulo.
+    	La posicion debe estar dentro de los limites del tablero y en regiones con aire.
     *Post: Detecta todas las minas enemigas que haya en los casilleros de aire
     */
-    Lista<String>* jugarRadar(Coordenada* posicion){
+    Lista<String>* jugarRadar(tipoDeCarta tipo, Lista<Casilla *> *mapa, Coordenada* posicion){
+
+    	if(!tipo == RADAR){
+    		throw "El tipo de carta debe ser RADAR"
+    	}
+
+    	if(mapa == NULL){
+    		throw "El tablero no debe ser nulo"
+    	}
+
         if (!mapa->laUbicacionEsValida(posicion)){
             throw "La posicion ingresada debe estar dentro de los limites del tablero"
         }
-        if (!mapa->obtenerPosicion(posicion)->getIcono() == ICONO_AIRE){
+        if (!mapa->obtenerEnPosicion(posicion)->getIcono() == ICONO_AIRE){
             throw "Esta carta solo es valida en las regiones con aire"
         }
 
@@ -156,53 +229,82 @@ private:
         	Casilla* casilla = mapa->getCursor();
         	if (casilla->getCoordenada() == posicion){
         		casilla->setTipoOcupante(AVION);
-        		mapa->insertar(casilla->tipoOcupante);
-        		minasDetectadas = detectarOcupante(casilla);
+        		casilla->getJugadorCasilla()->getArmamentos()->add(casilla->getTipoOcupante());
+        		mapa->insertar(casilla);
+        		minasDetectadas = detectarOcupante(mapa);
         	}
         }
 
         return minasDetectadas;
     }
 
-    void jugarSuperMinas(Coordenada* posicion){
+    /*Pre: El tablero no debe ser nulo.
+    	La posicion debe estar dentro de los limites del tablero.
+    *Post: Coloca una mina que impacta a la posicion indicada y a todas sus adyacentes
+    */
+    void jugarSuperMina(tipoDeCarta tipo, Lista<Casilla *> *mapa, Coordenada* posicion){
+
+    	if(!tipo == SUPERMINA){
+    		throw "El tipo de carta debe ser SUPERMINA"
+    	}
+
+    	if(mapa == NULL){
+    		throw "El tablero no debe ser nulo"
+    	}
 
     	if (!mapa->laUbicacionEsValida(posicion)){
             throw "La posicion ingresada debe estar dentro de los limites del tablero"
         }
 
         mapa->reiniciarCursor();
-       		while(mapa->avanzarCursor()){
-        		Casilla* casilla = mapa->getCursor();
-        		if (casilla->setTipoOcupante(MINA)){
-        			casilla->tipoOcupante = MINA;
-        			mapa->insertar(casilla->tipoOcupante);
-        			atacarAdyacentes(casilla, MINA);
-        		}
+       	while(mapa->avanzarCursor()){
+        	Casilla* casilla = mapa->getCursor();
+        	if (casilla->getCoordenada() == posicion){
+        		casilla->setOcupante(MINA);
+        		mapa->insertar(casilla);
+        		atacarAdyacentes(casilla, MINA);
         	}
-    }
-
-    void jugarDestructorArmamento(Coordenada* posicion){//dudoso
-
-    	if (!mapa->laUbicacionEsValida(posicion)){
-            throw "La posicion ingresada debe estar dentro de los limites del tablero"
-        }
-
-        Armamentos->reiniciarCursor();
-        while(Armamentos->avanzarCursor()){
-        	armamentos->remover(armamentos->getCursor());
         }
     }
 
-    void jugarPasarTurno(){//falta hacer
+    /*Pre: El jugador no debe ser nulo
+    *Post: Destruye todo el armamento del jugador indicado
+    */
+    void jugarDestructorArmamento(tipoDeCarta tipo, Jugador* jugador){
 
-    	if (!mapa->laUbicacionEsValida(posicion)){
-            throw "La posicion ingresada debe estar dentro de los limites del tablero"
+    	if(!tipo == DESTRUCTORARMAMENTO){
+    		throw "El tipo de carta debe ser DESTRUCTORARMAMENTO"
+    	}
+
+    	if (jugador == NULL){
+    		throw "El jugador no debe ser nulo"
+    	}
+
+        jugador->getArmamentos()->reiniciarCursor();
+        while(jugador->getArmamentos()->avanzarCursor()){
+        	jugador->getArmamentos()->remover(armamentos->getCursor());
         }
 
+        jugador->getArmamentos() = NULL;
+    }
+
+    /*Pre: EL jugador no debe ser nulo
+    *Post: Saltea por un turno al jugador indicado
+    */
+    void jugarPasarTurno(tipoDeCarta tipo, Jugador* jugador){
+
+    	if(!tipo == PASARTURNO){
+    		throw "El tipo de carta debe ser PASARTURNO"
+    	}
+
+    	if (jugador == NULL){
+    		throw "El jugador no debe ser nulo"
+    	}
+
+    	jugdador->estaSalteado() = true;
        
     }
 
 };
 
 #endif
-
