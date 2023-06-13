@@ -15,6 +15,7 @@ private:
     Lista<Soldado*> *Soldados;
     Lista<Mina*> *minas;
     Lista<Armamento*> *Armamentos;
+    bool estaSalteado;
 
 public:
 
@@ -27,6 +28,7 @@ public:
         Soldados = new Lista<Soldado*>();
         minas = new Lista<Mina*>();
         Armamentos = new Lista<Armamento*>();
+        estaSalteado = false;
     }
 
     /*Pre:-
