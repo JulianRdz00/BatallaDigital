@@ -11,24 +11,36 @@ static const char ICONO_TIERRA = '#';
 const enum tipoTerreno
 {
     TIERRA,
-    MAR,
+    AGUA,
     AIRE
 };
 
+enum tipoOcupante
+{
+    AVION,
+    BARCO,
+    MINA,
+    SOLDADO,
+    VACIO
+};
 
-
-
-
+static const int PROFUNDIDAD_TABLERO_DEFAULT = 10;
+static const int LARGO_TABLERO_DEFAULT = 10;
+static const int ALTO_TABLERO_DEFAULT = 10;
+static const int TAMANIO_LADO_CASILLA_DEFAULT = 10;
+static const int TAMANIO_OCUPANTE_DEFAULT = TAMANIO_LADO_CASILLA_DEFAULT / 2;
+static const int CANTIDAD_JUGADORES_DEFAULT = 2;
+static const int CANTIDAD_SOLDADOS_DEFAULT = 3;
 
 static const char ICONO_CASILLA_VACIA = 'X';
-
 
 static const int EMPATE = 98;
 static const int UNGANADOR = 99;
 
-int getRandom(int min, int max)
+//POST: Devuelve un numero aleatorio entre el minimo y maximo dados como argumentos.
+int getRandom(int minimo, int maximo)
 {
-    return min + (rand() % (max - min + 1));
+    return minimo + (rand() % (maximo - min + 1));
 }
 
 #endif

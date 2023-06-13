@@ -1,79 +1,80 @@
 #include <iostream>
 #include <random>
-#include "bitmap_image.hpp"
+
 #include "Constantes.hpp"
-
-// #include "Constantes.hpp"
-// #include "Juego.hpp"
-
-// int main()
-// {
-
-//     srand((unsigned)time(NULL));
-//     Juego *batallaDigital = new Juego();
-//     reiniciarCursor();
-//     while (avanzarCursor())//lista de jugadores
-//     {
-//         Jugador* jugador = getNodo();//lista de jugadores
-//         ejecutarTurno(jugador);
-//     }
-
-//     // lista con un solo nodo que tiene el jugador ganador
-//     Judagor* jugadorGanador = getNodo();//lista de jugadores
-
-//     //cout mensaje del ganador
-
-//     return 0;
-// }
-
-int main() {
-
-    const int TAMANIO_LADO_CASILLA = 10;
-    const int ANCHO_TABLERO = 4;
-    const int ALTO_TABLERO = 5;
-
-    bitmap_image image(ANCHO_TABLERO*TAMANIO_LADO_CASILLA+1, ALTO_TABLERO*TAMANIO_LADO_CASILLA+1);
-    image.set_all_channels(0, 0, 0);
-    image_drawer draw(image);
-    draw.pen_width(1);
-    draw.pen_color(0, 0, 0);
-    tipoTerreno array[4][5] = {
-        {1, 0, 0, 0, 0},
-        {0, 1, 0, 0, 0},
-        {0, 0, 1, 0, 0},
-        {0, 0, 0, 1, 0}
-    };
-    for (size_t i = 0; i < ANCHO_TABLERO; i++)
-    {
-        for (size_t j = 0; j < ALTO_TABLERO; j++)
-        {
-            int valor = array[i][j];
-            rgb_t colorSeleccionado;
-            switch (valor)
-            {
-            case 0:
-                colorSeleccionado.red = 102;
-                colorSeleccionado.green = 51;
-                colorSeleccionado.blue = 0;
-                break;
-            
-            default:
-                colorSeleccionado.red = 255;
-                colorSeleccionado.green = 255;
-                colorSeleccionado.blue = 255;
-                break;
-            }            
-            for (size_t x = i*TAMANIO_LADO_CASILLA; x < i*TAMANIO_LADO_CASILLA+TAMANIO_LADO_CASILLA; x++)
-            {
-                for (size_t y = j*TAMANIO_LADO_CASILLA; y < j*TAMANIO_LADO_CASILLA+TAMANIO_LADO_CASILLA; y++)
-                {
-                    image.set_pixel(x, y, colorSeleccionado);
-                }
-                
-            }
-            draw.rectangle(i*TAMANIO_LADO_CASILLA, j*TAMANIO_LADO_CASILLA, i*TAMANIO_LADO_CASILLA+TAMANIO_LADO_CASILLA, j*TAMANIO_LADO_CASILLA+TAMANIO_LADO_CASILLA);            
-        }
+#include "Juego.hpp"
+// PRE: La respuesta introducida por consola debe ser un numero.
+// POST: Pregunta por consola que se introduzca un numero entero positivo, continuara preguntando hasta que la respuesta sea valida
+int preguntarEnteroPositivo(std::string pregunta){
+    int variable=0;
+    while(variable < 1){
+        std::cout << pregunta << std::endl;
+        std::cout << "Debe ser un numero positivo" << std::endl;
+        std::cin << variable;
     }
-    image.save_image("output.bmp");
+    return variable;
+}
+
+
+//Post devuelve un puntero a un Juego con unos parametros elejidos por el usuario.
+Juego* inicializarPartida(){
+    bool invalido = true
+    while(invalido){
+
+    int ancho = preguntarEnteroPositivo("ingrese el Ancho del tablero.");
+    int largo = preguntarEnteroPositivo("ingrese el Ancho del tablero.");
+    int alto = preguntarEnteroPositivo("ingrese el Ancho del tablero.");
+
+    int cantidadJugadores = preguntarEnteroPositivo("ingrese la cantidad de jugadores.");
+    int cantidadSoldadosPorJugador = preguntarEnteroPositivo("ingrese la cantidad de soldados iniciales para cada jugador.");
+
+    espaciosNecesarios = cantidadJugadores*cantidadSoldadosPorJugador;
+    espaciosTotales = ancho * largo * alto;
+
+    if(espaciosNecesarios*2 < espaciosTotales ){
+       std::cout << "El tamanio del tablero no cumple los requisitos de tamanio para la cantidad de jugadores y soldados. \n";
+    }else{
+        std::cout << "Datos correctos."
+        invalido = false;
+    }
+
+    }
+    return new Juego(ancho, largo, alto, cantidadJugadores, cantidadSoldadosPorJugador);
+}
+
+
+int main()
+{
+
+    srand((unsigned)time(NULL));
+
+
+
+
+    Juego *batallaDigital = inicializarPartida();
+
+    while (batallaDigital->avanzarTurno()) // lista de jugadores
+    {
+        batallaDigital->actualizarImagenes();
+
+        batallaDigital->darCartaAJugador();
+        batallaDigital->preguntarUsoCarta();
+        batallaDigital->preguntarPonerMina();
+        batallaDigital->preguntarMoverUnidad();
+
+        batallaDigital->actualizarImagenes();
+
+        batallaDigital->ejecutarLogica();
+    }
+
+    resultado = batallaDigital->obtenerResultado();
+
+    switch(resultado){
+        case EMPATE:
+            std::cout << "Hubo un empate\n";
+        case GANADOR:
+            std:cout << "Hay un ganador!\n";
+    }
+
     return 0;
 }

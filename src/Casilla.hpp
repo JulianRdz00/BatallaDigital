@@ -10,37 +10,43 @@ class Casilla
 private:
     Coordenada ubicacion;
     Jugador *jugadorPosicion;
-    enum tipoOcupante
-    {
-        AVION,
-        BARCO,
-        MINA,
-        SOLDADO,
-        VACIO
-    };
-    enum tipoTerreno
-    {
-        TIERRA,
-        MAR,
-        AIRE
-    };
-    bool esActiva;
-
+    tipoOcupante ocupante;
+    int turnosInactiva;
+    tipoTerreno terreno;
 public:
-    Casilla(Coordenada &ubicacion)
+
+    Casilla(Coordenada &ubicacion, tipoTerreno terreno)
     {
-        this->ubicacion = ubicacion;
-        this->tipoOcupante = VACIO;
-        esActiva = true;
-        this->jugadorPosicion = NULL;
+        Casilla(ubicacion, terreno, NULL, VACIO)
+    }
+    
+
+    Casilla(Coordenada &ubicacion, tipoTerreno terreno, Jugador* jugadorEnCasilla, tipoOcupante unidad){
+        this->ubicacion = coordenada(ubicacion);
+        this->jugadorPosicion = jugadorEnCasilla;
+        this->tipoOcupante = unidad;
+        this->turnosInactiva = 0;
+        this->tipoTerreno = terreno;
     }
 
+    //POST: Cambia el jugador que es dueño de la unidad o mina dentro de la casilla .
     void setJugadorCasilla(Jugador *jugador){
         this->jugadorPosicion = jugador;
     }
 
+    //POST: Devuelve el jugador que es dueño de la unidad o mina dentro de la casilla.
     Jugador *getJugadorCasilla(){
         return this->jugadorPosicion;
+    }
+
+    //POST: Cambia el tipo del terreno al tipo pasado como argumento.
+    void setTipoTerreno(tipoTerreno tipo){
+        this->tipoTerreno = tipo;
+    }
+
+    //POST: Devuelve el tipo de terreno de la casilla.
+    tipoTerreno getTipoTerreno(){
+        return this->tipoTerreno;
     }
 
     void setTipoOcupante(std::string ocupante)
@@ -48,7 +54,7 @@ public:
         this->tipoOcupante = ocupante;   
     }
 
-    std::string getTipoOcupante(){
+    tipoOcupante getTipoOcupante(){
         return this->tipoOcupante;
     }    
 
@@ -60,24 +66,6 @@ public:
     Coordenada getCoordenada()
     {
         return this->ubicacion;
-    }
-
-    char getIcono()
-    {
-        char icono;
-        switch (tipoOcupante)
-        {
-        case AIRE:
-            return ICONO_AIRE;
-            break;
-        case MAR:
-            return ICONO_MAR;
-            break;
-
-        default:
-            return ICONO_TIERRA;
-            break;
-        }
     }
 };
 

@@ -3,10 +3,10 @@
 
 #include "Tablero.hpp"
 
-enum tipoDeCarta{SUPERMINA, RADAR, ATAQUEQUIMICO, BARCO, ETC};
+enum tipoDeCarta{SUPERMINA, RADAR, ATAQUEQUIMICO, BARCO2, DESTRUCTORARMAMENTO, PASARTURNO, ETC};
 
 class Carta
-/*FRANCO*/
+
 {
 private:
     tipoDeCarta tipo;
@@ -58,26 +58,34 @@ public:
             jugarBarco(posicion);
         }else if (tipo == RADAR){
             jugarRadar(posicion);
+        }else if (tipo == SUPERMINA){
+            jugarSuperMina(posicion);
+        }else if (tipo == DESTRUCTORARMAMENTO){
+            jugarDestructorArmamento(posicion);
+        }else if (tipo == PASARTURNO){
+        	jugarPasarTurno();
         }
+
+        throw "No exsite este tipo de carta"
     }
 
 private:
 
-	void atacarAdyacentes(Casilla* casilla){
+	void atacarAdyacentes(Casilla* casilla, String tipoOcupante){
 
 		for (int i = 1; i < 3; ++i){
            
-            mapa->obtenerAdyacentes(posicion).reiniciarCursor();
-            while(tablero->obtenerAdyacentes(posicion).avanzarCursor()){
-                Coordenada* coordenada = tablero->obtenerAdyacentes(posicion).getCursor();
-                casilla->getTipoOcupante() = ATAQUEQUIMICO;
+            mapa->obtenerAdyacentes(casilla->getCoordenada()).reiniciarCursor();
+            while(mapa->obtenerAdyacentes(casilla->getCoordenada()).avanzarCursor()){
+                Coordenada* coordenada = mapa->obtenerAdyacentes(casilla->getCoordenada()).getCursor();
+                casilla->setTipoOcupante(tipoOcupante);
             }
         }
 	}
 
-    void jugarAtaqueQuimico(Coordenada* posicion){
+    void jugarAtaqueQuimico(Coordenada* posicion){//falta algo 
 
-        if (!tablero->laUbicacionEsValida(posicion)){
+        if (!mapa->laUbicacionEsValida(posicion)){
             throw "La posicion ingresada debe estar dentro de los limites del tablero"
         }
 
@@ -85,9 +93,9 @@ private:
        		while(mapa->avanzarCursor()){
         		Casilla* casilla = mapa->getCursor();
         		if (casilla->getCoordenada() == posicion){
-        			casilla->tipoOcupante = ATAQUEQUIMICO;
+        			casilla->setTipoOcupante(ATAQUEQUIMICO);
         			mapa->insertar(casilla->tipoOcupante);
-        			atacarAdyacentes(casilla);
+        			atacarAdyacentes(casilla, ATAQUEQUIMICO);
         		}
         		
         	}
@@ -96,48 +104,50 @@ private:
     /*Pre: La posicion debe estar dentro de los limites del tablero y en regiones con agua
     *Post: Dispara un misil hacia la posicion indicada del tablero
     */
-    void jugarBarco(Coordenada* posicionBarco, Coordenada* posicionAtacada){
+    void jugarBarco(Coordenada* posicion){
 
-        if (!tablero->laUbicacionEsValida(posicion)){
+        if (!mapa->laUbicacionEsValida(posicion)){
             throw "La posicion ingresada debe estar dentro de los limites del tablero"
         }
-        if (!tablero->obtenerPosicion(posicion)->getIcono() == ICONO_TIERRA){
+        if (!mapa->obtenerPosicion(posicion)->getIcono() == ICONO_TIERRA){
             throw "Esta carta solo es valida en las regiones con agua"
         }
 
         mapa->reiniciarCursor();
         while(mapa->avanzarCursor()){
         	Casilla* casilla = mapa->getCursor();
-        	if (casilla->getCoordenada() == posicionBarco){
-        		casilla->getTpoOcupante() = BARCO;
-        		mapa->insertar(casilla->tipoOcupante);
-        	}
-        	if (casilla->getCoordenada() == posicionAtacada){
-        		casilla->getTpoOcupante() == MINA;
+        	if (casilla->getCoordenada() == posicion){
+        		casilla->setTipoOcupante(MINA);
         		mapa->insertar(casilla->tipoOcupante);
         	}
         }
     }
 
-    void detectarOcupantes(Casilla* casilla){
+    Lista<String>* detectarOcupantes(Casilla* casilla){
 
-    	 for (int i = 5; i < getAltura; ++i){
+    	Lista<String>* ocupantes = new Lista<String>();
+
+    	for (int i = 5; i < getAltura; ++i){
             for (int j = 0; j < getAncho; ++j){
                 for (int k = 0; k < getLargo; ++k){
-                	casilla->getTipoOcupante();	   
+                	if (casilla->getTipoOcupante() == MINA){
+                		ocupantes->add(casilla->getTipoOcupante()); 
+                	}
                 }
             }
         }
+
+        return ocupantes;
     }
 
     /*Pre: La posicion debe estar dentro de los limites del tablero y en regiones con aire
     *Post: Detecta todas las minas enemigas que haya en los casilleros de aire
     */
-    void jugarRadar(Coordenada* posicion){
-        if (!tablero->laUbicacionEsValida(posicion)){
+    Lista<String>* jugarRadar(Coordenada* posicion){
+        if (!mapa->laUbicacionEsValida(posicion)){
             throw "La posicion ingresada debe estar dentro de los limites del tablero"
         }
-        if (!tablero->obtenerPosicion(posicion)->getIcono() == ICONO_AIRE){
+        if (!mapa->obtenerPosicion(posicion)->getIcono() == ICONO_AIRE){
             throw "Esta carta solo es valida en las regiones con aire"
         }
 
@@ -145,13 +155,54 @@ private:
         while(mapa->avanzarCursor()){
         	Casilla* casilla = mapa->getCursor();
         	if (casilla->getCoordenada() == posicion){
-        		casilla->getTpoOcupante() = AVION;
+        		casilla->setTipoOcupante(AVION);
         		mapa->insertar(casilla->tipoOcupante);
-        		detectarOcupante(casilla);
+        		minasDetectadas = detectarOcupante(casilla);
         	}
         }
+
+        return minasDetectadas;
+    }
+
+    void jugarSuperMinas(Coordenada* posicion){
+
+    	if (!mapa->laUbicacionEsValida(posicion)){
+            throw "La posicion ingresada debe estar dentro de los limites del tablero"
+        }
+
+        mapa->reiniciarCursor();
+       		while(mapa->avanzarCursor()){
+        		Casilla* casilla = mapa->getCursor();
+        		if (casilla->setTipoOcupante(MINA)){
+        			casilla->tipoOcupante = MINA;
+        			mapa->insertar(casilla->tipoOcupante);
+        			atacarAdyacentes(casilla, MINA);
+        		}
+        	}
+    }
+
+    void jugarDestructorArmamento(Coordenada* posicion){//dudoso
+
+    	if (!mapa->laUbicacionEsValida(posicion)){
+            throw "La posicion ingresada debe estar dentro de los limites del tablero"
+        }
+
+        Armamentos->reiniciarCursor();
+        while(Armamentos->avanzarCursor()){
+        	armamentos->remover(armamentos->getCursor());
+        }
+    }
+
+    void jugarPasarTurno(){//falta hacer
+
+    	if (!mapa->laUbicacionEsValida(posicion)){
+            throw "La posicion ingresada debe estar dentro de los limites del tablero"
+        }
+
+       
     }
 
 };
 
 #endif
+
