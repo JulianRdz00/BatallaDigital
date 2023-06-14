@@ -20,6 +20,18 @@ static const char ICONO_CASILLA_VACIA = 'X';
 static const int EMPATE = 98;
 static const int UNGANADOR = 99;
 
+static const int CANTIDAD_TIPOS_DE_CARTAS = 6;
+
+static enum TipoDeCarta
+{
+	SUPERMINA,
+	RADAR,
+	ATAQUEQUIMICO,
+	BARCO,
+	DESTRUCTORARMAMENTO,
+	PASARTURNO
+};
+
 static enum TipoUnidad {
     AVION,
     BARCO,

@@ -95,6 +95,40 @@ public:
         return 0;
     }
 
+    TipoDeCarta elejirCarta(Jugador &jugador){
+
+        char respuesta;
+        bool respuestaInvalida = true;
+
+        while(respuestaInvalida){
+
+        std::cout << "Queres usar una carta?\n";
+        std::cout << "[S]Si [N]No\n";
+        std::cin >> respuesta;
+
+        if (respuesta == 'S')
+        {
+            std::cout << "Tus cartas disponibles:\n";
+            int i = 1;
+            Lista<Carta*>* cartas = jugador.getListaDeCartas();
+            cartas.reiniciarCursor();
+            while(cartas.avanzarCursor){
+                cartas.getCursor().
+
+
+
+
+                i++;
+            }
+
+            respuestaInvalida = false;
+        }else if(respuesta == 'N'){
+            std::cout << "Ingrese una respuesta valida.\n";
+        }
+
+        }
+    }
+
     ~EntradaSalida();
 
 };
