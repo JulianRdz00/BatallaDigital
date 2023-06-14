@@ -97,37 +97,30 @@ public:
 
     TipoDeCarta elejirCarta(Jugador &jugador){
 
-        char respuesta;
+        TipoDeCarta cartaElejida;
         bool respuestaInvalida = true;
 
-        while(respuestaInvalida){
-
-        std::cout << "Queres usar una carta?\n";
-        std::cout << "[S]Si [N]No\n";
-        std::cin >> respuesta;
-
-        if (respuesta == 'S')
-        {
             std::cout << "Tus cartas disponibles:\n";
             int i = 1;
             Lista<Carta*>* cartas = jugador.getListaDeCartas();
             cartas.reiniciarCursor();
             while(cartas.avanzarCursor){
-                cartas.getCursor().
-
-
-
-
+                std::cout << "["<< i <<"] " << cartas.getCursor().getNombre(); <<"\n";
                 i++;
             }
+            std::cout << "Elija una carta []\n"
+            int indice;
+            while(respuestaInvalida){
+                std::cin >> indice;
+                if((indice >0 )&(indice < cartas.getLargo())){
+                    respuestaInvalida = false;
+                    
+                }
+            }
 
-            respuestaInvalida = false;
-        }else if(respuesta == 'N'){
-            std::cout << "Ingrese una respuesta valida.\n";
+            return respuesta;
         }
-
-        }
-    }
+    
 
     ~EntradaSalida();
 
