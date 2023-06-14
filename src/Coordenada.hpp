@@ -9,23 +9,28 @@ private:
     int z;
 
 public:
+    Coordenada()
+    {
+        this->setCoordenada(-1, -1, -1);
+    }
+
     // POST: Crea una coordenada con los valores x,y,z pasados como arguemento.
     Coordenada(int x, int y, int z)
     {
-        this->x = x;
-        this->y = y;
-        this->z = z;
+        this->setX(x);
+        this->setY(y);
+        this->setZ(z);
     }
 
     // POST:Crea una coordenada identica a la pasada como argumento.
     Coordenada(Coordenada &original)
     {
-        this->x = original.getX();
-        this->y = original.getX();
-        this->z = original.getX();
+        this->setX(original.getX());
+        this->setY(original.getX());
+        this->setZ(original.getX());
     }
 
-    //Devuelve True si la otraCoordenada es igual.
+    // Devuelve True si la otraCoordenada es igual.
     bool esIgualA(Coordenada &otraCoordenada)
     {
         if (this->x == otraCoordenada.x &&
@@ -59,15 +64,15 @@ public:
     // POST: Incrementa los valores x,y,z de la coordenada con los valores x,y,z de la coordenada pasada como offset.
     void incrementar(Coordenada &offset)
     {
-        this->x = this->x + offset.getX();
-        this->y = this->x + offset.getY();
-        this->z = this->x + offset.getZ();
+        this->setX(this->x + offset.getX());
+        this->setY(this->x + offset.getY());
+        this->setZ(this->x + offset.getZ());
     }
 
     // Post: Incrementa el valor X de la coordenada.
     void incrementarX(int x)
     {
-        this->x = this->x + x;
+        this->setX(this->x + x);
     }
 
     // POST: Da el valor de X a la componente X de la coordenada.
