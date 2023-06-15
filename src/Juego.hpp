@@ -10,7 +10,7 @@ class Juego
 private:
     //  ATRIBUTOS
     Tablero *mapa;
-    Lista <Jugador*> *jugadores;
+    Lista<Jugador> jugadores;
     Jugador *jugadorActivo = new Jugador();
 
     void preguntarUsoCarta()

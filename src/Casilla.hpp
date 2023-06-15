@@ -1,71 +1,49 @@
-#ifndef _CASILLA_
-#define _CASILLA_
+#ifndef _CASILLA_H_
+#define _CASILLA_H_
 
+<<<<<<< HEAD
 #include "Coordenada.hpp"
+=======
+#include "Unidad.hpp"
+>>>>>>> 88958a0ef9b45bc82e636766c0068c5fb73f3eae
 #include "Constantes.hpp"
 
 
 class Casilla
 {
 private:
+<<<<<<< HEAD
     Coordenada ubicacion;
     Jugador *jugadorPosicion;
     tipoOcupante ocupante;
     int turnosInactiva;
     tipoTerreno terreno;
+=======
+    Unidad *unidad;
+    TipoTerreno terreno;
+
+>>>>>>> 88958a0ef9b45bc82e636766c0068c5fb73f3eae
 public:
-
-    Casilla(Coordenada &ubicacion, tipoTerreno terreno)
+    Casilla()
     {
-        Casilla(ubicacion, terreno, NULL, VACIO)
-    }
-    
-
-    Casilla(Coordenada &ubicacion, tipoTerreno terreno, Jugador* jugadorEnCasilla, tipoOcupante unidad){
-        this->ubicacion = coordenada(ubicacion);
-        this->jugadorPosicion = jugadorEnCasilla;
-        this->tipoOcupante = unidad;
-        this->turnosInactiva = 0;
-        this->tipoTerreno = terreno;
+        this->unidad = NULL;
+        this->terreno = AIRE;
     }
 
-    //POST: Cambia el jugador que es dueño de la unidad o mina dentro de la casilla .
-    void setJugadorCasilla(Jugador *jugador){
-        this->jugadorPosicion = jugador;
-    }
-
-    //POST: Devuelve el jugador que es dueño de la unidad o mina dentro de la casilla.
-    Jugador *getJugadorCasilla(){
-        return this->jugadorPosicion;
-    }
-
-    //POST: Cambia el tipo del terreno al tipo pasado como argumento.
-    void setTipoTerreno(tipoTerreno tipo){
-        this->tipoTerreno = tipo;
-    }
-
-    //POST: Devuelve el tipo de terreno de la casilla.
-    tipoTerreno getTipoTerreno(){
-        return this->tipoTerreno;
-    }
-
-    void setTipoOcupante(std::string ocupante)
+    Casilla(Unidad *unidad, TipoTerreno terreno)
     {
-        this->tipoOcupante = ocupante;   
+        this->unidad = unidad;
+        this->terreno = terreno;
     }
 
-    tipoOcupante getTipoOcupante(){
-        return this->tipoOcupante;
-    }    
-
-    void setCoordenada(Coordenada &nuevaPosicion)
+    Unidad *getUnidad()
     {
-        this->ubicacion = Coordenada(nuevaPosicion);
+        return this->unidad;
     }
 
-    Coordenada getCoordenada()
+    TipoTerreno getTerreno()
     {
-        return this->ubicacion;
+        return this->terreno;
     }
 };
 
