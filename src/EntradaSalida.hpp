@@ -61,68 +61,67 @@ public:
     /*POS: devuelve un string con el nombre de la carta a jugar y en caso de no jugar carta devuelve 0
     REVISAR lista de cartas mano (const)
     */
-
-    string pedirCarta(Jugador *jugador)
+    bool preguntarSiUsarCarta(Jugador &jugador)
     {
+        char respuesta = 'X';
+        bool respuestaInvalida = true;
+        bool seUsaCarta = false;
+        std::cout << "Queres usar una carta?" << std::endl;
+        std::cout << "[S]Si [N]No" << std::endl;
+        std::cin >> respuesta;
+        std::cout << std::endl;
 
-        char respuesta;
-        cout << "Queres usar una carta?" << endl;
-        cout << "[S]Si [N]No" << endl;
-        cin >> respuesta;
-        cout << endl;
-
-        if (respuesta == 'S')
+        while (respuestaInvalida)
         {
-            const Lista<Carta> *mano = jugador->getListaDeCartas();
-
-            mano->reiniciarCursor();
-            while (mano->avanzarCursor())
+            if (respuesta == 'S')
             {
-                string nombreCarta = mano->getCursor().getNombre();
-
-                cout << "Desea jugar la carta: " << nombreCarta << endl;
-                cout << "[S]Si [N]No" << endl;
-                cin >> respuesta;
-                cout << endl;
-
-                if (respuesta == "S")
-                {
-                    return nombreCarta;
-                }
+                std::cout << "Se decidio utilizar una carta" << std::endl;
+                seUsaCarta = true;
+                respuestaInvalida = false;
+            }
+            else if (respuesta == 'N')
+            {
+                std::cout << "Se decidio no utilizar ninguna carta" << std::endl;
+                seUsaCarta = false;
+                respuestaInvalida = false;
             }
         }
 
-        cout << "Se decidio no utilizar ninguna carta" << endl;
         return 0;
     }
 
-    TipoDeCarta elejirCarta(Jugador &jugador)
+    void listarCartas(Jugador &jugador)
+    {
+        Lista<Carta *> *cartas = jugador.getListaDeCartas();
+        cartas->reiniciarCursor();
+        int i = 1;
+        while (cartas->avanzarCursor())
+        {
+            std::cout << "[" << i << "] :" << cartas->getCursor()->getNombre() << std::endl;
+            i++;
+        }
+    }
+
+    //Devuelve el indice de la carta a jugar.
+    unsigned int elejirCartaParaJugar(Jugador &jugador)
     {
 
         TipoDeCarta cartaElejida;
         bool respuestaInvalida = true;
 
-        std::cout << "Tus cartas disponibles:\n";
-        int i = 1;
+        unsigned int indice = 0;
         Lista<Carta *> *cartas = jugador.getListaDeCartas();
-        cartas.reiniciarCursor();
-        while (cartas.avanzarCursor)
-        {
-            std::cout << "[" << i << "] " << cartas.getCursor().getNombre();
-            << "\n";
-            i++;
-        }
-        std::cout << "Elija una carta []\n" int indice;
         while (respuestaInvalida)
         {
+            std::cout << "Elije una carta valida [X]:\n";
             std::cin >> indice;
-            if ((indice > 0) & (indice < cartas.getLargo()))
+            if ((indice > 0) & (indice < cartas->contarElementos()))
             {
                 respuestaInvalida = false;
             }
         }
 
-        return respuesta;
+        return indice;
     }
 
     ~EntradaSalida();

@@ -18,6 +18,17 @@ private:
 
     void preguntarUsoCarta()
     {
+        bool seUsaCarta = io->preguntarSiUsarCarta(*(jugadorActivo->getValor()));
+        if (seUsaCarta)
+        {
+            unsigned int indiceDeCarta = io->elejirCartaParaJugar(*(jugadorActivo->getValor()));
+            jugadorActivo->getValor()->getListaDeCartas()->get(indiceDeCarta)->usar();//Pushear
+            jugadorActivo->getValor()->getListaDeCartas()->remover(indiceDeCarta);
+        }
+        else
+        {
+            std::cout << "No se usa ninguna carta\n";
+        }
     }
 
     /*
@@ -75,13 +86,13 @@ public:
 
         for (int i = 0; i < cantidadJugadores; i++)
         {
-            jugadores.add(new Jugador()); // !!Completar constructor
+            jugadores->add(new Jugador()); // !!Completar constructor
         }
 
-        jugadores.reiniciarCursor();
-        while (jugadores.avanzarCursor())
+        jugadores->reiniciarCursor();
+        while (jugadores->avanzarCursor())
         {
-            Lista<Unidad *> *soldadosJugador = jugadores.getCursor()->getListaDeSoldados();
+            Lista<Unidad *> *soldadosJugador = jugadores->getCursor()->getListaDeSoldados();
 
             soldadosJugador->reiniciarCursor();
             while (soldadosJugador->avanzarCursor())
@@ -108,9 +119,9 @@ public:
     */
     void ejecutarTurno(Jugador *jugador)
     {
-        darCartaAJugador();
-        preguntarUsoCarta();
-        preguntarPonerMina();   // hacer
+        darCartaAJugador();     // OK
+        preguntarUsoCarta();    //
+        preguntarPonerMina();   // OK
         preguntarMoverUnidad(); // Hacer
 
         comprobarColisiones();
