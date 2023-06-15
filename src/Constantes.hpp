@@ -24,6 +24,13 @@ enum tipoOcupante
     VACIO
 };
 
+enum EstadoJugador
+{
+    VIVO,
+    MUERTO,
+    SALTEADO,
+};
+
 static const int PROFUNDIDAD_TABLERO_DEFAULT = 10;
 static const int LARGO_TABLERO_DEFAULT = 10;
 static const int ALTO_TABLERO_DEFAULT = 10;

@@ -4,19 +4,20 @@
 #include "Tablero.hpp"
 #include "Jugador.hpp"
 #include "Constantes.hpp"
+#include "ListaCircular.hpp"
+#include "EntradaSalida.hpp"
 
 class Juego
 {
 private:
     //  ATRIBUTOS
     Tablero *mapa;
-    Lista<Jugador> jugadores;
-    Jugador *jugadorActivo = new Jugador();
-    EntradaSalida* io;
+    ListaCircular<Jugador *> *jugadores;
+    Nodo<Jugador *> *jugadorActivo;
+    EntradaSalida *io;
 
     void preguntarUsoCarta()
     {
-        
     }
 
     /*
@@ -29,7 +30,7 @@ private:
     */
     void darCarta()
     {
-        jugadorActivo->agregarCartaAMano(new Carta());
+        jugadorActivo->getValor()->agregarCartaAMano(new Carta());
     }
 
     /* ____UTILIZAR SOLAMENTE DURANTE EL DESARROLLO___
@@ -55,7 +56,6 @@ public:
     */
     Juego()
     {
-        Juego(PROFUNDIDAD_TABLERO_DEFAULT, LARGO_TABLERO_DEFAULT, ALTO_TABLERO_DEFAULT, CANTIDAD_JUGADORES_DEFAULT, CANTIDAD_SOLDADOS_DEFAULT)
     }
 
     /*
@@ -68,18 +68,27 @@ public:
         con las dimensiones dadas.
         Si no hay suficiente espacio para ubicar a los Soldados de todos los jugadores, entonces devuelve un Error
     */
-    Juego(int ancho, int largo, int alto, int cantidadJugadores, int soldadosPorJugador)
+    Juego(int ancho, int largo, int alto, int cantidadJugadores, int soldadosPorJugador) // ok
     {
         mapa = new Tablero(ancho, largo, alto);
-        io = new EntradaSalida;
+        io = new EntradaSalida();
 
-        for(int i=0; i<4; i++){
-            jugadores.add(new Jugador()) //Completar constructor
-
+        for (int i = 0; i < cantidadJugadores; i++)
+        {
+            jugadores.add(new Jugador()); // !!Completar constructor
         }
 
-        
-        // Invocar al metodo para devolver los soldados de los jugadores y usarlos con el metodo, colococarAleatoriamente() del Tablero.
+        jugadores.reiniciarCursor();
+        while (jugadores.avanzarCursor())
+        {
+            Lista<Unidad *> *soldadosJugador = jugadores.getCursor()->getListaDeSoldados();
+
+            soldadosJugador->reiniciarCursor();
+            while (soldadosJugador->avanzarCursor())
+            {
+                mapa->colococarAleatoriamente(*(soldadosJugador->getCursor()));
+            }
+        }
     }
 
     /*
@@ -89,26 +98,8 @@ public:
 
     /*
     PRE: Debe haber almenos un jugador en el juego.
-
-    POS: Busca la cantidad de jugadores vivos restantes.
-        Dependiendo de la cantidad de jugadores:
-            1: El estado cambia a Ganado,
-            0: El estado cambia a Empate.
     */
-    void buscarGanador();
-
-    /*
-    ____Utilizar solo durante el desarrollo_____
-    POS: Dibuja en consola todo el mapa por capas.
-    */
-    void RenderDev()
-    {
-        for (int z = 0; z < mapa->getAltura(); z++)
-        {
-            renderDevCapa(z);
-            system("clear");
-        }
-    }
+    bool hayGanador();
 
     /*
     PRE:
@@ -117,17 +108,49 @@ public:
     */
     void ejecutarTurno(Jugador *jugador)
     {
-        darCarta();
+        darCartaAJugador();
         preguntarUsoCarta();
-        // preguntarDondePonerMina();
-        // preguntarMovimiento();
+        preguntarPonerMina();   // hacer
+        preguntarMoverUnidad(); // Hacer
+
         comprobarColisiones();
-        buscarGanador();
+        hayGanador();
     }
 
+    void preguntarPonerMina()
+    {
+        bool invalido = true;
+        Unidad *mina;
+        while (invalido)
+        {
+            Coordenada posicion = io->preguntarDondeColocarMina();
+            mina = new Unidad(posicion, this->jugadorActivo->getValor(), MINA);
 
-    void darCartaAJugador(){
-        jugadores.getCursor().agregarCartaAMano(new Carta())
+            if (mapa->laUbicacionEsValida(posicion))
+            {
+                invalido = false;
+            }
+            else
+            {
+                delete mina;
+            }
+        }
+    }
+
+    void preguntarMoverUnidad();
+
+    // POST: avanza el turno al siguiente jugador correspondiente, devuelve false cuando hay un ganador o un empate, sino, devuelve true.
+    bool avanzarTurno()
+    {
+
+        this->jugadorActivo = this->jugadorActivo->getSiguiente();
+
+        return hayGanador();
+    }
+
+    void darCartaAJugador()
+    {
+        this->jugadores->getCursor()->agregarCartaAMano(new Carta())
     }
 };
 
