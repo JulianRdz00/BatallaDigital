@@ -4,14 +4,31 @@
 #include <cstdlib>
 #include <iostream>
 
+
 static const char ICONO_MAR = '~';
 static const char ICONO_AIRE = ' ';
 static const char ICONO_TIERRA = '#';
+const enum tipoTerreno
+{
+    TIERRA,
+    AGUA,
+    AIRE
+};
 
-static const int ANCHO_TABLERO_DEFAULT = 10;
+enum tipoOcupante
+{
+    AVION,
+    BARCO,
+    MINA,
+    SOLDADO,
+    VACIO
+};
+
+static const int PROFUNDIDAD_TABLERO_DEFAULT = 10;
 static const int LARGO_TABLERO_DEFAULT = 10;
 static const int ALTO_TABLERO_DEFAULT = 10;
-
+static const int TAMANIO_LADO_CASILLA_DEFAULT = 10;
+static const int TAMANIO_OCUPANTE_DEFAULT = TAMANIO_LADO_CASILLA_DEFAULT / 2;
 static const int CANTIDAD_JUGADORES_DEFAULT = 2;
 static const int CANTIDAD_SOLDADOS_DEFAULT = 3;
 
