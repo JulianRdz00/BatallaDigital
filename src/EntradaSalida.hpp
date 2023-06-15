@@ -95,6 +95,33 @@ public:
         return 0;
     }
 
+    TipoDeCarta elejirCarta(Jugador &jugador){
+
+        TipoDeCarta cartaElejida;
+        bool respuestaInvalida = true;
+
+            std::cout << "Tus cartas disponibles:\n";
+            int i = 1;
+            Lista<Carta*>* cartas = jugador.getListaDeCartas();
+            cartas.reiniciarCursor();
+            while(cartas.avanzarCursor){
+                std::cout << "["<< i <<"] " << cartas.getCursor().getNombre(); <<"\n";
+                i++;
+            }
+            std::cout << "Elija una carta []\n"
+            int indice;
+            while(respuestaInvalida){
+                std::cin >> indice;
+                if((indice >0 )&(indice < cartas.getLargo())){
+                    respuestaInvalida = false;
+                    
+                }
+            }
+
+            return respuesta;
+        }
+    
+
     ~EntradaSalida();
 
 };

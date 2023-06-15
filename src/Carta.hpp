@@ -7,22 +7,14 @@
 #include "jugador.hpp"
 #include "Coordenada.hpp"
 
-enum tipoDeCarta
-{
-	SUPERMINA,
-	RADAR,
-	ATAQUEQUIMICO,
-	BARCO,
-	DESTRUCTORARMAMENTO,
-	PASARTURNO
-};
+
 
 class Carta
 
 {
 private:
-	tipoDeCarta tipo;
-	unsigned int id;
+	TipoDeCarta tipo;
+	//unsigned int id;
 
 	/*Pre: mapa no debe ser nulo;
 	 *  Post: determina la cantidad de turnos que se mantendra el ataque en cada casilla.
@@ -115,15 +107,15 @@ public:
 	/*Pre: El id debe ser mayor a 0
 	 *Post: Crea la carta con su tipo e id indicado
 	 */
-	Carta crearCarta(tipoDeCarta tipo, unsigned int id)
+	Carta(TipoDeCarta tipo)
 	{
-		if (id < 0)
-		{
-			throw "El id debe ser mayor a cero";
-		}
-
 		this->tipo = tipo;
-		this->id = id;
+	}
+
+	//Instancia una carta de tipo aleatorio.
+	Carta()
+	{
+		this->tipo = getRandom(0, CANTIDAD_TIPOS_DE_CARTAS -1);
 	}
 
 	/*Pre: -
@@ -137,14 +129,6 @@ public:
 	tipoDeCarta getTipo()
 	{
 		return this->tipo;
-	}
-
-	/*Pre:-
-	 *Post: Devuelve el id de la carta
-	 */
-	unsigned int getId()
-	{
-		return this->id;
 	}
 
 	/*Pre: El tablero no debe ser nulo.
@@ -324,6 +308,14 @@ public:
 		}
 
 		jugdador->estaSalteado() = true;
+	}
+
+	string getNombre(){
+		switch(tipo){
+			case ATAQUEQUIMICO:
+				return "Ataque quimico";
+				break;
+		}
 	}
 };
 

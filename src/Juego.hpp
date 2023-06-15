@@ -12,27 +12,11 @@ private:
     Tablero *mapa;
     Lista<Jugador> jugadores;
     Jugador *jugadorActivo = new Jugador();
+    EntradaSalida* io;
 
     void preguntarUsoCarta()
     {
-        char respuesta;
-        std::cout << "Queres usar una carta?\n";
-        std::cout << "[S]Si [N]No\n";
-        std::cin >> respuesta;
-
-        if (respuesta == 'S')
-        {
-
-            std::cout << "Tus cartas disponibles:\n";
-
-            // Crear un metodo obtener Lista de cartas para poder loopear la lista de cartas en consola.
-            // const Lista<Carta> * = jugadorActivo->getListaDeCartas();
-
-            for (size_t i = 0; i < jugadorActivo->cantidadDeCarta(); i++)
-            {
-                std::cout << 'c';
-            }
-        }
+        
     }
 
     /*
@@ -87,6 +71,7 @@ public:
     Juego(int ancho, int largo, int alto, int cantidadJugadores, int soldadosPorJugador)
     {
         mapa = new Tablero(ancho, largo, alto);
+        io = new EntradaSalida;
 
         for(int i=0; i<4; i++){
             jugadores.add(new Jugador()) //Completar constructor
@@ -138,6 +123,11 @@ public:
         // preguntarMovimiento();
         comprobarColisiones();
         buscarGanador();
+    }
+
+
+    void darCartaAJugador(){
+        jugadores.getCursor().agregarCartaAMano(new Carta())
     }
 };
 
