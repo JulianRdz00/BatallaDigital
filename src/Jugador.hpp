@@ -28,6 +28,11 @@ public:
         estaSalteado = false;
     }
 
+    EstadoJugador getEstado()
+    {
+        return this->estado;
+    }
+
     /*Pre:-
      *Post: Elimina al jugador con sus cartas, soldados, minas y Armamentos
      */
@@ -76,9 +81,8 @@ public:
         return this->Soldados;
     }
 
-    /*Pre:-
-     *Post: Devuelve las minas que tiene el jugador
-     */
+    /*  Pre:-
+        Post: Devuelve las minas que tiene el jugador */
     Lista<Unidad *> *getListaDeMinas()
     {
         return this->minas;
@@ -90,6 +94,16 @@ public:
     Lista<Unidad *> *getListaDeArmamentos()
     {
         return this->Armamentos;
+    }
+
+    void setEstadoSalteado(bool estado)
+    {
+        estaSalteado = estado;
+    }
+
+    bool estaSaleado()
+    {
+        return this->estaSalteado;
     }
 
     /*Pre:-

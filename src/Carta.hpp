@@ -7,14 +7,12 @@
 #include "jugador.hpp"
 #include "Coordenada.hpp"
 
-
-
 class Carta
 
 {
 private:
 	TipoDeCarta tipo;
-	//unsigned int id;
+	// unsigned int id;
 
 	/*Pre: mapa no debe ser nulo;
 	 *  Post: determina la cantidad de turnos que se mantendra el ataque en cada casilla.
@@ -112,10 +110,10 @@ public:
 		this->tipo = tipo;
 	}
 
-	//Instancia una carta de tipo aleatorio.
+	// Instancia una carta de tipo aleatorio.
 	Carta()
 	{
-		this->tipo = getRandom(0, CANTIDAD_TIPOS_DE_CARTAS -1);
+		this->tipo = getRandom(0, CANTIDAD_TIPOS_DE_CARTAS - 1);
 	}
 
 	/*Pre: -
@@ -126,7 +124,7 @@ public:
 	/*Pre:-
 	 *Post: Devuelve el tipo de la carta
 	 */
-	tipoDeCarta getTipo()
+	TipoDeCarta getTipo()
 	{
 		return this->tipo;
 	}
@@ -136,7 +134,7 @@ public:
 	 *Post: ataca a la posicion indicada y contamina 125 casilleros,
 	 *		por 10 turnos en el centro, 8 en el siguiente radio y asi.
 	 */
-	void jugarAtaqueQuimico(tipoDeCarta tipo, Tablero &tablero, Coordenada *posicion)
+	void jugarAtaqueQuimico(TipoDeCarta tipo, Tablero &tablero, Coordenada *posicion)
 	{
 
 		if (!tipo == ATAQUEQUIMICO)
@@ -191,7 +189,7 @@ public:
 	 *	La posicion debe estar dentro de los limites del tablero y en regiones con agua.
 	 *Post: Dispara un misil hacia la posicion indicada del tablero
 	 */
-	void jugarBarco(tipoDeCarta tipo, Tablero &tablero, Coordenada *posicionAtacada, Coordenada *posicionBarco, Jugador *usuario)
+	void jugarBarco(TipoDeCarta tipo, Tablero &tablero, Coordenada *posicionAtacada, Coordenada *posicionBarco, Jugador *usuario)
 	{
 
 		if (!tipo == BARCO)
@@ -225,7 +223,7 @@ public:
 	   La posicion debe estar dentro de los limites del tablero y en regiones con aire.
 	*Post: Detecta todas las minas enemigas que haya en los casilleros de aire
 	*/
-	Lista<Coordenada *> *jugarRadar(tipoDeCarta tipo, Tablero &tablero, Coordenada *posicion)
+	Lista<Coordenada *> *jugarRadar(TipoDeCarta tipo, Tablero &tablero, Coordenada *posicion)
 	{
 
 		if (!tipo == RADAR)
@@ -249,7 +247,7 @@ public:
 		La posicion debe estar dentro de los limites del tablero.
 	*Post: Coloca una mina que impacta a la posicion indicada y a todas sus adyacentes
 	*/
-	void jugarSuperMina(tipoDeCarta tipo, Tablero &tablero, Coordenada *posicion, Jugador *usuario)
+	void jugarSuperMina(TipoDeCarta tipo, Tablero &tablero, Coordenada *posicion, Jugador *usuario)
 	{
 
 		if (!tipo == SUPERMINA)
@@ -269,7 +267,7 @@ public:
 	/*Pre: El jugador no debe ser nulo
 	 *Post: Destruye todo el armamento del jugador indicado
 	 */
-	void jugarDestructorArmamento(tipoDeCarta tipo, Jugador *jugador)
+	void jugarDestructorArmamento(TipoDeCarta tipo, Jugador *jugador)
 	{
 
 		if (!tipo == DESTRUCTORARMAMENTO)
@@ -294,27 +292,44 @@ public:
 	/*Pre: EL jugador no debe ser nulo
 	 *Post: Saltea por un turno al jugador indicado
 	 */
-	void jugarPasarTurno(tipoDeCarta tipo, Jugador *jugador)
+	void jugarPasarTurno(TipoDeCarta tipo, Jugador *jugador)
 	{
 
 		if (!tipo == PASARTURNO)
 		{
-			throw "El tipo de carta debe ser PASARTURNO"
+			throw "El tipo de carta debe ser PASARTURNO";
 		}
 
 		if (jugador == NULL)
 		{
-			throw "El jugador no debe ser nulo"
+			throw "El jugador no debe ser nulo";
 		}
 
-		jugdador->estaSalteado() = true;
+		jugador->setEstadoSalteado(true);
 	}
 
-	string getNombre(){
-		switch(tipo){
-			case ATAQUEQUIMICO:
-				return "Ataque quimico";
-				break;
+	std::string getNombre()
+	{
+		switch (tipo)
+		{
+		case SUPERMINA:
+			std::cout << NOMBRE_CARTA_SUPERMINA << std::endl;
+			break;
+		case RADAR:
+			std::cout << NOMBRE_CARTA_RADAR << std::endl;
+			break;
+		case ATAQUEQUIMICO:
+			std::cout << NOMBRE_CARTA_ATAQUEQUIMICO << std::endl;
+			break;
+		case USARBARCO:
+			std::cout << NOMBRE_CARTA_USARBARCO << std::endl;
+			break;
+		case DESTRUCTORARMAMENTO:
+			std::cout << NOMBRE_CARTA_DESTRUCTORARMAMENTO << std::endl;
+			break;
+		case PASARTURNO:
+			std::cout << NOMBRE_CARTA_PASARTURNO << std::endl;
+			break;
 		}
 	}
 };

@@ -3,207 +3,200 @@
 #include "Jugador.hpp"
 #include "bitmap_image.hpp"
 
-
 class Video
 {
-    private:
-
-        void asigarTerrenos(
-            tipoTerreno matrizTerrenos[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT],
-            Lista <Casilla*> *casillas
-        )
+private:
+    void asigarTerrenos(
+        tipoTerreno matrizTerrenos[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT],
+        Lista<Casilla *> *casillas)
+    {
+        casillas->reiniciarCursor();
+        while (casillas->avanzarCursor())
         {
-            casillas->reiniciarCursor();
-            while (casillas->avanzarCursor())
+            Casilla *casilla = casillas->getCursor();
+            switch (casilla->getTipoTerreno())
             {
-                Casilla* casilla = casillas->getCursor();
-                switch (casilla->getTipoTerreno())
+            case TIERRA:
+                matrizTerrenos[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = TIERRA;
+                break;
+            case AGUA:
+                matrizTerrenos[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = AGUA;
+                break;
+            default:
+                matrizTerrenos[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = AIRE;
+                break;
+            };
+        }
+    };
+
+    void asignarOcupante(
+        tipoOcupante matrizOcupantes[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT],
+        Lista<Casilla *> *casillas,
+        Jugador *jugador)
+    {
+        casillas->reiniciarCursor();
+        while (casillas->avanzarCursor())
+        {
+            Casilla *casilla = casillas->getCursor();
+            if (casilla->getJugadorCasilla() == jugador)
+            {
+                switch (casilla->getTipoOcupante())
                 {
-                case TIERRA:
-                    matrizTerrenos[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = TIERRA;
+                case AVION:
+                    matrizOcupantes[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = AVION;
                     break;
-                case AGUA:
-                    matrizTerrenos[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = AGUA;
+                case BARCO:
+                    matrizOcupantes[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = BARCO;
+                    break;
+                case MINA:
+                    matrizOcupantes[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = MINA;
+                    break;
+                case SOLDADO:
+                    matrizOcupantes[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = SOLDADO;
                     break;
                 default:
-                    matrizTerrenos[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = AIRE;
+                    matrizOcupantes[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = VACIO;
                     break;
-                };
-            }
-        };
-
-        void asignarOcupante(
-            tipoOcupante matrizOcupantes[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT],
-            Lista <Casilla*> *casillas,
-            Jugador* jugador
-        )
-        {
-            casillas->reiniciarCursor();
-            while (casillas->avanzarCursor())
-            {
-                Casilla* casilla = casillas->getCursor();
-                if (casilla->getJugadorCasilla() == jugador)
-                {
-                    switch (casilla->getTipoOcupante())
-                    {
-                    case AVION:
-                        matrizOcupantes[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = AVION;
-                        break;
-                    case BARCO:
-                        matrizOcupantes[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = BARCO;
-                        break;
-                    case MINA:
-                        matrizOcupantes[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = MINA;
-                        break;
-                    case SOLDADO:
-                        matrizOcupantes[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = SOLDADO;
-                        break;
-                    default:
-                        matrizOcupantes[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = VACIO;
-                        break;
-                    };
                 };
             };
         };
+    };
 
-        void dibujarTerreno(int x, int y, rgb_t color, bitmap_image &imagen)
+    void dibujarTerreno(int x, int y, rgb_t color, bitmap_image &imagen)
+    {
+        for (int i = x * TAMANIO_LADO_CASILLA_DEFAULT; i <= x * TAMANIO_LADO_CASILLA_DEFAULT + TAMANIO_LADO_CASILLA_DEFAULT; i++)
         {
-            for (int i = x*TAMANIO_LADO_CASILLA_DEFAULT; i <= x*TAMANIO_LADO_CASILLA_DEFAULT+TAMANIO_LADO_CASILLA_DEFAULT; i++)
+            for (int j = y * TAMANIO_LADO_CASILLA_DEFAULT; j <= y * TAMANIO_LADO_CASILLA_DEFAULT + TAMANIO_LADO_CASILLA_DEFAULT; j++)
             {
-                for (int j = y*TAMANIO_LADO_CASILLA_DEFAULT; j <= y*TAMANIO_LADO_CASILLA_DEFAULT+TAMANIO_LADO_CASILLA_DEFAULT; j++)
-                {
-                    imagen.set_pixel(x, y, color);
-                }
+                imagen.set_pixel(x, y, color);
             }
-        };
+        }
+    };
 
-        void dibujarTerrenos(tipoTerreno matrizTerrenos[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT], bitmap_image &imagen)
+    void dibujarTerrenos(TipoTerreno matrizTerrenos[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT], bitmap_image &imagen)
+    {
+        image_drawer draw(imagen);
+        draw.pen_width(1);
+        draw.pen_color(0, 0, 0);
+
+        for (int x = 1; x <= PROFUNDIDAD_TABLERO_DEFAULT; x++)
         {
-            image_drawer draw(imagen);
-            draw.pen_width(1);
-            draw.pen_color(0, 0, 0);
-
-            for (int x = 1; x <= PROFUNDIDAD_TABLERO_DEFAULT; x++)
+            for (int y = 1; y <= LARGO_TABLERO_DEFAULT; y++)
             {
-                for (int y = 1; y <= LARGO_TABLERO_DEFAULT; y++)
+                TipoTerreno terreno = matrizTerrenos[x][y];
+                rgb_t color;
+                switch (terreno)
                 {
-                    tipoTerreno terreno = matrizTerrenos[x][y];
-                    rgb_t color;
-                    switch (terreno)
-                    {
-                    case TIERRA:
-                        color.red = 102;
-                        color.green = 51;
-                        color.blue = 0;
-                        break;
-                    case AGUA:
-                        color.red = 0;
-                        color.green = 128;
-                        color.blue = 255;
-                        break;
-                    default:
-                        color.red = 102;
-                        color.green = 255;
-                        color.blue = 255;
-                        break;
-                    }
-                    dibujarTerreno(x, y, color, imagen);
-                    draw.rectangle(
-                    x*TAMANIO_LADO_CASILLA_DEFAULT,
-                    y*TAMANIO_LADO_CASILLA_DEFAULT,
-                    x*TAMANIO_LADO_CASILLA_DEFAULT+TAMANIO_LADO_CASILLA_DEFAULT,
-                    y*TAMANIO_LADO_CASILLA_DEFAULT+TAMANIO_LADO_CASILLA_DEFAULT);
+                case TIERRA:
+                    color.red = 102;
+                    color.green = 51;
+                    color.blue = 0;
+                    break;
+                case MAR:
+                    color.red = 0;
+                    color.green = 128;
+                    color.blue = 255;
+                    break;
+                default:
+                    color.red = 102;
+                    color.green = 255;
+                    color.blue = 255;
+                    break;
                 }
+                dibujarTerreno(x, y, color, imagen);
+                draw.rectangle(
+                    x * TAMANIO_LADO_CASILLA_DEFAULT,
+                    y * TAMANIO_LADO_CASILLA_DEFAULT,
+                    x * TAMANIO_LADO_CASILLA_DEFAULT + TAMANIO_LADO_CASILLA_DEFAULT,
+                    y * TAMANIO_LADO_CASILLA_DEFAULT + TAMANIO_LADO_CASILLA_DEFAULT);
             }
-        };
+        }
+    };
 
-        void dibujarOcupante(int x, int y, rgb_t color, bitmap_image &imagen)
+    void dibujarOcupante(int x, int y, rgb_t color, bitmap_image &imagen)
+    {
+        for (int i = x * TAMANIO_OCUPANTE_DEFAULT; i <= x * TAMANIO_OCUPANTE_DEFAULT + TAMANIO_OCUPANTE_DEFAULT; i++)
         {
-            for (int i = x*TAMANIO_OCUPANTE_DEFAULT; i <= x*TAMANIO_OCUPANTE_DEFAULT+TAMANIO_OCUPANTE_DEFAULT; i++)
+            for (int j = y * TAMANIO_OCUPANTE_DEFAULT; j <= y * TAMANIO_OCUPANTE_DEFAULT + TAMANIO_OCUPANTE_DEFAULT; j++)
             {
-                for (int j = y*TAMANIO_OCUPANTE_DEFAULT; j <= y*TAMANIO_OCUPANTE_DEFAULT+TAMANIO_OCUPANTE_DEFAULT; j++)
+                imagen.set_pixel(x, y, color);
+            }
+        }
+    }
+
+    void dibujarOcupantes(TipoUnidad matrizOcupantes[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT], bitmap_image &imagen)
+    {
+        image_drawer draw(imagen);
+        draw.pen_width(1);
+        draw.pen_color(0, 0, 0);
+
+        for (int x = 1; x <= PROFUNDIDAD_TABLERO_DEFAULT; x++)
+        {
+            for (int y = 1; y <= LARGO_TABLERO_DEFAULT; y++)
+            {
+                TipoUnidad ocupante = matrizOcupantes[x][y];
+                rgb_t color;
+                switch (ocupante)
                 {
-                    imagen.set_pixel(x, y, color);
+                case AVION:
+                    color.red = 102;
+                    color.green = 51; // Buscar y asignar colores
+                    color.blue = 0;
+                    dibujarOcupante(x, y, color, imagen);
+                    break;
+                case BARCO:
+                    color.red = 0;
+                    color.green = 128; // Buscar y asignar colores
+                    color.blue = 255;
+                    dibujarOcupante(x, y, color, imagen);
+                    break;
+                case MINA:
+                    color.red = 0;
+                    color.green = 128; // Buscar y asignar colores
+                    color.blue = 255;
+                    dibujarOcupante(x, y, color, imagen);
+                    break;
+                case SOLDADO:
+                    color.red = 0;
+                    color.green = 128; // Buscar y asignar colores
+                    color.blue = 255;
+                    dibujarOcupante(x, y, color, imagen);
+                    break;
+                default:
+                    break;
                 }
             }
         }
+    }
 
-        void dibujarOcupantes(tipoOcupante matrizOcupantes[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT], bitmap_image &imagen)
+    void dibujarTablero(Tablero &tablero, Jugador *jugador)
+    {
+        for (int z = 1; z <= ALTO_TABLERO_DEFAULT; z++)
         {
-            image_drawer draw(imagen);
-            draw.pen_width(1);
-            draw.pen_color(0, 0, 0);
+            bitmap_image imagen(
+                PROFUNDIDAD_TABLERO_DEFAULT * TAMANIO_LADO_CASILLA_DEFAULT + 1,
+                LARGO_TABLERO_DEFAULT * TAMANIO_LADO_CASILLA_DEFAULT + 1);
 
-            for (int x = 1; x <= PROFUNDIDAD_TABLERO_DEFAULT; x++)
-            {
-                for (int y = 1; y <= LARGO_TABLERO_DEFAULT; y++)
-                {
-                    tipoOcupante ocupante = matrizOcupantes[x][y];
-                    rgb_t color;
-                    switch (ocupante)
-                    {
-                    case AVION:
-                        color.red = 102;
-                        color.green = 51; // Buscar y asignar colores
-                        color.blue = 0;
-                        dibujarOcupante(x, y, color, imagen);
-                        break;
-                    case BARCO:
-                        color.red = 0;
-                        color.green = 128; // Buscar y asignar colores
-                        color.blue = 255;
-                        dibujarOcupante(x, y, color, imagen);
-                        break;
-                    case MINA:
-                        color.red = 0;
-                        color.green = 128; // Buscar y asignar colores
-                        color.blue = 255;
-                        dibujarOcupante(x, y, color, imagen);
-                        break;
-                    case SOLDADO:
-                        color.red = 0;
-                        color.green = 128; // Buscar y asignar colores
-                        color.blue = 255;
-                        dibujarOcupante(x, y, color, imagen);
-                        break;
-                    default:
-                        break;
-                    }
-                }
-            }
+            TipoTerreno matrizTerrenos[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT];
+            TipoOcupante matrizOcupantes[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT];
+            asigarTerrenos(matrizTerrenos, tablero.getMapa());
+            asignarOcupante(matrizOcupantes, tablero.getMapa(), jugador);
+
+            dibujarTerrenos(matrizTerrenos, imagen);
+            dibujarOcupantes(matrizOcupantes, imagen);
         }
+    }
 
-        void dibujarTablero(Tablero &tablero, Jugador* jugador)
+public:
+    void dibujarTableros(Tablero &tablero, Lista<Jugador *> *jugadores)
+    {
+        jugadores->reiniciarCursor();
+        while (jugadores->avanzarCursor())
         {
-            for (int z = 1; z <= ALTO_TABLERO_DEFAULT; z++)
-            {
-                bitmap_image imagen(
-                    PROFUNDIDAD_TABLERO_DEFAULT*TAMANIO_LADO_CASILLA_DEFAULT+1,
-                    LARGO_TABLERO_DEFAULT*TAMANIO_LADO_CASILLA_DEFAULT+1
-                );
-
-                tipoTerreno matrizTerrenos[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT];
-                tipoOcupante matrizOcupantes[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT];
-                asigarTerrenos(matrizTerrenos, tablero.getMapa());
-                asignarOcupante(matrizOcupantes, tablero.getMapa(), jugador);
-
-                dibujarTerrenos(matrizTerrenos, imagen);
-                dibujarOcupantes(matrizOcupantes, imagen);
-
-            }
+            Jugador *jugador = jugadores->getCursor();
+            dibujarTablero(tablero, jugador);
         }
-
-    public:
-
-        void dibujarTableros(Tablero &tablero, Lista <Jugador*> *jugadores)
-        {
-            jugadores->reiniciarCursor();
-            while (jugadores->avanzarCursor())
-            {
-                Jugador* jugador = jugadores->getCursor();
-                dibujarTablero(tablero, jugador);
-            }
-        }
+    }
 };
 
 // int main() {
@@ -232,20 +225,20 @@ class Video
 //                 colorSeleccionado.green = 51;
 //                 colorSeleccionado.blue = 0;
 //                 break;
-            
+
 //             default:
 //                 colorSeleccionado.red = 255;
 //                 colorSeleccionado.green = 255;
 //                 colorSeleccionado.blue = 255;
 //                 break;
-//             }            
+//             }
 //             for (size_t x = i*TAMANIO_LADO_CASILLA; x < i*TAMANIO_LADO_CASILLA+TAMANIO_LADO_CASILLA; x++)
 //             {
 //                 for (size_t y = j*TAMANIO_LADO_CASILLA; y < j*TAMANIO_LADO_CASILLA+TAMANIO_LADO_CASILLA; y++)
 //                 {
 //                     image.set_pixel(x, y, colorSeleccionado);
 //                 }
-                
+
 //             }
 //             draw.rectangle(i*TAMANIO_LADO_CASILLA, j*TAMANIO_LADO_CASILLA, i*TAMANIO_LADO_CASILLA+TAMANIO_LADO_CASILLA, j*TAMANIO_LADO_CASILLA+TAMANIO_LADO_CASILLA);
 //         }

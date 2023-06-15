@@ -11,8 +11,7 @@
 class EntradaSalida
 {
 private:
-    /*POS: devuelve el valor de la coordenada ingresada por consola */
-
+    /*  POS: devuelve el valor de la coordenada ingresada por consola */
     Coordenada pedirCordenada()
     {
         int x, y, z;
@@ -28,39 +27,66 @@ private:
     }
 
 public:
+    /*  POS: */
     EntradaSalida();
 
-    /*POS: pregunta que soldado se desea mover y devuelve la coordenada cuyo nombre es nombreCoordenada */
-
+    /* POS: pregunta que soldado se desea mover y devuelve la coordenada cuyo nombre es nombreCoordenada 
     int coordenadaSoldadoExistente(string nombreCoordenada)
     {
-
         cout << "Que soldado desea mover? " << endl;
 
         return pedirCordenada(nombreCoordenada);
-    }
+    }*/
 
-    /*POS: pregunta a donde quiere mover su soldado y devuelve la coordenada cuyo nombre es nombreCoordenada */
-
-    int coordenadaNuevoLugar(string nombreCoordenada)
+    Coordenada preguntarDondeMoverUnidad()
     {
-
-        cout << "Donde quiere mover su soldado? " << endl;
-
-        return pedirCordenada(nombreCoordenada);
+        std::cout << "Ingrese una nueva posicion para la unidad";
+        return pedirCordenada();
     }
 
-    /*POS: pregunta a donde quiere colocar una mina y devuelve la coordenada cuyo nombre es nombreCoordenada*/
+    /*  POS: pregunta a donde quiere mover su soldado y devuelve la coordenada cuyo nombre es nombreCoordenada */
+    Coordenada coordenadaNuevoLugar()
+    {
+        std::cout << "Donde quiere mover su soldado? " << std::endl;
+        return pedirCordenada();
+    }
 
+    Coordenada preguntarUnidadAMover(Jugador &jugador)
+    {
+        bool buscando = true;
+        Coordenada pos;
+        std::cout << "Escriba las coordenadas del soldado o armamento a mover";
+        while (buscando)
+        {
+            pos = pedirCordenada();
+            jugador.getListaDeSoldados()->reiniciarCursor();
+            while (jugador.getListaDeSoldados()->avanzarCursor())
+            {
+                if (jugador.getListaDeSoldados()->getCursor()->getUbicacion().esIgualA(pos))
+                {
+                    buscando = false;
+                }
+            }
+            jugador.getListaDeArmamentos()->reiniciarCursor();
+            while (jugador.getListaDeArmamentos()->avanzarCursor())
+            {
+                if (jugador.getListaDeArmamentos()->getCursor()->getUbicacion().esIgualA(pos))
+                {
+                    buscando = false;
+                }
+            }
+        }
+    }
+
+    /*  POS: pregunta a donde quiere colocar una mina y devuelve la coordenada cuyo nombre es nombreCoordenada*/
     Coordenada preguntarDondeColocarMina()
     {
         std::cout << "Donde quiere colocar una mina? " << std::endl;
         return pedirCordenada();
     }
 
-    /*POS: devuelve un string con el nombre de la carta a jugar y en caso de no jugar carta devuelve 0
-    REVISAR lista de cartas mano (const)
-    */
+    /*  POS: devuelve un string con el nombre de la carta a jugar y en caso de no jugar carta devuelve 0
+    REVISAR lista de cartas mano (const) */
     bool preguntarSiUsarCarta(Jugador &jugador)
     {
         char respuesta = 'X';
@@ -102,7 +128,7 @@ public:
         }
     }
 
-    //Devuelve el indice de la carta a jugar.
+    /*  POS: Devuelve el indice de la carta a jugar. */
     unsigned int elejirCartaParaJugar(Jugador &jugador)
     {
 
@@ -122,6 +148,49 @@ public:
         }
 
         return indice;
+    }
+
+    /*  PRE: La respuesta introducida por consola debe ser un numero.
+        POS: Pregunta por consola que se introduzca un numero entero positivo, continuara preguntando hasta que la respuesta sea valida */
+    int preguntarEnteroPositivo(std::string pregunta)
+    {
+        int variable = 0;
+        while (variable < 1)
+        {
+            std::cout << pregunta << std::endl;
+            std::cout << "Debe ser un numero positivo" << std::endl;
+            std::cin >> variable;
+        }
+        return variable;
+    }
+
+    /*  POS: devuelve un puntero a un Juego con unos parametros elejidos por el usuario. */
+    void inicializarPartida(int &ancho, int &largo, int &alto, int &cantidadJugadores, int &soldadosPorJugador)
+    {
+        bool invalido = true;
+        while (invalido)
+        {
+
+            int ancho = preguntarEnteroPositivo("ingrese el Ancho del tablero.");
+            int largo = preguntarEnteroPositivo("ingrese el Ancho del tablero.");
+            int alto = preguntarEnteroPositivo("ingrese el Ancho del tablero.");
+
+            int cantidadJugadores = preguntarEnteroPositivo("ingrese la cantidad de jugadores.");
+            int cantidadSoldadosPorJugador = preguntarEnteroPositivo("ingrese la cantidad de soldados iniciales para cada jugador.");
+
+            int espaciosNecesarios = cantidadJugadores * cantidadSoldadosPorJugador;
+            int espaciosTotales = ancho * largo * alto;
+
+            if (espaciosNecesarios * 2 < espaciosTotales)
+            {
+                std::cout << "El tamanio del tablero no cumple los requisitos de tamanio para la cantidad de jugadores y soldados. \n";
+            }
+            else
+            {
+                std::cout << "Datos correctos.\n";
+                invalido = false;
+            }
+        }
     }
 
     ~EntradaSalida();
