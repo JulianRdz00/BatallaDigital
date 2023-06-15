@@ -10,9 +10,9 @@
 
 class EntradaSalida
 {
-private:
+public:
     /*  POS: devuelve el valor de la coordenada ingresada por consola */
-    Coordenada pedirCordenada()
+    Coordenada *pedirCoordenada()
     {
         int x, y, z;
         std::cout << "Ingrese la coordenada x" << std::endl;
@@ -23,54 +23,52 @@ private:
         std::cin >> z;
         std::cout << std::endl;
 
-        return Coordenada(x, y, z);
+        return new Coordenada(x, y, z);
     }
-
-public:
     /*  POS: */
     EntradaSalida();
 
-    /* POS: pregunta que soldado se desea mover y devuelve la coordenada cuyo nombre es nombreCoordenada 
+    /* POS: pregunta que soldado se desea mover y devuelve la coordenada cuyo nombre es nombreCoordenada
     int coordenadaSoldadoExistente(string nombreCoordenada)
     {
         cout << "Que soldado desea mover? " << endl;
 
-        return pedirCordenada(nombreCoordenada);
+        return pedirCoordenada(nombreCoordenada);
     }*/
 
-    Coordenada preguntarDondeMoverUnidad()
+    Coordenada *preguntarDondeMoverUnidad()
     {
         std::cout << "Ingrese una nueva posicion para la unidad";
-        return pedirCordenada();
+        return pedirCoordenada();
     }
 
     /*  POS: pregunta a donde quiere mover su soldado y devuelve la coordenada cuyo nombre es nombreCoordenada */
-    Coordenada coordenadaNuevoLugar()
+    Coordenada *coordenadaNuevoLugar()
     {
         std::cout << "Donde quiere mover su soldado? " << std::endl;
-        return pedirCordenada();
+        return pedirCoordenada();
     }
 
     Coordenada preguntarUnidadAMover(Jugador &jugador)
     {
         bool buscando = true;
-        Coordenada pos;
+        Coordenada *posicion;
         std::cout << "Escriba las coordenadas del soldado o armamento a mover";
         while (buscando)
         {
-            pos = pedirCordenada();
+            posicion = pedirCoordenada();
             jugador.getListaDeSoldados()->reiniciarCursor();
             while (jugador.getListaDeSoldados()->avanzarCursor())
             {
-                if (jugador.getListaDeSoldados()->getCursor()->getUbicacion().esIgualA(pos))
+                if (jugador.getListaDeSoldados()->getCursor()->getUbicacion().esIgualA(*posicion))
                 {
-                    buscando = false;
+                    posicion = false;
                 }
             }
             jugador.getListaDeArmamentos()->reiniciarCursor();
             while (jugador.getListaDeArmamentos()->avanzarCursor())
             {
-                if (jugador.getListaDeArmamentos()->getCursor()->getUbicacion().esIgualA(pos))
+                if (jugador.getListaDeArmamentos()->getCursor()->getUbicacion().esIgualA(*posicion))
                 {
                     buscando = false;
                 }
@@ -79,10 +77,10 @@ public:
     }
 
     /*  POS: pregunta a donde quiere colocar una mina y devuelve la coordenada cuyo nombre es nombreCoordenada*/
-    Coordenada preguntarDondeColocarMina()
+    Coordenada *preguntarDondeColocarMina()
     {
         std::cout << "Donde quiere colocar una mina? " << std::endl;
-        return pedirCordenada();
+        return pedirCoordenada();
     }
 
     /*  POS: devuelve un string con el nombre de la carta a jugar y en caso de no jugar carta devuelve 0
