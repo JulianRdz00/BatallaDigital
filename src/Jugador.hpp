@@ -9,9 +9,10 @@ class Jugador
 private:
     unsigned int id;
     Lista<Carta *> *mano;
-    Lista<Coordenada *> *Soldados;
-    Lista<Coordenada *> *minas;
-    Lista<Coordenada *> *Armamentos;
+    Lista<Unidad *> *Soldados;
+    Lista<Unidad *> *minas;
+    Lista<Unidad *> *Armamentos;
+    EstadoJugador estado;
     bool estaSalteado;
 
 public:
@@ -21,10 +22,15 @@ public:
     Jugador()
     {
         mano = new Lista<Carta *>();
-        Soldados = new Lista<Coordenada *>();
-        minas = new Lista<Coordenada *>();
-        Armamentos = new Lista<Coordenada *>();
+        Soldados = new Lista<Unidad *>();
+        minas = new Lista<Unidad *>();
+        Armamentos = new Lista<Unidad *>();
         estaSalteado = false;
+    }
+
+    EstadoJugador getEstado()
+    {
+        return this->estado;
     }
 
     /*Pre:-
@@ -70,15 +76,14 @@ public:
     /*Pre:-
      *Post: Devuelve los soldados que tiene el jugador
      */
-    Lista<Coordenada *> *getListaDeSoldados()
+    Lista<Unidad *> *getListaDeSoldados()
     {
         return this->Soldados;
     }
 
-    /*Pre:-
-     *Post: Devuelve las minas que tiene el jugador
-     */
-    Lista<Coordenada *> *getListaDeMinas()
+    /*  Pre:-
+        Post: Devuelve las minas que tiene el jugador */
+    Lista<Unidad *> *getListaDeMinas()
     {
         return this->minas;
     }
@@ -86,9 +91,19 @@ public:
     /*Pre:-
      *Post: Devuelve los armamentos que tiene el jugador
      */
-    Lista<Coordenada *> *getListaDeArmamentos()
+    Lista<Unidad *> *getListaDeArmamentos()
     {
         return this->Armamentos;
+    }
+
+    void setEstadoSalteado(bool estado)
+    {
+        estaSalteado = estado;
+    }
+
+    bool estaSaleado()
+    {
+        return this->estaSalteado;
     }
 
     /*Pre:-

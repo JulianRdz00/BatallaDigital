@@ -4,27 +4,24 @@
 #include <cstdlib>
 #include <iostream>
 
-
 static const char ICONO_MAR = '~';
 static const char ICONO_AIRE = ' ';
 static const char ICONO_TIERRA = '#';
-const enum tipoTerreno
-{
-    TIERRA,
-    AGUA,
-    AIRE
+
+const enum EstadoPartida {
+    EMPATE,
+    TERMINADA,
+    ENMARCHA
 };
 
-enum tipoOcupante
-{
-    AVION,
-    BARCO,
-    MINA,
-    SOLDADO,
-    VACIO
+const enum EstadoJugador {
+    VIVO,
+    MUERTO,
+    SALTEADO,
 };
 
 static const int PROFUNDIDAD_TABLERO_DEFAULT = 10;
+static const int ANCHO_TABLERO_DEFAULT = 10;
 static const int LARGO_TABLERO_DEFAULT = 10;
 static const int ALTO_TABLERO_DEFAULT = 10;
 static const int TAMANIO_LADO_CASILLA_DEFAULT = 10;
@@ -32,21 +29,24 @@ static const int TAMANIO_OCUPANTE_DEFAULT = TAMANIO_LADO_CASILLA_DEFAULT / 2;
 static const int CANTIDAD_JUGADORES_DEFAULT = 2;
 static const int CANTIDAD_SOLDADOS_DEFAULT = 3;
 
-static const char ICONO_CASILLA_VACIA = 'X';
+static const std::string NOMBRE_CARTA_SUPERMINA = "Super mina";
+static const std::string NOMBRE_CARTA_RADAR = "Radar";
+static const std::string NOMBRE_CARTA_ATAQUEQUIMICO = "Ataque quimico";
+static const std::string NOMBRE_CARTA_USARBARCO = "Usar un barco";
+static const std::string NOMBRE_CARTA_DESTRUCTORARMAMENTO = "Destruir armamentos";
+static const std::string NOMBRE_CARTA_PASARTURNO = " Pasar turno";
 
-static const int EMPATE = 98;
-static const int UNGANADOR = 99;
+static const char ICONO_CASILLA_VACIA = 'X';
 
 static const int CANTIDAD_TIPOS_DE_CARTAS = 6;
 
-static enum TipoDeCarta
-{
-	SUPERMINA,
-	RADAR,
-	ATAQUEQUIMICO,
-	BARCO,
-	DESTRUCTORARMAMENTO,
-	PASARTURNO
+static enum TipoDeCarta {
+    SUPERMINA,
+    RADAR,
+    ATAQUEQUIMICO,
+    USARBARCO,
+    DESTRUCTORARMAMENTO,
+    PASARTURNO
 };
 
 static enum TipoUnidad {
