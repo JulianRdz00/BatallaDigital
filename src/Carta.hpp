@@ -7,42 +7,53 @@
 #include "jugador.hpp"
 #include "Coordenada.hpp"
 
-
+enum tipoDeCarta
+{
+	SUPERMINA,
+	RADAR,
+	ATAQUEQUIMICO,
+	BARCO,
+	DESTRUCTORARMAMENTO,
+	PASARTURNO
+};
 
 class Carta
 
 {
 private:
-	TipoDeCarta tipo;
-	//unsigned int id;
+	tipoDeCarta tipo;
+	unsigned int id;
 
-	/*Pre: mapa no debe ser nulo;
+	/*Pre: tablero no debe ser nulo;
 	 *  Post: determina la cantidad de turnos que se mantendra el ataque en cada casilla.
 	 */
-	void determinarTurnos(Tablero *mapa, Coordenada *posicion, Coordenada *nuevaPosicion)
+	void determinarTurnos(Tablero &tablero, Coordenada *posicion, Coordenada *nuevaPosicion, Jugador* usuario)
 	{
 
-		if (mapa == NULL)
+		if (tablero == NULL)
 		{
-			throw "mapa no debe ser nulo"
+			throw "tablero no debe ser nulo"
 		}
 
-		mapa->obtenerAdyacentes(*(posicion))->reiniciarCursor();
+		tablero->obtenerAdyacentes(*(posicion))->reiniciarCursor();
 
-		while (mapa->obtenerAdyacentes(*(posicion))->avanzarCursor())
+		while (tablero.obtenerAdyacentes(*(posicion))->avanzarCursor())
 		{
-			Coordenada *posicionAdyacente = &mapa->obtenerAdyacentes(*(posicion))->getCursor();
+			Coordenada *posicionAdyacente = &tablero->obtenerAdyacentes(*(posicion))->getCursor();
 			if (nuevaPosicion == posicion)
 			{
-				// 10 turnos
+				Unidad *quimico = new Unidad(*posicion, usuario, QUIMICO);
+				tablero.obtenerEnPosicion(posicion)->desactivar(10);
 			}
 			else if (nuevaPosicion == posicionAdyacente)
 			{
-				// 8 turnos
+				Unidad *quimico = new Unidad(*posicionAdyacente, usuario, QUIMICO);
+				tablero.obtenerEnPosicion(posicionAdyacente)->desactivar(8);
 			}
 			else
 			{
-				// 6 turnos
+				Unidad *quimico = new Unidad(*nuevaPosicion, usuario, QUIMICO);
+				tablero.obtenerEnPosicion(nuevaPosicion)->desactivar(6);
 			}
 		}
 	}
@@ -50,7 +61,7 @@ private:
 	/*Pre: casilla no debe ser nula
 	 *Post: ataca las posiciones adyacentes a la casilla indicada con el tipo indicado
 	 */
-	void atacarAdyacentes(Tablero &mapa, Unidad *unidad, TipoUnidad tipo)
+	void atacarAdyacentes(Tablero &tablero, Unidad *unidad, TipoUnidad tipo)
 	{
 
 		if (unidad == NULL)
@@ -60,7 +71,7 @@ private:
 
 		for (int i = 1; i < 3; ++i)
 		{
-			Lista<Coordenada> *posiciones = mapa.obtenerAdyacentes(unidad->getUbicacion());
+			Lista<Coordenada> *posiciones = tablero.obtenerAdyacentes(unidad->getUbicacion());
 
 			posiciones->reiniciarCursor();
 			while (posiciones->avanzarCursor())
@@ -104,18 +115,30 @@ private:
 	}
 
 public:
+
+
+	/*Pre: 
+	 *Post: Crea la carta por default
+	 */
+	Carta()
+	{
+		
+		this->tipo = BARCO;
+		this->id = 1;
+	}
+
 	/*Pre: El id debe ser mayor a 0
 	 *Post: Crea la carta con su tipo e id indicado
 	 */
-	Carta(TipoDeCarta tipo)
+	Carta(tipoDeCarta tipo, unsigned int id)
 	{
-		this->tipo = tipo;
-	}
+		if (id < 0)
+		{
+			throw "El id debe ser mayor a cero";
+		}
 
-	//Instancia una carta de tipo aleatorio.
-	Carta()
-	{
-		this->tipo = getRandom(0, CANTIDAD_TIPOS_DE_CARTAS -1);
+		this->tipo = tipo;
+		this->id = id;
 	}
 
 	/*Pre: -
@@ -131,12 +154,20 @@ public:
 		return this->tipo;
 	}
 
+	/*Pre:-
+	 *Post: Devuelve el id de la carta
+	 */
+	unsigned int getId()
+	{
+		return this->id;
+	}
+
 	/*Pre: El tablero no debe ser nulo.
 	 *		La posicion debe estar dentro de los limites del tablero.
 	 *Post: ataca a la posicion indicada y contamina 125 casilleros,
 	 *		por 10 turnos en el centro, 8 en el siguiente radio y asi.
 	 */
-	void jugarAtaqueQuimico(tipoDeCarta tipo, Tablero &tablero, Coordenada *posicion)
+	void jugarAtaqueQuimico(tipoDeCarta tipo, Tablero &tablero, Coordenada *posicion, Jugador *usuario)
 	{
 
 		if (!tipo == ATAQUEQUIMICO)
@@ -168,23 +199,10 @@ public:
 					posicionAux->setCoordenada(posicion->getX() - 2 + i, posicion->getY() - 2 + j, posicion->getZ() - 2 + k);
 					tablero.obtenerEnPosicion(*posicionAux).getUnidad()->setTipo(QUIMICO);
 					tablero.insertar(tablero.obtenerEnPosicion(*posicionAux).getUnidad());
-					determinarTurnos(&tablero, posicion, posicionAux);
+					determinarTurnos(&tablero, posicion, posicionAux, usuario);
 				}
 			}
 		}
-
-		/*
-				tablero->reiniciarCursor();
-				while(tablero->avanzarCursor()){
-					Casilla* casilla = tablero->getCursor();
-					if (casilla->getCoordenada() == posicion){
-						casilla->setTipoOcupante(ATAQUEQUIMICO);
-						tablero->insertar(casilla);
-						atacarAdyacentes(casilla, ATAQUEQUIMICO);
-
-					}
-				}
-				*/
 	}
 
 	/*Pre: El tablero no debe ser nulo.
@@ -308,14 +326,6 @@ public:
 		}
 
 		jugdador->estaSalteado() = true;
-	}
-
-	string getNombre(){
-		switch(tipo){
-			case ATAQUEQUIMICO:
-				return "Ataque quimico";
-				break;
-		}
 	}
 };
 
