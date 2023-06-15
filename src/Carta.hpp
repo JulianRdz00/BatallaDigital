@@ -43,17 +43,17 @@ private:
 			if (nuevaPosicion == posicion)
 			{
 				Unidad *quimico = new Unidad(*posicion, usuario, QUIMICO);
-				tablero.obtenerEnPosicion(posicion)->desactivar(10);
+				tablero.obtenerEnPosicion(posicion)->getUnidad()->desactivar(10);
 			}
 			else if (nuevaPosicion == posicionAdyacente)
 			{
 				Unidad *quimico = new Unidad(*posicionAdyacente, usuario, QUIMICO);
-				tablero.obtenerEnPosicion(posicionAdyacente)->desactivar(8);
+				tablero.obtenerEnPosicion(posicionAdyacente)->getUnidad()->desactivar(8);
 			}
 			else
 			{
 				Unidad *quimico = new Unidad(*nuevaPosicion, usuario, QUIMICO);
-				tablero.obtenerEnPosicion(nuevaPosicion)->desactivar(6);
+				tablero.obtenerEnPosicion(nuevaPosicion)->getUnidad()->desactivar(6);
 			}
 		}
 	}
