@@ -10,7 +10,7 @@ class Juego
 private:
     //  ATRIBUTOS
     Tablero *mapa;
-    Lista<Jugador> jugadores; // Usar una lista circular
+    Lista<Jugador> jugadores;
     Jugador *jugadorActivo = new Jugador();
     EntradaSalida* io;
 
@@ -55,7 +55,7 @@ public:
     */
     Juego()
     {
-        Juego(ANCHO_TABLERO_DEFAULT, LARGO_TABLERO_DEFAULT, ALTO_TABLERO_DEFAULT, CANTIDAD_JUGADORES_DEFAULT, CANTIDAD_SOLDADOS_DEFAULT)
+        Juego(PROFUNDIDAD_TABLERO_DEFAULT, LARGO_TABLERO_DEFAULT, ALTO_TABLERO_DEFAULT, CANTIDAD_JUGADORES_DEFAULT, CANTIDAD_SOLDADOS_DEFAULT)
     }
 
     /*

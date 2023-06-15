@@ -1,8 +1,10 @@
 #ifndef _CASILLA_H_
 #define _CASILLA_H_
 
+#include "Coordenada.hpp"
 #include "Unidad.hpp"
 #include "Constantes.hpp"
+
 
 class Casilla
 {
