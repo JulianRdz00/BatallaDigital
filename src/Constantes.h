@@ -65,9 +65,6 @@ static const char ICONO_CASILLA_VACIA = 'X';
 static const int CANTIDAD_TIPOS_DE_CARTAS = 6;
 
 // POST: Devuelve un numero aleatorio entre el minimo y maximo dados como argumentos.
-int getRandom(int minimo, int maximo)
-{
-    return minimo + (rand() % (maximo - minimo + 1));
-}
+int getRandom(int minimo, int maximo);
 
 #endif
