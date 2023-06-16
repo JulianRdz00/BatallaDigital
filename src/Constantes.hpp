@@ -8,16 +8,40 @@ static const char ICONO_MAR = '~';
 static const char ICONO_AIRE = ' ';
 static const char ICONO_TIERRA = '#';
 
-const enum EstadoPartida {
+enum EstadoPartida {
     EMPATE,
     TERMINADA,
     ENMARCHA
 };
 
-const enum EstadoJugador {
+enum EstadoJugador {
     VIVO,
     MUERTO,
     SALTEADO,
+};
+
+enum TipoDeCarta {
+    SUPERMINA,
+    RADAR,
+    ATAQUEQUIMICO,
+    USARBARCO,
+    DESTRUCTORARMAMENTO,
+    PASARTURNO
+};
+
+enum TipoUnidad {
+    AVION,
+    BARCO,
+    MINA,
+    SOLDADO,
+    QUIMICO,
+    VACIO
+};
+
+enum TipoTerreno {
+    TIERRA,
+    MAR,
+    AIRE
 };
 
 static const int PROFUNDIDAD_TABLERO_DEFAULT = 10;
@@ -39,30 +63,6 @@ static const std::string NOMBRE_CARTA_PASARTURNO = " Pasar turno";
 static const char ICONO_CASILLA_VACIA = 'X';
 
 static const int CANTIDAD_TIPOS_DE_CARTAS = 6;
-
-static enum TipoDeCarta {
-    SUPERMINA,
-    RADAR,
-    ATAQUEQUIMICO,
-    USARBARCO,
-    DESTRUCTORARMAMENTO,
-    PASARTURNO
-};
-
-static enum TipoUnidad {
-    AVION,
-    BARCO,
-    MINA,
-    SOLDADO,
-    QUIMICO,
-    VACIO
-};
-
-static enum TipoTerreno {
-    TIERRA,
-    MAR,
-    AIRE
-};
 
 // POST: Devuelve un numero aleatorio entre el minimo y maximo dados como argumentos.
 int getRandom(int minimo, int maximo)

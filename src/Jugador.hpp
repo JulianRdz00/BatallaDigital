@@ -2,51 +2,132 @@
 #define _JUGADOR_H_
 
 #include "Lista.hpp"
+#include "Unidad.hpp"
 #include "Carta.hpp"
+#include "Coordenada.hpp"
+#include "Constantes.hpp"
+
 
 class Jugador
 {
 private:
     unsigned int id;
     Lista<Carta *> *mano;
-    Lista<Unidad *> *Soldados;
+    Lista<Unidad *> *soldados;
     Lista<Unidad *> *minas;
-    Lista<Unidad *> *Armamentos;
+    Lista<Unidad *> *armamentos;
     EstadoJugador estado;
     bool estaSalteado;
 
+    /*
+    Pre:-
+    Post: Crea todos los soldados del jugador con las coordenadas default (-1, -1, -1).
+    */
+    void crearSoldados(int cantidadDeSoldados)
+    {
+        for (int i = 0; i < cantidadDeSoldados; i++)
+        {
+            this->soldados->add(new Unidad(Coordenada(), this, SOLDADO));
+        }
+    }
+
+    /*
+    Pre:-
+    Post: Recorre la lista de cartar para eliminar cada carta de la memoria dinamica
+    */
+    void deleteMano()
+    {
+        mano->reiniciarCursor();
+        while (mano->avanzarCursor())
+        {
+            mano->getCursor()->~Carta();
+        }
+    }
+
+    /*
+    Pre:-
+    Post: Recorre la lista de cartar para eliminar cada carta de la memoria dinamica
+    */
+    void deleteSoldados()
+    {
+        soldados->reiniciarCursor();
+        while (soldados->avanzarCursor())
+        {
+            soldados->getCursor()->~Unidad();
+        }
+    }
+
+    /*
+    Pre:-
+    Post: Recorre la lista de cartar para eliminar cada carta de la memoria dinamica
+    */
+    void deleteMinas()
+    {
+        minas->reiniciarCursor();
+        while (minas->avanzarCursor())
+        {
+            minas->getCursor()->~Unidad();
+        }
+    }
+
+    /*
+    Pre:-
+    Post: Recorre la lista de cartar para eliminar cada carta de la memoria dinamica
+    */
+    void deleteArmamentos()
+    {
+        armamentos->reiniciarCursor();
+        while (armamentos->avanzarCursor())
+        {
+            armamentos->getCursor()->~Unidad();
+        }
+    }
+
+
 public:
-    /*Pre: La posicion debe estar dentro de los limites del tablero y el tipo de la carta debe existir
-     *Post: Juega la carta del tipo indicado y en la posicion indicada
-     */
+    /*
+    Pre:-
+    Post: Crea un de jugador con la cantidad de soldados default
+    */
     Jugador()
     {
         mano = new Lista<Carta *>();
-        Soldados = new Lista<Unidad *>();
+        soldados = new Lista<Unidad *>();
         minas = new Lista<Unidad *>();
-        Armamentos = new Lista<Unidad *>();
+        armamentos = new Lista<Unidad *>();
+        estado = VIVO;
         estaSalteado = false;
+        crearSoldados(CANTIDAD_SOLDADOS_DEFAULT);
     }
 
+    /*
+    Pre:-
+    Post: Crea una instancia de jugador con la cantidad de soldados pasados como argumento
+    */
+    Jugador(int cantidadDeSoldados)
+    {
+        mano = new Lista<Carta *>();
+        soldados = new Lista<Unidad *>();
+        minas = new Lista<Unidad *>();
+        armamentos = new Lista<Unidad *>();
+        estado = VIVO;
+        estaSalteado = false;
+        crearSoldados(cantidadDeSoldados);
+    }
+
+    /*
+    Pre:-
+    Post: Devuelve el estado del jugador
+    */
     EstadoJugador getEstado()
     {
         return this->estado;
     }
 
-    /*Pre:-
-     *Post: Elimina al jugador con sus cartas, soldados, minas y Armamentos
-     */
-    virtual ~Jugador()
-    {
-        delete mano;
-        delete Soldados;
-        delete minas;
-        delete Armamentos;
-    }
-
-    /*Pre: La nueva carta debe existir
-     *Post: Juega la carta del tipo indicado y en la posicion indicada
-     */
+    /*
+    Pre: La nueva carta debe existir
+    Post: Agrega la carta pasada como argumento a la mano del jugador
+    */
     void agregarCartaAMano(Carta *nuevaCarta)
     {
         if (nuevaCarta == NULL)
@@ -57,61 +138,101 @@ public:
         mano->add(nuevaCarta);
     }
 
-    /*Pre:-
-     *Post: Devuelve la cantidad de cartas del jugador
-     */
+    /*
+    Pre:-
+    Post: Devuelve la cantidad de cartas del jugador
+    */
     int cantidadDeCartas()
     {
         return this->mano->contarElementos();
     }
 
-    /*Pre:-
-     *Post: Devuelve las cartas que tiene el jugador
-     */
-    Lista<Carta *> *getListaDeCartas()
+    /*
+    Pre:-
+    Post: Devuelve las cartas que tiene el jugador
+    */
+    Lista<Carta *> *getMano()
     {
         return this->mano;
     }
 
-    /*Pre:-
-     *Post: Devuelve los soldados que tiene el jugador
-     */
-    Lista<Unidad *> *getListaDeSoldados()
+    /*
+    Pre:-
+    Post: Devuelve los soldados que tiene el jugador
+    */
+    Lista<Unidad *> *getSoldados()
     {
-        return this->Soldados;
+        return this->soldados;
     }
 
-    /*  Pre:-
-        Post: Devuelve las minas que tiene el jugador */
-    Lista<Unidad *> *getListaDeMinas()
+    /*
+    Pre:-
+    Post: Devuelve las minas que tiene el jugador
+    */
+    Lista<Unidad *> *getMinas()
     {
         return this->minas;
     }
 
-    /*Pre:-
-     *Post: Devuelve los armamentos que tiene el jugador
-     */
-    Lista<Unidad *> *getListaDeArmamentos()
+    /*
+    Pre:-
+    Post: Devuelve los armamentos que tiene el jugador
+    */
+    Lista<Unidad *> *getArmamentos()
     {
-        return this->Armamentos;
+        return this->armamentos;
     }
 
+    /*
+    Pre:-
+    Post: Cambia el estado del jugador
+    */
+    void setEstado(EstadoJugador estado)
+    {
+        this->estado = estado;
+    }
+
+    /*
+    Pre:-
+    Post: Cambia el estado salteado del jugador
+    */
     void setEstadoSalteado(bool estado)
     {
         estaSalteado = estado;
     }
 
+    /*
+    Pre:-
+    Post: Devuelve true o false en funcion de si el jugador esta salteado o no
+    */
     bool estaSaleado()
     {
         return this->estaSalteado;
     }
 
-    /*Pre:-
-     *Post: Devuelve el id del jugador
-     */
+    /*
+    Pre:-
+    Post: Devuelve el id del jugador
+    */
     unsigned int getId()
     {
         return this->id;
+    }
+
+    /*
+    Pre:-
+    Post: Elimina al jugador con sus cartas, soldados, minas y Armamentos
+    */
+    virtual ~Jugador()
+    {
+        deleteMano();
+        delete mano;
+        deleteSoldados();
+        delete soldados;
+        deleteMinas();
+        delete minas;
+        deleteArmamentos();
+        delete armamentos;
     }
 };
 

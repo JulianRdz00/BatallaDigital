@@ -26,11 +26,11 @@ private:
             throw "mapa no debe ser nulo";
         }
 
-        mapa->obtenerAdyacentes(*(posicion))->reiniciarCursor();
+        mapa->obtenerAdyacentes(posicion)->reiniciarCursor();
 
-        while (mapa->obtenerAdyacentes(*(posicion))->avanzarCursor())
+        while (mapa->obtenerAdyacentes(posicion)->avanzarCursor())
         {
-            Coordenada *posicionAdyacente = &mapa->obtenerAdyacentes(*(posicion))->getCursor();
+            Coordenada *posicionAdyacente = mapa->obtenerAdyacentes(posicion)->getCursor();
             if (nuevaPosicion == posicion)
             {
                 // 10 turnos
