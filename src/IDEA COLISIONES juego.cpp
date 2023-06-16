@@ -80,7 +80,7 @@ void comprobarSoldados(){
 /*
 void comprobarColisiones()
 {
-   //idea 
+   //idea implementada en preguntarPonerMina
 }
 */
 bool haySoldado(Jugador* jugador, Coordenada* posicion){
