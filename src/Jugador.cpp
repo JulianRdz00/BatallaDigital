@@ -8,7 +8,7 @@ void Jugador::crearSoldados(int cantidadDeSoldados)
 {
     for (int i = 0; i < cantidadDeSoldados; i++)
     {
-        this->soldados->add(new Unidad(new Coordenada(), this, SOLDADO));
+        this->soldados->add(new Unidad(new Coordenada(), SOLDADO));
     }
 }
 
@@ -184,7 +184,7 @@ void Jugador::setEstadoSalteado(bool estado)
 Pre:-
 Post: Devuelve true o false en funcion de si el jugador esta salteado o no
 */
-bool Jugador::estaSaleado()
+bool Jugador::Salteado()
 {
     return this->estaSalteado;
 }
