@@ -1,14 +1,13 @@
 #ifndef UNIDAD_H
 #define UNIDAD_H
 
-#include "Jugador.h"
-
+#include "Coordenada.h"
+#include "Constantes.h"
 class Unidad
 {
 private:
     Coordenada *ubicacion;
     TipoUnidad tipo;
-    Jugador *jugadorPosicion;
     int turnosInactiva;
 
 public:
@@ -29,7 +28,7 @@ public:
     Pre:-
     Post: Crea una unidad con coordenadas, duenio y tipo segun lo pasado como argumento
     */
-    Unidad(Coordenada *ubicacion, Jugador *duenio, TipoUnidad tipoDeUnidad);
+    Unidad(Coordenada *ubicacion, TipoUnidad tipoDeUnidad);
 
     /*
     Pre:-
@@ -61,16 +60,6 @@ public:
     */
     bool esActiva();
 
-    /*
-    Pre:-
-    Post: Cambia el jugador que es dueño de la unidad o mina dentro de la casilla
-    */
-    void setDuenio(Jugador *jugador);
-    /*
-    Pre:-
-    Post: Devuelve el jugador que es dueño de la unidad o mina dentro de la casilla
-    */
-    Jugador *getDuenio();
     /*
     Pre:-
     Post: Cambia el tipo de la unidad
