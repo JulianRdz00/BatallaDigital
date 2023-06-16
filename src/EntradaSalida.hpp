@@ -1,9 +1,9 @@
 /* MATEO Intento 1*/
 
-#ifndef _ENTRADASALIDA_
-#define _ENTRADASALIDA_
+#ifndef _ENTRADASALIDA_H_
+#define _ENTRADASALIDA_H_
 
-#include <iostream>
+#include "Constantes.hpp"
 #include "Lista.hpp"
 #include "Carta.hpp"
 #include "Jugador.hpp"
@@ -116,7 +116,15 @@ public:
 
     void listarCartas(Jugador *jugador)
     {
+<<<<<<< Updated upstream
         Lista<Carta *> *cartas = jugador.getMano();
+=======
+<<<<<<< Updated upstream
+        Lista<Carta *> *cartas = jugador.getListaDeCartas();
+=======
+        Lista<Carta *> *cartas = jugador->getMano();
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         cartas->reiniciarCursor();
         int i = 1;
         while (cartas->avanzarCursor())
@@ -134,7 +142,15 @@ public:
         bool respuestaInvalida = true;
 
         unsigned int indice = 0;
+<<<<<<< Updated upstream
         Lista<Carta *> *cartas = jugador.getMano();
+=======
+<<<<<<< Updated upstream
+        Lista<Carta *> *cartas = jugador.getListaDeCartas();
+=======
+        Lista<Carta *> *cartas = jugador->getMano();
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         while (respuestaInvalida)
         {
             std::cout << "Elije una carta valida [X]:\n";
