@@ -194,7 +194,12 @@ void preguntarPonerMina()
 
         if(hayColision(this->jugadorActivo->getValor(), posicion)){
             mapa->obtenerEnPosicion(posicion)->getUnidad()->desactivar(5);
-            this->jugadorActivo->getValor()->
+            if(mapa->obtenerEnPosicion(posicion)->getUnidad().tipoOcupante() == SOLDADO){
+                this->jugadorActivo->getValor()->eliminarSoldado(posicion);
+            }else if(mapa->obtenerEnPosicion(posicion)->getUnidad().tipoOcupante() == BARCO || 
+                mapa->obtenerEnPosicion(posicion)->getUnidad().tipoOcupante() == AVION){
+                this->jugadorActivo->getValor()->eliminarArmamento(posicion);
+            }
         }
 
         if (mapa->laUbicacionEsValida(posicion))
