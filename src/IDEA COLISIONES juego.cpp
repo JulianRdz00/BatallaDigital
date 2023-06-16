@@ -103,17 +103,20 @@ bool hayArmamento(Jugador* jugador, Coordenada* posicion){
     }
 }
 
-bool hayColision(Jugador* jugador, Coordenada* posicion){
-
-    if(haySoldado(jugador, posicion))
-    {
-        return true;
-    }else if (hayArmamento(jugador, posicion))
-    {
-        return true;
+bool hayColision(Coordenada* posicion){
+    jugadores->reiniciarCursor();
+    while(jugadores->avanzarCursor()){
+        Jugaador*jugador = jugadores->getCursor();
+        if(haySoldado(jugador, posicion))
+        {
+           return true;
+        }else if (hayArmamento(jugador, posicion))
+        {
+           return true;
        
+        }
     }
-
+    
     return false;
 
 }
