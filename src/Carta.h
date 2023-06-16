@@ -1,14 +1,10 @@
-#ifndef _CARTA_H_
-#define _CARTA_H_
+#ifndef CARTA_H
+#define CARTA_H
 
-#include "Constantes.h"
-#include "Lista.h"
+
 #include "Tablero.h"
-#include "Unidad.h"
-#include "jugador.h"
 #include "Coordenada.h"
 #include "EntradaSalida.h"
-
 
 class Carta
 {

@@ -1,9 +1,7 @@
-#ifndef _TABLERO_H_
-#define _TABLERO_H_
+#ifndef TABLERO_H
+#define TABLERO_H
 
-#include "Constantes.hpp"
-#include "Unidad.hpp"
-#include "Casilla.hpp"
+#include "Casilla.h"
 
 class Tablero
 {
@@ -15,6 +13,7 @@ private:
     int alturaMaxima;
 
     Coordenada *obtenerPosicionAleatoria();
+    Casilla *obtenerEnPosicion(Coordenada *posicion);
   
 
     TipoTerreno getTerreno(Coordenada *ubicacion);

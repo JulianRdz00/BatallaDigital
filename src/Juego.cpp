@@ -1,7 +1,7 @@
 #include "Juego.h"
 
 
-void preguntarUsoCarta()
+void Juego::preguntarUsoCarta()
 {
     bool seUsaCarta = io->preguntarSiUsarCarta(jugadorActivo->getValor());
     if (seUsaCarta)
@@ -16,17 +16,17 @@ void preguntarUsoCarta()
     }
 }
 
-void pasarTurno()
+void Juego::pasarTurno()
 {
 
 }
 
-void darCarta()
+void Juego::darCarta()
 {
     jugadorActivo->getValor()->agregarCartaAMano(new Carta());
 }
 
-Juego()
+Juego::Juego()
 {
     int ancho, largo, alto, cantidadJugadores, soldadosPorJugador;
     io = new EntradaSalida();
@@ -53,17 +53,17 @@ Juego()
     }
 }
 
-void comprobarColisiones()
+void Juego::comprobarColisiones()
 {
     //pendiente
 }
 
-Jugador *obtenerGanador()
+Jugador *Juego::obtenerGanador()
 {
     return jugadores->get(1);
 }
 
-EstadoPartida obtenerResultado()
+EstadoPartida Juego::obtenerResultado()
 {
     if (jugadores->contarElementos() == 0)
     {
@@ -79,7 +79,7 @@ EstadoPartida obtenerResultado()
     }
 }
 
-void eliminarPerdedores()
+void Juego::eliminarPerdedores()
 {
 
     bool hayPerdedores = true;
@@ -109,7 +109,7 @@ void eliminarPerdedores()
     }
 }
 
-void ejecutarTurno()
+void Juego::ejecutarTurno()
 {
     darCartaAJugador();     // OK
     preguntarUsoCarta();    // OK
@@ -120,7 +120,7 @@ void ejecutarTurno()
     eliminarPerdedores();  // OK
 }
 
-void preguntarPonerMina()
+void Juego::preguntarPonerMina()
 {
     bool invalido = true;
     Unidad *mina;
@@ -140,7 +140,7 @@ void preguntarPonerMina()
     }
 }
 
-void preguntarMoverUnidad()
+void Juego::preguntarMoverUnidad()
 {
     Coordenada *posicionUnidadAMover = io->preguntarUnidadAMover(jugadorActivo->getValor());
     bool posicionInvalida = true;
@@ -162,7 +162,7 @@ void preguntarMoverUnidad()
     mapa->obtenerEnPosicion(posicionUnidadAMover)->getUnidad()->setUbicacion(nuevaPosicionUnidad);
 }
 
-bool avanzarTurno()
+bool Juego::avanzarTurno()
 {
     this->jugadorActivo = this->jugadorActivo->getSiguiente();
 
@@ -176,12 +176,12 @@ bool avanzarTurno()
     }
 }
 
-void darCartaAJugador()
+void Juego::darCartaAJugador()
 {
     this->jugadores->getCursor()->agregarCartaAMano(new Carta());
 }
 
-void actualizarImagenes()
+void Juego::actualizarImagenes()
 {
     // Hacer
 }

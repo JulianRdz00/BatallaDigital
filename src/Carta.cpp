@@ -10,7 +10,7 @@ void Carta::determinarTurnos(Tablero *mapa, Coordenada *posicion, Coordenada *nu
 
     mapa->obtenerAdyacentes(posicion)->reiniciarCursor();
 
-    while (mapa.obtenerAdyacentes(posicion)->avanzarCursor())
+    while (mapa->obtenerAdyacentes(posicion)->avanzarCursor())
     {
         Coordenada *posicionAdyacente = mapa->obtenerAdyacentes(posicion)->getCursor();
         if (nuevaPosicion == posicion)
@@ -38,12 +38,12 @@ void Carta::atacarAdyacentes(Tablero *tablero, Unidad *unidad, TipoUnidad tipo)
 
     for (int i = 1; i < 3; ++i)
     {
-        Lista<Coordenada> *posiciones = tablero->obtenerAdyacentes(unidad->getUbicacion());
+        Lista<Coordenada *> *posiciones = tablero->obtenerAdyacentes(unidad->getUbicacion());
 
         posiciones->reiniciarCursor();
         while (posiciones->avanzarCursor())
         {
-            Coordenada coordenada = posiciones->getCursor();
+            Coordenada *coordenada = posiciones->getCursor();
             unidad->setTipo(tipo);
         }
     }
@@ -225,7 +225,7 @@ void Carta::jugarPasarTurno(Jugador *usuario)
     usuario->setEstadoSalteado(true);
 }
 
-virtual Carta::~Carta()
+Carta::~Carta()
 {
 
 }

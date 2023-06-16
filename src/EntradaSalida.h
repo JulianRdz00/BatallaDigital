@@ -1,9 +1,7 @@
-#ifndef _ENTRADASALIDA_H_
-#define _ENTRADASALIDA_H_
+#ifndef ENTRADASALIDA_H
+#define ENTRADASALIDA_H
 
-#include "Constantes.h"
-#include "Lista.h"
-#include "Carta.h"
+#include <iostream>
 #include "Jugador.h"
 
 class EntradaSalida

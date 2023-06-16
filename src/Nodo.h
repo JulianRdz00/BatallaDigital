@@ -1,5 +1,5 @@
-#ifndef _NODO_H_
-#define _NODO_H_
+#ifndef NODO_H
+#define NODO_H
 
 #ifndef NULL
 #define NULL 0

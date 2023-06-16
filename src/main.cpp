@@ -1,8 +1,8 @@
 #include <iostream>
 #include <random>
 
-#include "Constantes.hpp"
-#include "Juego.hpp"
+#include "Constantes.h"
+#include "Juego.h"
 
 
 int main()

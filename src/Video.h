@@ -1,11 +1,9 @@
-#ifndef _VIDEO_H_
-#define _VIDEO_H_
+#ifndef VIDEO_H
+#define VIDEO_H
 
-#include "Constantes.hpp"
-#include "Tablero.hpp"
-#include "Jugador.hpp"
+#include "Jugador.h"
 #include "bitmap_image.hpp"
-#include "Casilla.hpp"
+#include "Casilla.h"
 
 class Video
 {

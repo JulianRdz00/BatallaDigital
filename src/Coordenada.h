@@ -1,8 +1,6 @@
-#ifndef _COORDENADA_H_
-#define _COORDENADA_H_
+#ifndef COORDENADA_H
+#define COORDENADA_H
 
-
-#include "Constantes.h"
 
 class Coordenada
 {

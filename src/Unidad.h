@@ -1,10 +1,7 @@
-#ifndef _UNIDAD_H_
-#define _UNIDAD_H_
+#ifndef UNIDAD_H
+#define UNIDAD_H
 
-#include "Constantes.hpp"
-#include "Coordenada.hpp"
-#include "Jugador.hpp"
-
+#include "Jugador.h"
 
 class Unidad
 {

@@ -1,6 +1,5 @@
 #include "EntradaSalida.h"
 
-
 Coordenada *EntradaSalida::pedirCoordenada()
 {
     int x, y, z;
@@ -22,7 +21,7 @@ EntradaSalida::EntradaSalida()
 
 Coordenada *EntradaSalida::coordenadaSoldadoExistente()
 {
-    cout << "Que soldado desea mover? " << endl;
+    std::cout << "Que soldado desea mover? " << std::endl;
 
     return pedirCoordenada();
 }
@@ -44,7 +43,7 @@ Coordenada *EntradaSalida::preguntarUnidadAMover(Jugador *jugador)
         jugador->getSoldados()->reiniciarCursor();
         while (jugador->getSoldados()->avanzarCursor())
         {
-            if (jugador->getSoldados()->getCursor()->getUbicacion().esIgualA(*posicion))
+            if (jugador->getSoldados()->getCursor()->getUbicacion()->esIgualA(posicion))
             {
                 posicion = false;
             }
@@ -52,7 +51,7 @@ Coordenada *EntradaSalida::preguntarUnidadAMover(Jugador *jugador)
         jugador->getArmamentos()->reiniciarCursor();
         while (jugador->getArmamentos()->avanzarCursor())
         {
-            if (jugador->getArmamentos()->getCursor()->getUbicacion().esIgualA(*posicion))
+            if (jugador->getArmamentos()->getCursor()->getUbicacion()->esIgualA(posicion))
             {
                 buscando = false;
             }

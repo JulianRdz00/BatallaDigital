@@ -1,12 +1,10 @@
-#ifndef _JUEGO_H_
-#define _JUEGO_H_
+#ifndef JUEGO_H
+#define JUEGO_H
 
-#include "Constantes.h"
 #include "Tablero.h"
 #include "Jugador.h"
 #include "ListaCircular.h"
-#include "EntradaSalida.h"
-#include "Nodo.h"
+
 
 class Juego
 {

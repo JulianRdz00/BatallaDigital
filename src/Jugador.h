@@ -1,12 +1,10 @@
-#ifndef _JUGADOR_H_
-#define _JUGADOR_H_
+#ifndef JUGADOR_H
+#define JUGADOR_H
 
+#include "Carta.h"
+#include "Unidad.h"
 #include "Constantes.h"
 #include "Lista.h"
-#include "Unidad.h"
-#include "Carta.h"
-#include "Coordenada.h"
-
 
 class Jugador
 {

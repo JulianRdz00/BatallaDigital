@@ -1,5 +1,5 @@
-#ifndef _LISTA_CIRCULAR_H_
-#define _LISTA_CIRCULAR_H_
+#ifndef LISTA_CIRCULAR_H
+#define LISTA_CIRCULAR_H
 
 #ifndef NULL
 #define NULL 0

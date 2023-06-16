@@ -191,5 +191,3 @@ Nodo<T> *ListaCircular<T>::getNodo(unsigned int posicion) const
     }
     return nodoActual;
 }
-
-#endif
