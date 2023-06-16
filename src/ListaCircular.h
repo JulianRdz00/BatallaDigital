@@ -4,7 +4,7 @@
 #ifndef NULL
 #define NULL 0
 #endif /* NULL */
-#include "Nodo.hpp"
+#include "Nodo.h"
 
 template <class T>
 class ListaCircular

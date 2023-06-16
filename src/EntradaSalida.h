@@ -1,10 +1,10 @@
 #ifndef _ENTRADASALIDA_H_
 #define _ENTRADASALIDA_H_
 
-#include "Constantes.hpp"
-#include "Lista.hpp"
-#include "Carta.hpp"
-#include "Jugador.hpp"
+#include "Constantes.h"
+#include "Lista.h"
+#include "Carta.h"
+#include "Jugador.h"
 
 class EntradaSalida
 {

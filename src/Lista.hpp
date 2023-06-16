@@ -1,10 +1,7 @@
 #ifndef _LISTA_H_
 #define _LISTA_H_
 
-#ifndef NULL
-#define NULL 0
-#endif /* NULL */
-#include "Nodo.hpp"
+#include "Lista.h"
 
 template <class T>
 class Lista

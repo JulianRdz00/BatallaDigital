@@ -1,9 +1,9 @@
 #ifndef _CASILLA_H_
 #define _CASILLA_H_
 
-#include "Constantes.hpp"
-#include "Coordenada.hpp"
-#include "Unidad.hpp"
+#include "Constantes.h"
+#include "Coordenada.h"
+#include "Unidad.h"
 
 
 class Casilla
