@@ -28,22 +28,25 @@ private:
 
         mapa->obtenerAdyacentes(posicion)->reiniciarCursor();
 
-        while (mapa->obtenerAdyacentes(posicion)->avanzarCursor())
-        {
-            Coordenada *posicionAdyacente = mapa->obtenerAdyacentes(posicion)->getCursor();
-            if (nuevaPosicion == posicion)
-            {
-                // 10 turnos
-            }
-            else if (nuevaPosicion == posicionAdyacente)
-            {
-                // 8 turnos
-            }
-            else
-            {
-                // 6 turnos
-            }
-        }
+        while (mapa.obtenerAdyacentes(posicion)->avanzarCursor())
+		{
+			Coordenada *posicionAdyacente = mapa->obtenerAdyacentes(posicion)->getCursor();
+			if (nuevaPosicion == posicion)
+			{
+				
+				mapa->obtenerEnPosicion(posicion)->getUnidad()->desactivar(10);
+			}
+			else if (nuevaPosicion == posicionAdyacente)
+			{
+				
+				mapa->obtenerEnPosicion(posicionAdyacente)->getUnidad()->desactivar(8);
+			}
+			else
+			{
+				
+				mapa->obtenerEnPosicion(nuevaPosicion)->getUnidad()->desactivar(6);
+			}
+		}
     }
 
     /*Pre: casilla no debe ser nula
