@@ -54,29 +54,6 @@ Juego()
 }
 
 
-void recorrerJugador(Jugador* jugador){
-
-
-    jugador->getSoldados()-reiniciarCursor();
-    while(jugador->getSoldado()->avanzarCursor()){
-        Unidad* Soldado1 = jugador->getSoldado()->getCursor();
-        Unidad* Soldado2 = obtenerSoldado(jugadores, )
-    }
-
-}
-
-void comprobarSoldados(){
-    jugadores->reiniciarCursor();
-    while(jugadores->avanzarCursor()){
-        Jugador* jugador1 = jugadores->getCursor();
-
-        recorrerJugador(jugador1);
-        
-    }
-
-}
-
-
 /*
 void comprobarColisiones()
 {
@@ -106,13 +83,14 @@ bool hayArmamento(Jugador* jugador, Coordenada* posicion){
 bool hayColision(Coordenada* posicion){
     jugadores->reiniciarCursor();
     while(jugadores->avanzarCursor()){
-        Jugaador*jugador = jugadores->getCursor();
+        Jugador*jugador = jugadores->getCursor();
         if(haySoldado(jugador, posicion))
-        {
-           return true;
+            jugador->eliminarSoldado(posicion);
+            return true
         }else if (hayArmamento(jugador, posicion))
         {
-           return true;
+            jugador->eliminarArmamento(posicion);
+            return true;
        
         }
     }
@@ -196,13 +174,7 @@ void preguntarPonerMina()
         mina = new Unidad(posicion, this->jugadorActivo->getValor(), MINA);
 
         if(hayColision(this->jugadorActivo->getValor(), posicion)){
-            mapa->obtenerEnPosicion(posicion)->getUnidad()->desactivar(5);
-            if(mapa->obtenerEnPosicion(posicion)->getUnidad().tipoOcupante() == SOLDADO){
-                this->jugadorActivo->getValor()->eliminarSoldado(posicion);
-            }else if(mapa->obtenerEnPosicion(posicion)->getUnidad().tipoOcupante() == BARCO || 
-                mapa->obtenerEnPosicion(posicion)->getUnidad().tipoOcupante() == AVION){
-                this->jugadorActivo->getValor()->eliminarArmamento(posicion);
-            }
+             mapa->obtenerEnPosicion(posicion)->getUnidad()->desactivar(5);
         }
 
         if (mapa->laUbicacionEsValida(posicion))
