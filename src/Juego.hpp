@@ -1,131 +1,255 @@
-#ifndef _JUEGO_
-#define _JUEGO_
+#include "Juego.h"
 
-#include "Tablero.hpp"
-#include "Jugador.hpp"
-#include "Array.hpp"
-#include "Constantes.hpp"
-#include "ListaC.hpp"
 
-class Juego
+void preguntarUsoCarta()
 {
-private:
-    //  ATRIBUTOS
-    Tablero *mapa;
-    ListaC<Jugador> jugadores; // Usar una lista circular
-    Jugador *jugadorActivo = new Jugador();
-
-    void preguntarUsoCarta()
+    bool seUsaCarta = io->preguntarSiUsarCarta(jugadorActivo->getValor());
+    if (seUsaCarta)
     {
-        char respuesta;
-        std::cout << "Queres usar una carta?\n";
-        std::cout << "[S]Si [N]No\n";
-        std::cin >> respuesta;
+        unsigned int indiceDeCarta = io->elejirCartaParaJugar(jugadorActivo->getValor());
+        jugadorActivo->getValor()->getMano()->get(indiceDeCarta)->usar(mapa, io, jugadorActivo->getValor());
+        jugadorActivo->getValor()->getMano()->remover(indiceDeCarta);
+    }
+    else
+    {
+        std::cout << "No se usa ninguna carta\n";
+    }
+}
 
-        if (respuesta == 'S')
+void pasarTurno()
+{
+
+}
+
+void darCarta()
+{
+    jugadorActivo->getValor()->agregarCartaAMano(new Carta());
+}
+
+Juego()
+{
+    int ancho, largo, alto, cantidadJugadores, soldadosPorJugador;
+    io = new EntradaSalida();
+    io->inicializarPartida(ancho, largo, alto, cantidadJugadores, soldadosPorJugador);
+
+    // TODO
+    mapa = new Tablero(ancho, largo, alto);
+
+    for (int i = 0; i < cantidadJugadores; i++)
+    {
+        jugadores->add(new Jugador()); // !!Completar constructor
+    }
+
+    jugadores->reiniciarCursor();
+    while (jugadores->avanzarCursor())
+    {
+        Lista<Unidad *> *soldadosJugador = jugadores->getCursor()->getSoldados();
+
+        soldadosJugador->reiniciarCursor();
+        while (soldadosJugador->avanzarCursor())
+        {
+            mapa->colococarAleatoriamente(soldadosJugador->getCursor());
+        }
+    }
+}
+
+
+void recorrerJugador(Jugador* jugador){
+
+
+    jugador->getSoldados()-reiniciarCursor();
+    while(jugador->getSoldado()->avanzarCursor()){
+        Unidad* Soldado1 = jugador->getSoldado()->getCursor();
+        Unidad* Soldado2 = obtenerSoldado(jugadores, )
+    }
+
+}
+
+void comprobarSoldados(){
+    jugadores->reiniciarCursor();
+    while(jugadores->avanzarCursor()){
+        Jugador* jugador1 = jugadores->getCursor();
+
+        recorrerJugador(jugador1);
+        
+    }
+
+}
+
+
+/*
+void comprobarColisiones()
+{
+   //idea 
+}
+*/
+bool haySoldado(Jugador* jugador, Coordenada* posicion){
+    jugador->getSoldados()->reiniciarCursor();
+    while(jugador->getSoldados()->avanzarCursor()){
+        Unidad* unidad = jugador->getSoldados()->getCursor();
+        if (unidad->getUbicacion() == posicion){
+            bool true;
+        }
+    }
+}
+
+bool hayArmamento(Jugador* jugador, Coordenada* posicion){
+    jugador->getArmamentos()->reiniciarCursor();
+    while(jugador->getArmamentos()->avanzarCursor()){
+        Unidad* unidad = jugador->getArmamentos()->getCursor();
+        if (unidad->getUbicacion() == posicion){
+            bool true;
+        }
+    }
+}
+
+bool hayColision(Jugador* jugador, Coordenada* posicion){
+
+    if(haySoldado(jugador, posicion))
+    {
+        return true;
+    }else if (hayArmamento(jugador, posicion))
+    {
+        return true;
+       
+    }
+
+    return false;
+
+}
+
+Jugador *obtenerGanador()
+{
+    return jugadores->get(1);
+}
+
+EstadoPartida obtenerResultado()
+{
+    if (jugadores->contarElementos() == 0)
+    {
+        return EMPATE;
+    }
+    else if (jugadores->contarElementos() == 1)
+    {
+        return TERMINADA;
+    }
+    else
+    {
+        return ENMARCHA;
+    }
+}
+
+void eliminarPerdedores()
+{
+
+    bool hayPerdedores = true;
+    bool buscando = true;
+    while (hayPerdedores)
+    {
+        int i = 1;
+        jugadores->reiniciarCursor();
+        while (buscando && jugadores->avanzarCursor())
         {
 
-            std::cout << "Tus cartas disponibles:\n";
-
-            const Lista<Carta>* = jugadorActivo->getListaDeCartas();
-
-            for (size_t i = 0; i < jugadorActivo->cantidadDeCarta(); i++)
+            if (jugadores->getCursor()->getEstado() == MUERTO)
             {
-                std::cout << 
+                buscando = false;
+                jugadores->remover(i);
+            }
+            else
+            {
+                i++;
+            }
+
+            if (i == jugadores->contarElementos() + 1)
+            {
+                hayPerdedores = false;
             }
         }
     }
+}
 
-    /*
-    POS: Cambia el jugador en turno al siguiente en la lista de Jugadores
-    */
-    void pasarTurno();
+void ejecutarTurno()
+{
+    darCartaAJugador();     // OK
+    preguntarUsoCarta();    // OK
+    preguntarPonerMina();   // OK
+    preguntarMoverUnidad(); // OK
 
-    /*
-    POS: Añade una Carta aleatoria a la Mano del jugador
-    */
-    void darCarta()
+    comprobarColisiones(); // HACER
+    eliminarPerdedores();  // OK
+}
+
+
+
+
+void preguntarPonerMina()
+{
+    bool invalido = true;
+    Unidad *mina;
+    while (invalido)
     {
-        jugadorActivo->agregarCartaAMano(new Carta());
-    }
+        Coordenada* posicion = io->preguntarDondeColocarMina();
+        mina = new Unidad(posicion, this->jugadorActivo->getValor(), MINA);
 
-    /* ____UTILIZAR SOLAMENTE DURANTE EL DESARROLLO___
-    Dibuja una capa XY del mapa
-    */
-    void renderDevCapa(int z)
-    {
-        for (int y = 0; y < mapa->getLargo(); y++)
+        if(hayColision(this->jugadorActivo->getValor(), posicion)){
+            mapa->obtenerEnPosicion(posicion)->getUnidad()->desactivar(5);
+            this->jugadorActivo->getValor()->
+        }
+
+        if (mapa->laUbicacionEsValida(posicion))
         {
-            for (int x = 0; x < mapa->getAncho(); x++)
+            invalido = false;
+        }
+        else
+        {
+            delete mina;
+        }
+    }
+}
+
+void preguntarMoverUnidad()
+{
+    Coordenada *posicionUnidadAMover = io->preguntarUnidadAMover(jugadorActivo->getValor());
+    bool posicionInvalida = true;
+    Coordenada* nuevaPosicionUnidad;
+    while (posicionInvalida)
+    {
+        nuevaPosicionUnidad = io->preguntarDondeMoverUnidad();
+        mapa->obtenerAdyacentes(posicionUnidadAMover)->reiniciarCursor();
+        while (mapa->obtenerAdyacentes(posicionUnidadAMover)->avanzarCursor())
+        {
+            if (
+                (mapa->obtenerEnPosicion(mapa->obtenerAdyacentes(posicionUnidadAMover)->getCursor())->getUnidad()->esActiva()) &&
+                (mapa->obtenerAdyacentes(posicionUnidadAMover)->getCursor()->esIgualA(nuevaPosicionUnidad)))
             {
-                std::cout << " " << mapa->espacio[y][x][z]->getIcono();
+                posicionInvalida = false;
             }
-            std::cout << "\n";
         }
     }
+    mapa->obtenerEnPosicion(posicionUnidadAMover)->getUnidad()->setUbicacion(nuevaPosicionUnidad);
+}
 
-public:
-    /*
-    POS: Inicia un Juego con cantidad de jugadores y dimensiones del terreno por defecto
-    */
-    Juego()
+bool avanzarTurno()
+{
+    this->jugadorActivo = this->jugadorActivo->getSiguiente();
+
+    if (obtenerResultado() == ENMARCHA)
     {
-        mapa = new Tablero();
+        return true;
     }
-
-    /*
-    Pre: Los valores deben ser mayores a 0.
-
-    POS: Inicia un Juego con la cantidad de jugadores especificada,
-        con la cantidad de soldados por jugador especificada. El terreno de juego es generado
-        con las dimensiones dadas.
-        Si no hay suficiente espacio para ubicar a los Soldados de todos los jugadores, entonces devuelve un Error
-    */
-    Juego(int largo, int ancho, int alto, int cantidadJugadores, int soldadosPorJugador);
-
-    /*
-    Elimina a los Soldados en casillas inactivas o minadas
-    */
-    void comprobarColisiones();
-
-    /*
-    PRE: Debe haber almenos un jugador en el juego.
-
-    POS: Busca la cantidad de jugadores vivos restantes.
-        Dependiendo de la cantidad de jugadores:
-            1: El estado cambia a Ganado,
-            0: El estado cambia a Empate.
-    */
-    void buscarGanador();
-
-    /*
-    ____Utilizar solo durante el desarrollo_____
-    POS: Dibuja en consola todo el mapa por capas.
-    */
-    void RenderDev()
+    else
     {
-        for (int z = 0; z < mapa->getAltura(); z++)
-        {
-            renderDevCapa(z);
-            wait(300);
-            system("clear");
-        }
+        return false;
     }
+}
 
-    /*
-    PRE:
-    POST: Le da al jugador una nueva carta, le pregunta al jugador que acciones va a realizar,
-        ejecuta las reglas del juego y luego pasa de turno al siguiente jugador.
-    */
-    void ejecutarTurno(Jugador* jugador)
-    {
-        darCarta();
-        preguntarUsoCarta();
-        preguntarDondePonerMina();
-        preguntarMovimiento();
-        comprobarColisiones();
-        buscarGanador();
-    }
-};
+void darCartaAJugador()
+{
+    this->jugadores->getCursor()->agregarCartaAMano(new Carta());
+}
 
-#endif
+void actualizarImagenes()
+{
+    // Hacer
+}
