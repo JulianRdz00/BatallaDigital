@@ -56,6 +56,13 @@
   "C_Cpp_Runner.showCompilationTime": false,
   "files.associations": {
     "new": "cpp",
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "array": "cpp",
+    "*.tcc": "cpp",
+    "memory": "cpp",
+    "istream": "cpp",
+    "functional": "cpp",
+    "tuple": "cpp",
+    "utility": "cpp"
   }
 }

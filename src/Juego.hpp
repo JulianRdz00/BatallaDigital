@@ -6,6 +6,7 @@
 #include "Jugador.hpp"
 #include "ListaCircular.hpp"
 #include "EntradaSalida.hpp"
+#include "Nodo.hpp"
 
 class Juego
 {
@@ -20,21 +21,9 @@ private:
         bool seUsaCarta = io->preguntarSiUsarCarta(jugadorActivo->getValor());
         if (seUsaCarta)
         {
-<<<<<<< Updated upstream
-            unsigned int indiceDeCarta = io->elejirCartaParaJugar(jugadorActivo->getValor());
-            jugadorActivo->getValor()->getMano()->get(indiceDeCarta)->usar(*mapa, io, jugadorActivo->getValor());
-            jugadorActivo->getValor()->getMano()->remover(indiceDeCarta);
-=======
-<<<<<<< Updated upstream
-            unsigned int indiceDeCarta = io->elejirCartaParaJugar(*(jugadorActivo->getValor()));
-            jugadorActivo->getValor()->getListaDeCartas()->get(indiceDeCarta)->usar(); // Pushear
-            jugadorActivo->getValor()->getListaDeCartas()->remover(indiceDeCarta);
-=======
             unsigned int indiceDeCarta = io->elejirCartaParaJugar(jugadorActivo->getValor());
             jugadorActivo->getValor()->getMano()->get(indiceDeCarta)->usar(mapa, io, jugadorActivo->getValor());
             jugadorActivo->getValor()->getMano()->remover(indiceDeCarta);
->>>>>>> Stashed changes
->>>>>>> Stashed changes
         }
         else
         {
@@ -201,17 +190,8 @@ public:
             while (mapa->obtenerAdyacentes(posicionUnidadAMover)->avanzarCursor())
             {
                 if (
-<<<<<<< Updated upstream
-                    (mapa->obtenerEnPosicion(mapa->obtenerAdyacentes(posicionUnidadAMover)->getCursor())->getUnidad()->esActiva()) &&
-=======
-<<<<<<< Updated upstream
-                    (mapa->obtenerEnPosicion(mapa->obtenerAdyacentes(posicionUnidadAMover)->getCursor()).getUnidad()->esActiva()) &&
->>>>>>> Stashed changes
-                    (mapa->obtenerAdyacentes(posicionUnidadAMover)->getCursor().esIgualA(nuevaPosicionUnidad)))
-=======
                     (mapa->obtenerEnPosicion(mapa->obtenerAdyacentes(posicionUnidadAMover)->getCursor())->getUnidad()->esActiva()) &&
                     (mapa->obtenerAdyacentes(posicionUnidadAMover)->getCursor()->esIgualA(nuevaPosicionUnidad)))
->>>>>>> Stashed changes
                 {
                     posicionInvalida = false;
                 }

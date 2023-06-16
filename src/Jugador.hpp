@@ -5,18 +5,8 @@
 #include "Lista.hpp"
 #include "Unidad.hpp"
 #include "Carta.hpp"
-<<<<<<< Updated upstream
 #include "Coordenada.hpp"
-#include "Constantes.hpp"
 
-=======
-<<<<<<< Updated upstream
-=======
-#include "Coordenada.hpp"
-#include "Unidad.hpp"
-
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 
 class Jugador
 {

@@ -1,12 +1,8 @@
 #ifndef _CASILLA_H_
 #define _CASILLA_H_
 
-<<<<<<< Updated upstream
-=======
 #include "Constantes.hpp"
->>>>>>> Stashed changes
 #include "Coordenada.hpp"
-#include "Constantes.hpp"
 #include "Unidad.hpp"
 
 
