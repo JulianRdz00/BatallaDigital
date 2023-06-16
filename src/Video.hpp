@@ -1,36 +1,40 @@
+#ifndef _VIDEO_H_
+#define _VIDEO_H_
+
 #include "Constantes.hpp"
 #include "Tablero.hpp"
 #include "Jugador.hpp"
 #include "bitmap_image.hpp"
+#include "Casilla.hpp"
 
 class Video
 {
 private:
     void asigarTerrenos(
-        tipoTerreno matrizTerrenos[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT],
+        TipoTerreno matrizTerrenos[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT],
         Lista<Casilla *> *casillas)
     {
         casillas->reiniciarCursor();
         while (casillas->avanzarCursor())
         {
             Casilla *casilla = casillas->getCursor();
-            switch (casilla->getTipoTerreno())
+            switch (casilla->getTerreno())
             {
             case TIERRA:
-                matrizTerrenos[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = TIERRA;
+                matrizTerrenos[casilla->getUnidad()->getUbicacion()->getX()][casilla->getUnidad()->getUbicacion()->getY()] = TIERRA;
                 break;
-            case AGUA:
-                matrizTerrenos[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = AGUA;
+            case MAR:
+                matrizTerrenos[casilla->getUnidad()->getUbicacion()->getX()][casilla->getUnidad()->getUbicacion()->getY()] = MAR;
                 break;
             default:
-                matrizTerrenos[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = AIRE;
+                matrizTerrenos[casilla->getUnidad()->getUbicacion()->getX()][casilla->getUnidad()->getUbicacion()->getY()] = AIRE;
                 break;
             };
         }
     };
 
     void asignarOcupante(
-        tipoOcupante matrizOcupantes[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT],
+        TipoUnidad matrizOcupantes[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT],
         Lista<Casilla *> *casillas,
         Jugador *jugador)
     {
@@ -38,24 +42,24 @@ private:
         while (casillas->avanzarCursor())
         {
             Casilla *casilla = casillas->getCursor();
-            if (casilla->getJugadorCasilla() == jugador)
+            if (casilla->getUnidad()->getDuenio() == jugador)
             {
-                switch (casilla->getTipoOcupante())
+                switch (casilla->getUnidad()->getTipo())
                 {
                 case AVION:
-                    matrizOcupantes[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = AVION;
+                    matrizOcupantes[casilla->getUnidad()->getUbicacion()->getX()][casilla->getUnidad()->getUbicacion()->getY()] = AVION;
                     break;
                 case BARCO:
-                    matrizOcupantes[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = BARCO;
+                    matrizOcupantes[casilla->getUnidad()->getUbicacion()->getX()][casilla->getUnidad()->getUbicacion()->getY()] = BARCO;
                     break;
                 case MINA:
-                    matrizOcupantes[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = MINA;
+                    matrizOcupantes[casilla->getUnidad()->getUbicacion()->getX()][casilla->getUnidad()->getUbicacion()->getY()] = MINA;
                     break;
                 case SOLDADO:
-                    matrizOcupantes[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = SOLDADO;
+                    matrizOcupantes[casilla->getUnidad()->getUbicacion()->getX()][casilla->getUnidad()->getUbicacion()->getY()] = SOLDADO;
                     break;
                 default:
-                    matrizOcupantes[casilla->getCoordenada().getX()][casilla->getCoordenada().getY()] = VACIO;
+                    matrizOcupantes[casilla->getUnidad()->getUbicacion()->getX()][casilla->getUnidad()->getUbicacion()->getY()] = VACIO;
                     break;
                 };
             };
@@ -73,9 +77,9 @@ private:
         }
     };
 
-    void dibujarTerrenos(TipoTerreno matrizTerrenos[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT], bitmap_image &imagen)
+    void dibujarTerrenos(TipoTerreno matrizTerrenos[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT], bitmap_image *imagen)
     {
-        image_drawer draw(imagen);
+        image_drawer draw(*imagen);
         draw.pen_width(1);
         draw.pen_color(0, 0, 0);
 
@@ -103,7 +107,7 @@ private:
                     color.blue = 255;
                     break;
                 }
-                dibujarTerreno(x, y, color, imagen);
+                dibujarTerreno(x, y, color, *imagen);
                 draw.rectangle(
                     x * TAMANIO_LADO_CASILLA_DEFAULT,
                     y * TAMANIO_LADO_CASILLA_DEFAULT,
@@ -113,20 +117,20 @@ private:
         }
     };
 
-    void dibujarOcupante(int x, int y, rgb_t color, bitmap_image &imagen)
+    void dibujarOcupante(int x, int y, rgb_t color, bitmap_image *imagen)
     {
         for (int i = x * TAMANIO_OCUPANTE_DEFAULT; i <= x * TAMANIO_OCUPANTE_DEFAULT + TAMANIO_OCUPANTE_DEFAULT; i++)
         {
             for (int j = y * TAMANIO_OCUPANTE_DEFAULT; j <= y * TAMANIO_OCUPANTE_DEFAULT + TAMANIO_OCUPANTE_DEFAULT; j++)
             {
-                imagen.set_pixel(x, y, color);
+                (*imagen).set_pixel(x, y, color);
             }
         }
     }
 
-    void dibujarOcupantes(TipoUnidad matrizOcupantes[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT], bitmap_image &imagen)
+    void dibujarOcupantes(TipoUnidad matrizOcupantes[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT], bitmap_image *imagen)
     {
-        image_drawer draw(imagen);
+        image_drawer draw(*imagen);
         draw.pen_width(1);
         draw.pen_color(0, 0, 0);
 
@@ -169,7 +173,7 @@ private:
         }
     }
 
-    void dibujarTablero(Tablero &tablero, Jugador *jugador)
+    void dibujarTablero(Tablero *tablero, Jugador *jugador)
     {
         for (int z = 1; z <= ALTO_TABLERO_DEFAULT; z++)
         {
@@ -178,17 +182,17 @@ private:
                 LARGO_TABLERO_DEFAULT * TAMANIO_LADO_CASILLA_DEFAULT + 1);
 
             TipoTerreno matrizTerrenos[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT];
-            TipoOcupante matrizOcupantes[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT];
-            asigarTerrenos(matrizTerrenos, tablero.getMapa());
-            asignarOcupante(matrizOcupantes, tablero.getMapa(), jugador);
+            TipoUnidad matrizOcupantes[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT];
+            // asigarTerrenos(matrizTerrenos, tablero->getMapa());
+            // asignarOcupante(matrizOcupantes, tablero->getMapa(), jugador); REVISAR
 
-            dibujarTerrenos(matrizTerrenos, imagen);
-            dibujarOcupantes(matrizOcupantes, imagen);
+            dibujarTerrenos(matrizTerrenos, &imagen);
+            dibujarOcupantes(matrizOcupantes, &imagen);
         }
     }
 
 public:
-    void dibujarTableros(Tablero &tablero, Lista<Jugador *> *jugadores)
+    void dibujarTableros(Tablero *tablero, Lista<Jugador *> *jugadores)
     {
         jugadores->reiniciarCursor();
         while (jugadores->avanzarCursor())
@@ -244,3 +248,5 @@ public:
 //         }
 //     }
 //     image.save_image("output.bmp");
+
+#endif

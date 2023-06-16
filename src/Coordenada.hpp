@@ -1,6 +1,9 @@
 #ifndef _COORDENADA_H_
 #define _COORDENADA_H_
 
+
+#include "Constantes.hpp"
+
 class Coordenada
 {
 private:

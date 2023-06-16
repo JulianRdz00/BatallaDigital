@@ -1,9 +1,16 @@
 #ifndef _UNIDAD_H_
 #define _UNIDAD_H_
 
-#include "Coordenada.hpp"
 #include "Constantes.hpp"
+<<<<<<< Updated upstream
 #include "Jugador.hpp"
+=======
+<<<<<<< Updated upstream
+=======
+#include "Coordenada.hpp"
+#include "Jugador.hpp"
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
 class Unidad
 {

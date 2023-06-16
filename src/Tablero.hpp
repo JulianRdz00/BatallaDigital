@@ -1,6 +1,7 @@
 #ifndef _TABLERO_H_
 #define _TABLERO_H_
 
+#include "Constantes.hpp"
 #include "Unidad.hpp"
 #include "Casilla.hpp"
 
@@ -87,7 +88,15 @@ public:
         Coordenada *posicionRandom = obtenerPosicionAleatoria();
         while (buscando)
         {
+<<<<<<< Updated upstream
             if (obtenerEnPosicion(nuevaUnidad->getUbicacion()).getUnidad()->getTipo() == VACIO)
+=======
+<<<<<<< Updated upstream
+            if (obtenerEnPosicion(nuevaUnidad.getUbicacion()).getUnidad()->getTipo() == VACIO)
+=======
+            if (obtenerEnPosicion(nuevaUnidad->getUbicacion())->getUnidad()->getTipo() == VACIO)
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
             {
                 buscando = false;
             }
@@ -97,8 +106,8 @@ public:
             }
         }
         
-        nuevaUnidad.setUbicacion(posicionRandom);
-        insertar(&nuevaUnidad);
+        nuevaUnidad->setUbicacion(posicionRandom);
+        insertar(nuevaUnidad);
     }
 
     // POST: Devuelve un puntero a una lista con las Unidads con la posicion dada.
@@ -111,7 +120,7 @@ public:
             mapa->reiniciarCursor();
             while (sinEncontrar && mapa->avanzarCursor())
             {
-                if (mapa->getCursor()->getUbicacion().esIgualA(posicion))
+                if (mapa->getCursor()->getUbicacion()->esIgualA(posicion))
                 {
                     auxUnidad = mapa->getCursor();
                 }
@@ -122,14 +131,22 @@ public:
                 auxUnidad = new Unidad(posicion, NULL, VACIO);
             }
 
-            return Casilla(auxUnidad, getTerreno(posicion));
+            return new Casilla(auxUnidad, getTerreno(posicion));
         }
     }
 
     // Devuelve una lista de las Unidads adyacentes a una posicion.
+<<<<<<< Updated upstream
     Lista<Coordenada> *obtenerAdyacentes(Coordenada *posicion)
+=======
+<<<<<<< Updated upstream
+    Lista<Coordenada> *obtenerAdyacentes(Coordenada posicion)
+=======
+    Lista<Coordenada *> *obtenerAdyacentes(Coordenada *posicion)
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
     {
-        Lista<Coordenada> *adyacentes = new Lista<Coordenada>();
+        Lista<Coordenada *> *adyacentes = new Lista<Coordenada *>();
 
         for (int i = -1; i <= 1; i++)
         {
