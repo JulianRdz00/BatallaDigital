@@ -4,34 +4,25 @@
 #ifndef NULL
 #define NULL 0
 #endif /* NULL */
-#include "Nodo.hpp"
+#include "Nodo.h"
 
 template <class T>
-class ListaCircular
+class ListaC
 {
-private:
-    Nodo<T> *primero;
-    unsigned int tamanio;
-    Nodo<T> *cursor;
-
 public:
-    ListaCircular();
-    ListaCircular(ListaCircular<T> &otraLista);
-    bool vacia() const;
-    unsigned int contarElementos() const;
-    void add(T elemento);
-    void add(T elemento, unsigned int posicion);
-    void add(ListaCircular<T> &otraLista);
-    T get(unsigned int posicion);
-    void asignar(T elemento, unsigned int posicion);
-    void remover(unsigned int posicion);
-    void reiniciarCursor();
-    bool avanzarCursor();
-    T getCursor() const;
-    ~ListaCircular();
-
+    ListaC( ); 
+    ~ListaC( ); 
+    void Add(const T &);
+    void Remover( ); 
+    void Remover(unsigned int posicion); 
+    bool Vacia( ) const;
+    Nodo<T> *GetNodo(unsigned int posicion) const;
+    
 private:
-    Nodo<T> *getNodo(unsigned int posicion) const;
+    Nodo <T> * principio;
+    unsigned int tamanio;
+
 };
+
 
 #endif

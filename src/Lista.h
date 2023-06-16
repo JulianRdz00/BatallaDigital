@@ -4,13 +4,13 @@
 #ifndef NULL
 #define NULL 0
 #endif /* NULL */
-#include "Nodo.hpp"
+#include "Nodo.h"
 
 template <class T>
 class Lista
 {
 private:
-    Nodo<T> *primero;
+    Nodo<T> *siguiente;
     unsigned int tamanio;
     Nodo<T> *cursor;
 
