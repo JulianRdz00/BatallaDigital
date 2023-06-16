@@ -2,14 +2,14 @@
 #define _CASILLA_H_
 
 #include "Coordenada.hpp"
-#include "Unidad.hpp"
 #include "Constantes.hpp"
+#include "Unidad.hpp"
 
 
 class Casilla
 {
 private:
-    Unidad *unidad;
+    Unidad* unidad;
     TipoTerreno terreno;
 
 public:

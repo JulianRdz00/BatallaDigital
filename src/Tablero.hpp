@@ -13,24 +13,24 @@ private:
     int anchoMaximo;
     int alturaMaxima;
 
-    Coordenada obtenerPosicionAleatoria()
+    Coordenada *obtenerPosicionAleatoria()
     {
         int x = getRandom(1, anchoMaximo);
         int y = getRandom(1, largoMaximo);
         int z = getRandom(1, alturaMaxima);
 
-        return Coordenada(x, y, z);
+        return new Coordenada(x, y, z);
     }
 
-    TipoTerreno getTerreno(Coordenada ubicacion)
+    TipoTerreno getTerreno(Coordenada *ubicacion)
     {
         if (laUbicacionEsValida(ubicacion))
         {
-            if (ubicacion.getZ() == 1)
+            if (ubicacion->getZ() == 1)
             {
                 return TIERRA;
             }
-            else if (ubicacion.getZ() == 2)
+            else if (ubicacion->getZ() == 2)
             {
                 return MAR;
             }
@@ -43,14 +43,14 @@ private:
 
 public:
     // Devuelve true solo si las componentes de la ubicacion dada son positivas y estan dentro del tamaño del tablero.
-    bool laUbicacionEsValida(Coordenada &ubicacion)
+    bool laUbicacionEsValida(Coordenada *ubicacion)
     {
-        if (ubicacion.getX() <= anchoMaximo &&
-            ubicacion.getX() > 0 &&
-            ubicacion.getY() <= largoMaximo &&
-            ubicacion.getY() > 0 &&
-            ubicacion.getZ() <= alturaMaxima &&
-            ubicacion.getZ() > 0)
+        if (ubicacion->getX() <= anchoMaximo &&
+            ubicacion->getX() > 0 &&
+            ubicacion->getY() <= largoMaximo &&
+            ubicacion->getY() > 0 &&
+            ubicacion->getZ() <= alturaMaxima &&
+            ubicacion->getZ() > 0)
         {
             return true;
         }
@@ -81,13 +81,13 @@ public:
 
     // PRE: Existe almenos una Unidad vacia.
     // POST: Coloca una unidad soldado en una Unidad vacia elejida aleatoriamente.
-    void colococarAleatoriamente(Unidad &nuevaUnidad)
+    void colococarAleatoriamente(Unidad *nuevaUnidad)
     {
         bool buscando = true;
-        Coordenada posicionRandom = obtenerPosicionAleatoria();
+        Coordenada *posicionRandom = obtenerPosicionAleatoria();
         while (buscando)
         {
-            if (obtenerEnPosicion(nuevaUnidad.getUbicacion()).getUnidad()->getTipo() == VACIO)
+            if (obtenerEnPosicion(nuevaUnidad->getUbicacion()).getUnidad()->getTipo() == VACIO)
             {
                 buscando = false;
             }
@@ -102,7 +102,7 @@ public:
     }
 
     // POST: Devuelve un puntero a una lista con las Unidads con la posicion dada.
-    Casilla obtenerEnPosicion(Coordenada &posicion)
+    Casilla *obtenerEnPosicion(Coordenada *posicion)
     {
         if (laUbicacionEsValida(posicion))
         {
@@ -127,7 +127,7 @@ public:
     }
 
     // Devuelve una lista de las Unidads adyacentes a una posicion.
-    Lista<Coordenada> *obtenerAdyacentes(Coordenada posicion)
+    Lista<Coordenada> *obtenerAdyacentes(Coordenada *posicion)
     {
         Lista<Coordenada> *adyacentes = new Lista<Coordenada>();
 
@@ -137,8 +137,8 @@ public:
             {
                 for (int k = -1; k <= 1; k++)
                 {
-                    Coordenada nuevaCoordenada = Coordenada(posicion);
-                    nuevaCoordenada.incrementar(i, j, k);
+                    Coordenada *nuevaCoordenada = new Coordenada(posicion);
+                    nuevaCoordenada->incrementar(i, j, k);
                     if (laUbicacionEsValida(nuevaCoordenada))
                     {
                         adyacentes->add(nuevaCoordenada);

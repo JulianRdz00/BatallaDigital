@@ -10,7 +10,6 @@
 class Juego
 {
 private:
-    //  ATRIBUTOS
     Tablero *mapa;
     ListaCircular<Jugador *> *jugadores;
     Nodo<Jugador *> *jugadorActivo;
@@ -18,12 +17,12 @@ private:
 
     void preguntarUsoCarta()
     {
-        bool seUsaCarta = io->preguntarSiUsarCarta(*(jugadorActivo->getValor()));
+        bool seUsaCarta = io->preguntarSiUsarCarta(jugadorActivo->getValor());
         if (seUsaCarta)
         {
-            unsigned int indiceDeCarta = io->elejirCartaParaJugar(*(jugadorActivo->getValor()));
-            jugadorActivo->getValor()->getListaDeCartas()->get(indiceDeCarta)->usar(); // Pushear
-            jugadorActivo->getValor()->getListaDeCartas()->remover(indiceDeCarta);
+            unsigned int indiceDeCarta = io->elejirCartaParaJugar(jugadorActivo->getValor());
+            jugadorActivo->getValor()->getMano()->get(indiceDeCarta)->usar(*mapa, io, jugadorActivo->getValor());
+            jugadorActivo->getValor()->getMano()->remover(indiceDeCarta);
         }
         else
         {
@@ -34,7 +33,10 @@ private:
     /*
     POS: Cambia el jugador en turno al siguiente en la lista de Jugadores
     */
-    void pasarTurno();
+    void pasarTurno()
+    {
+
+    }
 
     /*
     POS: Añade una Carta aleatoria a la Mano del jugador
@@ -70,12 +72,12 @@ public:
         jugadores->reiniciarCursor();
         while (jugadores->avanzarCursor())
         {
-            Lista<Unidad *> *soldadosJugador = jugadores->getCursor()->getListaDeSoldados();
+            Lista<Unidad *> *soldadosJugador = jugadores->getCursor()->getSoldados();
 
             soldadosJugador->reiniciarCursor();
             while (soldadosJugador->avanzarCursor())
             {
-                mapa->colococarAleatoriamente(*(soldadosJugador->getCursor()));
+                mapa->colococarAleatoriamente(soldadosJugador->getCursor());
             }
         }
     }
@@ -161,7 +163,7 @@ public:
         Unidad *mina;
         while (invalido)
         {
-            Coordenada posicion = io->preguntarDondeColocarMina();
+            Coordenada* posicion = io->preguntarDondeColocarMina();
             mina = new Unidad(posicion, this->jugadorActivo->getValor(), MINA);
 
             if (mapa->laUbicacionEsValida(posicion))
@@ -177,9 +179,9 @@ public:
 
     void preguntarMoverUnidad()
     {
-        Coordenada posicionUnidadAMover = io->preguntarUnidadAMover(*(jugadorActivo->getValor()));
+        Coordenada *posicionUnidadAMover = io->preguntarUnidadAMover(jugadorActivo->getValor());
         bool posicionInvalida = true;
-        Coordenada nuevaPosicionUnidad;
+        Coordenada* nuevaPosicionUnidad;
         while (posicionInvalida)
         {
             nuevaPosicionUnidad = io->preguntarDondeMoverUnidad();
@@ -187,14 +189,14 @@ public:
             while (mapa->obtenerAdyacentes(posicionUnidadAMover)->avanzarCursor())
             {
                 if (
-                    (mapa->obtenerEnPosicion(mapa->obtenerAdyacentes(posicionUnidadAMover)->getCursor()).getUnidad()->esActiva()) &&
+                    (mapa->obtenerEnPosicion(mapa->obtenerAdyacentes(posicionUnidadAMover)->getCursor())->getUnidad()->esActiva()) &&
                     (mapa->obtenerAdyacentes(posicionUnidadAMover)->getCursor().esIgualA(nuevaPosicionUnidad)))
                 {
                     posicionInvalida = false;
                 }
             }
         }
-        mapa->obtenerEnPosicion(posicionUnidadAMover).getUnidad()->setUbicacion(nuevaPosicionUnidad);
+        mapa->obtenerEnPosicion(posicionUnidadAMover)->getUnidad()->setUbicacion(nuevaPosicionUnidad);
     }
 
     // POST: avanza el turno al siguiente jugador correspondiente, devuelve false cuando hay un ganador o un empate, sino, devuelve true.

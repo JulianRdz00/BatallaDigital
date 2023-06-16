@@ -49,7 +49,7 @@ public:
         return pedirCoordenada();
     }
 
-    Coordenada preguntarUnidadAMover(Jugador &jugador)
+    Coordenada *preguntarUnidadAMover(Jugador *jugador)
     {
         bool buscando = true;
         Coordenada *posicion;
@@ -57,18 +57,18 @@ public:
         while (buscando)
         {
             posicion = pedirCoordenada();
-            jugador.getListaDeSoldados()->reiniciarCursor();
-            while (jugador.getListaDeSoldados()->avanzarCursor())
+            jugador->getSoldados()->reiniciarCursor();
+            while (jugador->getSoldados()->avanzarCursor())
             {
-                if (jugador.getListaDeSoldados()->getCursor()->getUbicacion().esIgualA(*posicion))
+                if (jugador->getSoldados()->getCursor()->getUbicacion().esIgualA(*posicion))
                 {
                     posicion = false;
                 }
             }
-            jugador.getListaDeArmamentos()->reiniciarCursor();
-            while (jugador.getListaDeArmamentos()->avanzarCursor())
+            jugador->getArmamentos()->reiniciarCursor();
+            while (jugador->getArmamentos()->avanzarCursor())
             {
-                if (jugador.getListaDeArmamentos()->getCursor()->getUbicacion().esIgualA(*posicion))
+                if (jugador->getArmamentos()->getCursor()->getUbicacion().esIgualA(*posicion))
                 {
                     buscando = false;
                 }
@@ -85,7 +85,7 @@ public:
 
     /*  POS: devuelve un string con el nombre de la carta a jugar y en caso de no jugar carta devuelve 0
     REVISAR lista de cartas mano (const) */
-    bool preguntarSiUsarCarta(Jugador &jugador)
+    bool preguntarSiUsarCarta(Jugador *jugador)
     {
         char respuesta = 'X';
         bool respuestaInvalida = true;
@@ -114,9 +114,9 @@ public:
         return 0;
     }
 
-    void listarCartas(Jugador &jugador)
+    void listarCartas(Jugador *jugador)
     {
-        Lista<Carta *> *cartas = jugador.getListaDeCartas();
+        Lista<Carta *> *cartas = jugador.getMano();
         cartas->reiniciarCursor();
         int i = 1;
         while (cartas->avanzarCursor())
@@ -127,14 +127,14 @@ public:
     }
 
     /*  POS: Devuelve el indice de la carta a jugar. */
-    unsigned int elejirCartaParaJugar(Jugador &jugador)
+    unsigned int elejirCartaParaJugar(Jugador *jugador)
     {
 
         TipoDeCarta cartaElejida;
         bool respuestaInvalida = true;
 
         unsigned int indice = 0;
-        Lista<Carta *> *cartas = jugador.getListaDeCartas();
+        Lista<Carta *> *cartas = jugador.getMano();
         while (respuestaInvalida)
         {
             std::cout << "Elije una carta valida [X]:\n";
