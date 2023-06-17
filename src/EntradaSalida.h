@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "Jugador.h"
+#include "Coordenada.h"
 
 class EntradaSalida
 {
