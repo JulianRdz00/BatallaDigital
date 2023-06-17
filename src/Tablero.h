@@ -14,13 +14,12 @@ private:
     int anchoMaximo;
     int alturaMaxima;
 
-    Coordenada *obtenerPosicionAleatoria();
-    Casilla *obtenerEnPosicion(Coordenada *posicion);
-  
-
     TipoTerreno getTerreno(Coordenada *ubicacion);
 
 public:
+    Coordenada *obtenerPosicionAleatoria();
+    Casilla *obtenerEnPosicion(Coordenada *posicion);
+
     // Devuelve true solo si las componentes de la ubicacion dada son positivas y estan dentro del tamaño del tablero.
     bool laUbicacionEsValida(Coordenada *ubicacion);
 

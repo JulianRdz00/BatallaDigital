@@ -5,7 +5,6 @@
 #include "Jugador.h"
 #include "ListaCircular.h"
 
-
 class Juego
 {
 private:
@@ -26,6 +25,55 @@ private:
     */
     void darCarta();
 
+    /*Pre: mapa no debe ser nulo;
+     *  Post: determina la cantidad de turnos que se mantendra el ataque en cada casilla.
+     */
+    void determinarTurnos(Tablero *mapa, Coordenada *posicion, Coordenada *nuevaPosicion);
+    /*Pre: casilla no debe ser nula
+     *Post: ataca las posiciones adyacentes a la casilla indicada con el tipo indicado
+     */
+    void atacarAdyacentes(Tablero *tablero, Unidad *unidad, TipoUnidad tipo);
+
+    /*Pre: el tablero no debe ser nulo.
+     *Post: detecta las posiciones donde hay minas y las devuelve.
+     */
+    Lista<Coordenada *> *buscarMinas(Tablero *tablero);
+
+    void usarCarta(Tablero *tablero, EntradaSalida *io, Jugador *usuario, TipoDeCarta tipo); // Recotcar
+
+    /*Pre: El tablero no debe ser nulo.
+     *		La posicion debe estar dentro de los limites del tablero.
+     *Post: ataca a la posicion indicada y contamina 125 casilleros,
+     *		por 10 turnos en el centro, 8 en el siguiente radio y asi.
+     */
+    void jugarAtaqueQuimico(Tablero *tablero, EntradaSalida *io, Jugador *usuario);
+
+    /*Pre: El tablero no debe ser nulo.
+     *	La posicion debe estar dentro de los limites del tablero y en regiones con agua.
+     *Post: Dispara un misil hacia la posicion indicada del tablero
+     */
+    void jugarBarco(Tablero *tablero, EntradaSalida *io, Jugador *usuario);
+
+    /*Pre: El tablero no debe ser nulo.
+       La posicion debe estar dentro de los limites del tablero y en regiones con aire.
+    *Post: Detecta todas las minas enemigas que haya en los casilleros de aire
+    */
+    Lista<Coordenada *> *jugarRadar(Tablero *tablero, EntradaSalida *io);
+
+    /*Pre: El tablero no debe ser nulo.
+        La posicion debe estar dentro de los limites del tablero.
+    *Post: Coloca una mina que impacta a la posicion indicada y a todas sus adyacentes
+    */
+    void jugarSuperMina(Tablero *tablero, EntradaSalida *io, Jugador *usuario);
+
+    /*  Pre: El jugador no debe ser nulo
+        Pos: Destruye todo el armamento del jugador indicado */
+    void jugarDestructorArmamento(Jugador *usuario);
+
+    /*  Pre: EL jugador no debe ser nulo
+        Pos: Saltea por un turno al jugador indicado */
+    void jugarPasarTurno(Jugador *usuario);
+
 public:
     /*  Pre: Los valores deben ser mayores a 0.
             La cantidad de soldados por jugador * la cantidad de jugadores debe ser menor a la cantidad de casillas del tablero
@@ -39,7 +87,6 @@ public:
 
     /*  POST: Elimina a los Soldados en casillas inactivas o minadas */
     void comprobarColisiones();
-    
 
     /*  PRE: Debe haber almenos un jugador en el juego. */
     Jugador *obtenerGanador();
