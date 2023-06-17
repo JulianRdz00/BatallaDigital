@@ -38,7 +38,7 @@ public:
     int preguntarEnteroPositivo(std::string pregunta);
 
     /*  POS: devuelve un puntero a un Juego con unos parametros elejidos por el usuario. */
-    void inicializarPartida(int &ancho, int &largo, int &alto, int &cantidadJugadores, int &soldadosPorJugador);
+    void inicializarPartida(int *ancho, int *largo, int *alto, int *cantidadJugadores, int *soldadosPorJugador);
 
     ~EntradaSalida();
 };

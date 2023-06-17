@@ -27,6 +27,9 @@ private:
     void dibujarOcupantes(TipoUnidad matrizOcupantes[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT], bitmap_image *imagen);
     void dibujarTablero(Tablero *tablero, Jugador *jugador);
 public:
+
+    Video();
+
     void dibujarTableros(Tablero *tablero, Lista<Jugador *> *jugadores);
 };
 

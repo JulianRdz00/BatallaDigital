@@ -105,7 +105,7 @@ Casilla *Tablero::obtenerEnPosicion(Coordenada *posicion)
 
         if (sinEncontrar)
         {
-            auxUnidad = new Unidad(posicion, NULL, VACIO);
+            auxUnidad = new Unidad(posicion, VACIO);
         }
 
         return new Casilla(auxUnidad, getTerreno(posicion));

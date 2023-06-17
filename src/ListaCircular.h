@@ -1,9 +1,6 @@
-#ifndef LISTA_CIRCULAR_H
-#define LISTA_CIRCULAR_H
+#ifndef LISTACIRCULAR_H
+#define LISTACIRCULAR_H
 
-#ifndef NULL
-#define NULL 0
-#endif /* NULL */
 #include "Nodo.h"
 
 template <class T>

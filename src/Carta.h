@@ -1,10 +1,7 @@
 #ifndef CARTA_H
 #define CARTA_H
 
-
-#include "Tablero.h"
-#include "Coordenada.h"
-#include "EntradaSalida.h"
+#include "Constantes.h"
 
 class Carta
 {

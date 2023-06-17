@@ -5,6 +5,7 @@
 #include "Jugador.h"
 #include "ListaCircular.h"
 #include "Video.h"
+#include "EntradaSalida.h"
 
 class Juego
 {
@@ -13,6 +14,7 @@ private:
     ListaCircular<Jugador *> *jugadores;
     Nodo<Jugador *> *jugadorActivo;
     EntradaSalida *io;
+    Video *video;
 
     void preguntarUsoCarta();
 

@@ -45,7 +45,7 @@ Coordenada *EntradaSalida::preguntarUnidadAMover(Jugador *jugador)
         {
             if (jugador->getSoldados()->getCursor()->getUbicacion()->esIgualA(posicion))
             {
-                posicion = false;
+                buscando = false;
             }
         }
         jugador->getArmamentos()->reiniciarCursor();
@@ -139,21 +139,21 @@ int EntradaSalida::preguntarEnteroPositivo(std::string pregunta)
     return variable;
 }
 
-void EntradaSalida::inicializarPartida(int &ancho, int &largo, int &alto, int &cantidadJugadores, int &soldadosPorJugador)
+void EntradaSalida::inicializarPartida(int *ancho, int *largo, int *alto, int *cantidadJugadores, int *soldadosPorJugador)
 {
     bool invalido = true;
     while (invalido)
     {
 
-        int ancho = preguntarEnteroPositivo("ingrese el Ancho del tablero.");
-        int largo = preguntarEnteroPositivo("ingrese el Ancho del tablero.");
-        int alto = preguntarEnteroPositivo("ingrese el Ancho del tablero.");
+        *ancho = preguntarEnteroPositivo("ingrese el Ancho del tablero.");
+        *largo = preguntarEnteroPositivo("ingrese el Ancho del tablero.");
+        *alto = preguntarEnteroPositivo("ingrese el Ancho del tablero.");
 
-        int cantidadJugadores = preguntarEnteroPositivo("ingrese la cantidad de jugadores.");
-        int cantidadSoldadosPorJugador = preguntarEnteroPositivo("ingrese la cantidad de soldados iniciales para cada jugador.");
+        *cantidadJugadores = preguntarEnteroPositivo("ingrese la cantidad de jugadores.");
+        *soldadosPorJugador = preguntarEnteroPositivo("ingrese la cantidad de soldados iniciales para cada jugador.");
 
-        int espaciosNecesarios = cantidadJugadores * cantidadSoldadosPorJugador;
-        int espaciosTotales = ancho * largo * alto;
+        int espaciosNecesarios = (*cantidadJugadores) * (*soldadosPorJugador);
+        int espaciosTotales = (*ancho) * (*largo) * (*alto);
 
         if (espaciosNecesarios * 2 < espaciosTotales)
         {

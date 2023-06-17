@@ -28,14 +28,16 @@ Juego::Juego()
 {
     int ancho, largo, alto, cantidadJugadores, soldadosPorJugador;
     io = new EntradaSalida();
-    io->inicializarPartida(ancho, largo, alto, cantidadJugadores, soldadosPorJugador);
+    io->inicializarPartida(&ancho, &largo, &alto, &cantidadJugadores, &soldadosPorJugador);
 
     // TODO
     mapa = new Tablero(ancho, largo, alto);
 
+    video = new Video();
+
     for (int i = 0; i < cantidadJugadores; i++)
     {
-        jugadores->add(new Jugador()); // !!Completar constructor
+        jugadores->add(new Jugador(soldadosPorJugador)); // !!Completar constructor
     }
 
     jugadores->reiniciarCursor();
@@ -181,7 +183,7 @@ void Juego::darCartaAJugador()
 
 void Juego::actualizarImagenes()
 {
-    // Hacer
+    
 }
 
 void Juego::usarCarta(Tablero *tablero, EntradaSalida *io, Jugador *usuario, TipoDeCarta tipo)
