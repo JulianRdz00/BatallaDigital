@@ -1,11 +1,10 @@
-#ifndef _VIDEO_H_
-#define _VIDEO_H_
+#ifndef VIDEO_H
+#define VIDEO_H
 
-#include "Constantes.hpp"
-#include "Tablero.hpp"
-#include "Jugador.hpp"
+#include "Jugador.h"
 #include "bitmap_image.hpp"
-#include "Casilla.hpp"
+#include "Casilla.h"
+#include "Tablero.h"
 
 class Video
 {
@@ -28,6 +27,9 @@ private:
     void dibujarOcupantes(TipoUnidad matrizOcupantes[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT], bitmap_image *imagen);
     void dibujarTablero(Tablero *tablero, Jugador *jugador);
 public:
+
+    Video();
+
     void dibujarTableros(Tablero *tablero, Lista<Jugador *> *jugadores);
 };
 

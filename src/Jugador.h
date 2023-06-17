@@ -1,12 +1,10 @@
-#ifndef _JUGADOR_H_
-#define _JUGADOR_H_
+#ifndef JUGADOR_H
+#define JUGADOR_H
 
-#include "Constantes.hpp"
+#include "Carta.h"
+#include "Unidad.h"
+#include "Constantes.h"
 #include "Lista.hpp"
-#include "Unidad.hpp"
-#include "Carta.hpp"
-#include "Coordenada.hpp"
-
 
 class Jugador
 {
@@ -120,7 +118,7 @@ public:
     Pre:-
     Post: Devuelve true o false en funcion de si el jugador esta salteado o no
     */
-    bool estaSaleado();
+    bool Salteado();
 
     /*
     Pre:-

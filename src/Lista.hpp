@@ -1,5 +1,44 @@
-#include "Lista.h"
+#ifndef _LISTA_
+#define _LISTA_
 
+#ifndef NULL
+#define NULL 0
+#endif /* NULL */
+#include "Nodo.hpp"
+
+template <class T>
+class Lista
+{
+private:
+    Nodo<T> *primero;
+    unsigned int tamanio;
+    Nodo<T> *cursor;
+
+public:
+    Lista();
+    Lista(Lista<T> &otraLista);
+    bool vacia() const;
+    unsigned int contarElementos() const;
+    void add(T elemento);
+    void add(T elemento, unsigned int posicion);
+    void add(Lista<T> &otraLista);
+    T get(unsigned int posicion);
+    void asignar(T elemento, unsigned int posicion);
+    void remover(unsigned int posicion);
+    void reiniciarCursor();
+    bool avanzarCursor();
+    T getCursor() const;
+    ~Lista();
+
+private:
+    Nodo<T> *getNodo(unsigned int posicion) const;
+};
+
+/*	IMPLEMENTATION	*/
+
+/* PUBLIC: */
+
+/* POST: Lista vacia */
 template <class T>
 Lista<T>::Lista()
 {
@@ -8,6 +47,7 @@ Lista<T>::Lista()
     this->cursor = NULL;
 }
 
+/* POST: Lista igual a una lista referencia */
 template <class T>
 Lista<T>::Lista(Lista<T> &otraLista)
 {
@@ -17,24 +57,29 @@ Lista<T>::Lista(Lista<T> &otraLista)
     this->add(otraLista);
 }
 
+/* POST: Tells whether the list has any element. */
 template <class T>
 bool Lista<T>::vacia() const
 {
     return (this->tamanio == 0);
 }
 
+/* POST: Returns the amount of elements in the list. */
 template <class T>
 unsigned int Lista<T>::contarElementos() const
 {
     return (this->tamanio);
 }
 
+/* POST: Adds element at the end of the list (position countElements() + 1). */
 template <class T>
 void Lista<T>::add(T elemento)
 {
     this->add(elemento, this->tamanio + 1);
 }
 
+/* PRE: Position is between [1 , countElements() + 1].
+ * POST: Adds the element in passed position. */
 template <class T>
 void Lista<T>::add(T elemento, unsigned int posicion)
 {
@@ -57,6 +102,8 @@ void Lista<T>::add(T elemento, unsigned int posicion)
     }
 }
 
+/* POST: Adds all elements from passed list at the end of the list,
+ *  that's from position countElements() + 1. */
 template <class T>
 void Lista<T>::add(Lista<T> &otraLista)
 {
@@ -67,6 +114,8 @@ void Lista<T>::add(Lista<T> &otraLista)
     }
 }
 
+/* PRE: Position is between [1 , countElements()].
+ * POST: Returns the element in that position. */
 template <class T>
 T Lista<T>::get(unsigned int posicion)
 {
@@ -77,6 +126,8 @@ T Lista<T>::get(unsigned int posicion)
     return (this->getNodo(posicion)->getValor());
 }
 
+/* PRE: Position is between [1 , countElements()].
+ * POST: Changes element in that position to passed element. */
 template <class T>
 void Lista<T>::asignar(T elemento, unsigned int posicion)
 {
@@ -86,6 +137,8 @@ void Lista<T>::asignar(T elemento, unsigned int posicion)
     }
 }
 
+/* PRE: Position is between [1 , countElements()].
+ * POST: Removes element in that position from the list. */
 template <class T>
 void Lista<T>::remover(unsigned int posicion)
 {
@@ -109,12 +162,19 @@ void Lista<T>::remover(unsigned int posicion)
     }
 }
 
+/* POST: Leaves cursor ready for new iteration. */
 template <class T>
 void Lista<T>::reiniciarCursor()
 {
     this->cursor = NULL;
 }
 
+/* Allows to move the cursor from a node to the next one.
+ * PRE: Iteration has been initiated (by method resetCursor()),
+ *  and no elements have been added or removed since then.
+ * POST: Moves cursor to the next element in the iteration.
+ *  Return value tells whether cursor now stands on and element or not,
+ *  (in case the list is empty or there aren't any more elements). */
 template <class T>
 bool Lista<T>::avanzarCursor()
 {
@@ -129,6 +189,9 @@ bool Lista<T>::avanzarCursor()
     return (this->cursor != NULL);
 }
 
+/* PRE: Cursor is standing on an element of the list,
+ *  (method advanceCursor() was called and returned "true").
+ * POST: Returns element in the cursor's position. */
 template <class T>
 T Lista<T>::getCursor() const
 {
@@ -139,6 +202,7 @@ T Lista<T>::getCursor() const
     return (this->cursor->getValor());
 }
 
+/* POST: Liberates resources associated to the list. */
 template <class T>
 Lista<T>::~Lista()
 {
@@ -150,6 +214,11 @@ Lista<T>::~Lista()
     }
 }
 
+/* PRIVATE: */
+
+/* PRE: Position is between [1 , countElements()].
+ * POST: Returns the node in that position (pointer). */
+template <class T>
 Nodo<T> *Lista<T>::getNodo(unsigned int posicion) const
 {
     Nodo<T> *nodoActual = this->primero;

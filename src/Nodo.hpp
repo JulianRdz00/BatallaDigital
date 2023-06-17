@@ -1,4 +1,27 @@
-#include "Nodo.h"
+
+#ifndef _NODO_
+#define _NODO_
+
+#ifndef NULL
+#define NULL 0
+#endif /* NULL */
+
+template <class T>
+class Nodo
+{
+private:
+    T dato;
+    Nodo<T> *siguiente;
+
+public:
+    Nodo(T valor);
+    bool haySiguiente();
+    Nodo<T> *getSiguiente();
+    void setSiguiente(Nodo<T> *nuevoSig);
+    T getValor();
+    void setValor(T nuevoValor);
+    ~Nodo();
+};
 
 template <class T>
 Nodo<T>::Nodo(T valor)
@@ -41,3 +64,5 @@ template <class T>
 Nodo<T>::~Nodo()
 {
 }
+
+#endif

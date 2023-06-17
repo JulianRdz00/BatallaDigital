@@ -1,5 +1,5 @@
-#ifndef _CONSTANTES_H_
-#define _CONSTANTES_H_
+#ifndef CONSTANTES_H
+#define CONSTANTES_H
 
 #include <cstdlib>
 #include <iostream>

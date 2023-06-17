@@ -1,152 +1,83 @@
 #include "Unidad.h"
 
-    /*
-    Pre:-
-    Post: Crea una unidad con coordenadas default (-1, -1, -1), sin duenio y de tipo VACIO
-    */
-    Unidad::Unidad()
-    {
-        this->setUbicacion(new Coordenada());
-        this->setDuenio(NULL);
-        this->setTipo(VACIO);
-        this->setActiva();
-    }
+Unidad::Unidad()
+{
+    this->setUbicacion(new Coordenada());
+    //this->setDuenio(NULL);
+    this->setTipo(VACIO);
+    this->setActiva();
+}
 
-    /*
-    Pre:-
-    Post: Crea una unidad con coordenadas segun las pasadas como argumento, sin duenio y de tipo VACIO
-    */
-    Unidad::Unidad(Coordenada *ubicacion)
-    {
-        this->setUbicacion(ubicacion);
-        this->setDuenio(NULL);
-        this->setTipo(VACIO);
-        this->setActiva();
-    }
+Unidad::Unidad(Coordenada *ubicacion)
+{
+    this->setUbicacion(ubicacion);
+    //this->setDuenio(NULL);
+    this->setTipo(VACIO);
+    this->setActiva();
+}
 
-    /*
-    Pre:-
-    Post: Crea una unidad con coordenadas, duenio y tipo segun lo pasado como argumento
-    */
-    Unidad::Unidad(Coordenada *ubicacion, Jugador *duenio, TipoUnidad tipoDeUnidad)
-    {
-        this->setUbicacion(ubicacion);
-        this->setDuenio(duenio);
-        this->setTipo(tipo);
-        this->setActiva();
-    }
+Unidad::Unidad(Coordenada *ubicacion, TipoUnidad tipoDeUnidad)
+{
+    this->setUbicacion(ubicacion);
+    this->setTipo(tipo);
+    this->setActiva();
+}
 
-    /*
-    Pre:-
-    Post: Elimina la unidad y la coordenada asignada
-    */
-    Unidad::~Unidad()
-    {
-        this->ubicacion->~Coordenada();
-    }
+Unidad::~Unidad()
+{
+    this->ubicacion->~Coordenada();
+}
 
-    /*
-    Pre:-
-    Post: Activa la unidad
-    */
-    Unidad::void setActiva()
-    {
-        this->turnosInactiva = 0;
-    }
+void Unidad::setActiva()
+{
+    this->turnosInactiva = 0;
+}
 
-    /*
-    Pre:-
-    Post: Desactiva la unidad por la cantidad de turnos pasados como argumento
-    */
-    Unidad::void desactivar(int turnos)
+void Unidad::desactivar(int turnos)
+{
+    if (turnos > 0)
     {
-        if (turnos > 0)
-        {
-            this->turnosInactiva = turnos;
-        }
-        else
-        {
-            this->turnosInactiva = 1;
-        }
+        this->turnosInactiva = turnos;
     }
-
-    /*
-    Pre:-
-    Post: Resta 1 a la cantidad de turnos para la casilla inactiva
-    */
-    Unidad::void restarTurnoInactiva()
+    else
     {
-        this->turnosInactiva--;
+        this->turnosInactiva = 1;
     }
+}
 
-    /*
-    Pre:-
-    Post: devuelve true o false en funcion si la casilla esta activa o no
-    */
-    Unidad::bool esActiva()
+void Unidad::restarTurnoInactiva()
+{
+    this->turnosInactiva--;
+}
+
+bool Unidad::esActiva()
+{
+    if (this->turnosInactiva < 1)
     {
-        if (this->turnosInactiva < 1)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return true;
     }
-
-    /*
-    Pre:-
-    Post: Cambia el jugador que es dueño de la unidad o mina dentro de la casilla
-    */
-    Unidad::void setDuenio(Jugador *jugador)
+    else
     {
-        this->jugadorPosicion = jugador;
+        return false;
     }
+}
 
-    /*
-    Pre:-
-    Post: Devuelve el jugador que es dueño de la unidad o mina dentro de la casilla
-    */
-    Unidad::Jugador *getDuenio()
-    {
-        return this->jugadorPosicion;
-    }
+void Unidad::setTipo(TipoUnidad tipo)
+{
+    this->tipo = tipo;
+}
 
-    /*
-    Pre:-
-    Post: Cambia el tipo de la unidad
-    */
-    Unidad::void setTipo(TipoUnidad tipo)
-    {
-        this->tipo = tipo;
-    }
+TipoUnidad Unidad::getTipo()
+{
+    return this->tipo;
+}
 
-    /*
-    Pre:-
-    Post: Devuelve el tipo de la unidad
-    */
-    Unidad::TipoUnidad getTipo()
-    {
-        return this->tipo;
-    }
+void Unidad::setUbicacion(Coordenada *nuevaPosicion)
+{
+    this->ubicacion = new Coordenada(nuevaPosicion);
+}
 
-    /*
-    Pre:-
-    Post: Cambia la ubicacion de la unidad segun la coordenada pasada como argumento
-    */
-    Unidad::void setUbicacion(Coordenada *nuevaPosicion)
-    {
-        this->ubicacion = new Coordenada(nuevaPosicion);
-    }
-
-    /*
-    Pre:-
-    Post: Devuelve la ubicacion de la unidad
-    */
-    Unidad::Coordenada *getUbicacion()
-    {
-        return this->ubicacion;
-    }
-
-#endif
+Coordenada *Unidad::getUbicacion()
+{
+    return this->ubicacion;
+}

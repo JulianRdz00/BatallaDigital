@@ -1,8 +1,5 @@
-#include <iostream>
-#include <random>
-
-#include "Constantes.hpp"
-#include "Juego.hpp"
+#include "Constantes.h"
+#include "Juego.h"
 
 
 int main()
@@ -17,6 +14,8 @@ int main()
         batallaDigital->actualizarImagenes();
         batallaDigital->ejecutarTurno();
     }
+
+    batallaDigital->avanzarTurno();
 
     EstadoPartida resultado = batallaDigital->obtenerResultado();
 

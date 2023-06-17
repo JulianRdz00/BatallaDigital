@@ -1,10 +1,10 @@
-#ifndef _ENTRADASALIDA_H_
-#define _ENTRADASALIDA_H_
+#ifndef ENTRADASALIDA_H
+#define ENTRADASALIDA_H
 
-#include "Constantes.hpp"
+#include <iostream>
+#include "Jugador.h"
+#include "Coordenada.h"
 #include "Lista.hpp"
-#include "Carta.hpp"
-#include "Jugador.hpp"
 
 class EntradaSalida
 {
@@ -39,7 +39,7 @@ public:
     int preguntarEnteroPositivo(std::string pregunta);
 
     /*  POS: devuelve un puntero a un Juego con unos parametros elejidos por el usuario. */
-    void inicializarPartida(int &ancho, int &largo, int &alto, int &cantidadJugadores, int &soldadosPorJugador);
+    void inicializarPartida(int *ancho, int *largo, int *alto, int *cantidadJugadores, int *soldadosPorJugador);
 
     ~EntradaSalida();
 };

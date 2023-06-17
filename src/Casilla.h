@@ -1,10 +1,7 @@
-#ifndef _CASILLA_H_
-#define _CASILLA_H_
+#ifndef CASILLA_H
+#define CASILLA_H
 
-#include "Constantes.hpp"
-#include "Coordenada.hpp"
-#include "Unidad.hpp"
-
+#include "Unidad.h"
 
 class Casilla
 {
@@ -18,10 +15,6 @@ public:
     Casilla(Unidad *unidad, TipoTerreno terreno);
 
     Unidad *getUnidad();
-    Unidad *getUnidad()
-    {
-        return this->unidad;
-    }
 
     TipoTerreno getTerreno();
 };

@@ -1,9 +1,9 @@
-#ifndef _TABLERO_H_
-#define _TABLERO_H_
+#ifndef TABLERO_H
+#define TABLERO_H
 
-#include "Constantes.hpp"
-#include "Unidad.hpp"
-#include "Casilla.hpp"
+#include "Casilla.h"
+#include "Unidad.h"
+#include "Lista.hpp"
 
 class Tablero
 {
@@ -14,12 +14,12 @@ private:
     int anchoMaximo;
     int alturaMaxima;
 
-    Coordenada *obtenerPosicionAleatoria();
-  
-
     TipoTerreno getTerreno(Coordenada *ubicacion);
 
 public:
+    Coordenada *obtenerPosicionAleatoria();
+    Casilla *obtenerEnPosicion(Coordenada *posicion);
+
     // Devuelve true solo si las componentes de la ubicacion dada son positivas y estan dentro del tamaño del tablero.
     bool laUbicacionEsValida(Coordenada *ubicacion);
 

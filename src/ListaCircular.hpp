@@ -1,5 +1,42 @@
-#include "ListaCircular.h"
+#ifndef _LISTACIRCULAR_
+#define _LISTACIRCULAR_
+
+#ifndef NULL
+#define NULL 0
+#endif /* NULL */
+#include "Nodo.hpp"
+
+template <class T>
+class ListaCircular
+{
+private:
+    Nodo<T> *primero;
+    unsigned int tamanio;
+    Nodo<T> *cursor;
+
+public:
+    ListaCircular();
+    ListaCircular(ListaCircular<T> &otraLista);
+    bool vacia() const;
+    unsigned int contarElementos() const;
+    void add(T elemento);
+    void add(T elemento, unsigned int posicion);
+    void add(Lista<T> &otraLista);
+    T get(unsigned int posicion);
+    void asignar(T elemento, unsigned int posicion);
+    void remover(unsigned int posicion);
+    void reiniciarCursor();
+    bool avanzarCursor();
+    T getCursor() const;
+    ~ListaCircular();
+
+private:
+    Nodo<T> *getNodo(unsigned int posicion) const;
+};
+
 /*	IMPLEMENTATION	*/
+
+/* PUBLIC: */
 
 /* POST: Lista vacia */
 template <class T>
@@ -62,18 +99,6 @@ void ListaCircular<T>::add(T elemento, unsigned int posicion)
         }
         this->tamanio++;
         this->reiniciarCursor();
-    }
-}
-
-/* POST: Adds all elements from passed list at the end of the list,
- *  that's from position countElements() + 1. */
-template <class T>
-void ListaCircular<T>::add(ListaCircular<T> &otraLista)
-{
-    otraLista.reiniciarCursor();
-    while (otraLista.avanzarCursor())
-    {
-        this->add(otraLista.getCursor());
     }
 }
 
