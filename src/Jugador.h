@@ -4,7 +4,7 @@
 #include "Carta.h"
 #include "Unidad.h"
 #include "Constantes.h"
-#include "Lista.h"
+#include "Lista.hpp"
 
 class Jugador
 {

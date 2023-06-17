@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Jugador.h"
 #include "Coordenada.h"
+#include "Lista.hpp"
 
 class EntradaSalida
 {

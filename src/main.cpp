@@ -9,24 +9,24 @@ int main()
 
     Juego *batallaDigital = new Juego();
 
-    // while (batallaDigital->avanzarTurno()) // lista de jugadores
-    // {
-    //     batallaDigital->actualizarImagenes();
-    //     batallaDigital->ejecutarTurno();
-    // }
+    while (batallaDigital->avanzarTurno()) // lista de jugadores
+    {
+        batallaDigital->actualizarImagenes();
+        batallaDigital->ejecutarTurno();
+    }
 
-    // batallaDigital->avanzarTurno();
+    batallaDigital->avanzarTurno();
 
-    // EstadoPartida resultado = batallaDigital->obtenerResultado();
+    EstadoPartida resultado = batallaDigital->obtenerResultado();
 
-    // switch (resultado)
-    // {
-    // case EMPATE:
-    //     std::cout << "Hubo un empate\n";
-    // case TERMINADA:
-    // std:
-    //     std::cout << "Hay un ganador!\n";
-    // }
+    switch (resultado)
+    {
+    case EMPATE:
+        std::cout << "Hubo un empate\n";
+    case TERMINADA:
+    std:
+        std::cout << "Hay un ganador!\n";
+    }
 
     return 0;
 }

@@ -1,32 +1,38 @@
-#include "ListaCircular.h"
-#include "Nodo.h"
-// template <class T>
-// class Lista
-// {
-// private:
-//     Nodo<T> *primero;
-//     unsigned int tamanio;
-//     Nodo<T> *cursor;
+#ifndef _LISTACIRCULAR_
+#define _LISTACIRCULAR_
 
-// public:
-//     Lista();
-//     Lista(Lista<T> &otraLista);
-//     bool vacia() const;
-//     unsigned int contarElementos() const;
-//     void add(T elemento);
-//     void add(T elemento, unsigned int posicion);
-//     void add(Lista<T> &otraLista);
-//     T get(unsigned int posicion);
-//     void asignar(T elemento, unsigned int posicion);
-//     void remover(unsigned int posicion);
-//     void reiniciarCursor();
-//     bool avanzarCursor();
-//     T getCursor() const;
-//     ~Lista();
+#ifndef NULL
+#define NULL 0
+#endif /* NULL */
+#include "Nodo.hpp"
 
-// private:
-//     Nodo<T> *getNodo(unsigned int posicion) const;
-// };
+template <class T>
+class ListaCircular
+{
+private:
+    Nodo<T> *primero;
+    unsigned int tamanio;
+    Nodo<T> *cursor;
+
+public:
+    ListaCircular();
+    ListaCircular(ListaCircular<T> &otraLista);
+    bool vacia() const;
+    unsigned int contarElementos() const;
+    void add(T elemento);
+    void add(T elemento, unsigned int posicion);
+    void add(Lista<T> &otraLista);
+    T get(unsigned int posicion);
+    void asignar(T elemento, unsigned int posicion);
+    void remover(unsigned int posicion);
+    void reiniciarCursor();
+    bool avanzarCursor();
+    T getCursor() const;
+    ~ListaCircular();
+
+private:
+    Nodo<T> *getNodo(unsigned int posicion) const;
+};
 
 /*	IMPLEMENTATION	*/
 
@@ -41,6 +47,7 @@ ListaCircular<T>::ListaCircular()
     this->cursor = NULL;
 }
 
+/* POST: Lista igual a una lista referencia */
 template <class T>
 ListaCircular<T>::ListaCircular(ListaCircular<T> &otraLista)
 {
@@ -50,24 +57,29 @@ ListaCircular<T>::ListaCircular(ListaCircular<T> &otraLista)
     this->add(otraLista);
 }
 
+/* POST: Tells whether the list has any element. */
 template <class T>
 bool ListaCircular<T>::vacia() const
 {
     return (this->tamanio == 0);
 }
 
+/* POST: Returns the amount of elements in the list. */
 template <class T>
 unsigned int ListaCircular<T>::contarElementos() const
 {
     return (this->tamanio);
 }
 
+/* POST: Adds element at the end of the list (position countElements() + 1). */
 template <class T>
 void ListaCircular<T>::add(T elemento)
 {
     this->add(elemento, this->tamanio + 1);
 }
 
+/* PRE: Position is between [1 , countElements() + 1].
+ * POST: Adds the element in passed position. */
 template <class T>
 void ListaCircular<T>::add(T elemento, unsigned int posicion)
 {
@@ -90,16 +102,8 @@ void ListaCircular<T>::add(T elemento, unsigned int posicion)
     }
 }
 
-template <class T>
-void ListaCircular<T>::add(ListaCircular<T> &otraLista)
-{
-    otraLista.reiniciarCursor();
-    while (otraLista.avanzarCursor())
-    {
-        this->add(otraLista.getCursor());
-    }
-}
-
+/* PRE: Position is between [1 , countElements()].
+ * POST: Returns the element in that position. */
 template <class T>
 T ListaCircular<T>::get(unsigned int posicion)
 {
@@ -110,6 +114,8 @@ T ListaCircular<T>::get(unsigned int posicion)
     return (this->getNodo(posicion)->getValor());
 }
 
+/* PRE: Position is between [1 , countElements()].
+ * POST: Changes element in that position to passed element. */
 template <class T>
 void ListaCircular<T>::asignar(T elemento, unsigned int posicion)
 {
@@ -119,6 +125,8 @@ void ListaCircular<T>::asignar(T elemento, unsigned int posicion)
     }
 }
 
+/* PRE: Position is between [1 , countElements()].
+ * POST: Removes element in that position from the list. */
 template <class T>
 void ListaCircular<T>::remover(unsigned int posicion)
 {
@@ -142,12 +150,19 @@ void ListaCircular<T>::remover(unsigned int posicion)
     }
 }
 
+/* POST: Leaves cursor ready for new iteration. */
 template <class T>
 void ListaCircular<T>::reiniciarCursor()
 {
     this->cursor = NULL;
 }
 
+/* Allows to move the cursor from a node to the next one.
+ * PRE: Iteration has been initiated (by method resetCursor()),
+ *  and no elements have been added or removed since then.
+ * POST: Moves cursor to the next element in the iteration.
+ *  Return value tells whether cursor now stands on and element or not,
+ *  (in case the list is empty or there aren't any more elements). */
 template <class T>
 bool ListaCircular<T>::avanzarCursor()
 {
@@ -162,6 +177,9 @@ bool ListaCircular<T>::avanzarCursor()
     return (this->cursor != NULL);
 }
 
+/* PRE: Cursor is standing on an element of the list,
+ *  (method advanceCursor() was called and returned "true").
+ * POST: Returns element in the cursor's position. */
 template <class T>
 T ListaCircular<T>::getCursor() const
 {
@@ -172,6 +190,7 @@ T ListaCircular<T>::getCursor() const
     return (this->cursor->getValor());
 }
 
+/* POST: Liberates resources associated to the list. */
 template <class T>
 ListaCircular<T>::~ListaCircular()
 {
@@ -183,7 +202,11 @@ ListaCircular<T>::~ListaCircular()
     }
 }
 
-template <class T> 
+/* PRIVATE: */
+
+/* PRE: Position is between [1 , countElements()].
+ * POST: Returns the node in that position (pointer). */
+template <class T>
 Nodo<T> *ListaCircular<T>::getNodo(unsigned int posicion) const
 {
     Nodo<T> *nodoActual = this->primero;
@@ -193,3 +216,5 @@ Nodo<T> *ListaCircular<T>::getNodo(unsigned int posicion) const
     }
     return nodoActual;
 }
+
+#endif

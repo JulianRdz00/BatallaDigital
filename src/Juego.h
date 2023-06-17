@@ -3,7 +3,7 @@
 
 #include "Tablero.h"
 #include "Jugador.h"
-#include "ListaCircular.h"
+#include "ListaCircular.hpp"
 #include "Video.h"
 #include "EntradaSalida.h"
 

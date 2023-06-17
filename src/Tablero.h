@@ -3,7 +3,7 @@
 
 #include "Casilla.h"
 #include "Unidad.h"
-#include "Lista.h"
+#include "Lista.hpp"
 
 class Tablero
 {
