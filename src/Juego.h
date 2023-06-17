@@ -4,6 +4,7 @@
 #include "Tablero.h"
 #include "Jugador.h"
 #include "ListaCircular.h"
+#include "Video.h"
 
 
 class Juego
