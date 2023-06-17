@@ -2,6 +2,8 @@
 #define TABLERO_H
 
 #include "Casilla.h"
+#include "Unidad.h"
+#include "Lista.h"
 
 class Tablero
 {
