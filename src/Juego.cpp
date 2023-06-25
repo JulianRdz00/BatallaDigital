@@ -17,7 +17,7 @@ void Juego::preguntarUsoCarta()
 
 void Juego::pasarTurno()
 {
-    mapa.disminuirTurnosInactivos();
+    mapa->disminuirTurnosInactivos();
     // avanzar cursor de la lista circular
 }
 
@@ -55,9 +55,62 @@ Juego::Juego()
     }
 }
 
-void Juego::comprobarColisiones()
+void Juego::comprobarColisiones(Jugador *jugador, Casilla *anterior, Casilla *nueva)
 {
-    // pendiente
+    if (nueva->getTipo() == VACIO) // Caso TODO OK, se mueve nomas
+    {
+        nueva->setTipo(anterior->getTipo());
+        
+        if (anterior->getTipo() == SOLDADO)
+        {
+            // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
+            // cursor.get() = nuevaCasilla;
+        }
+        if (anterior->getTipo() == BARCO ||
+            anterior->getTipo() == AVION)
+        {
+            // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
+            // cursor.get() = nuevaCasilla;
+        }
+
+        anterior->setTipo(VACIO);
+    }
+    else if (nueva->getTipo() == MINA) // Caso Se movio hacia una mina
+    {
+        // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
+        // i = suPosicion
+        // lista.borrar(i)
+
+        // recorer TODOS LOS JUGADORES
+        // Comparo su ID
+        // Recorrer su LISTA DE MINAS
+        //  i = suPosicion
+        //  lista.borrar(i)
+
+        anterior->setTipo(VACIO);
+        nueva->desactivar(CANTIDAD_TURNOS_INACTIVOS_MINA);
+    }
+    else // Caso, coliciono contra algo, ambos se destruyen.
+    {
+        // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
+        // i = suPosicion
+        // lista.borrar(i)
+
+        // recorer TODOS LOS JUGADORES
+        // Comparo su ID
+        // recorrer TODAS SUS LISTAS:
+        // i = suPosicion
+        // lista.borrar(i)
+
+        // este JUGADOR::
+        //  Recorer la lista y comparar las Ubicaciones, si coincide entonces:
+        //  i = suPosicion
+        //  lista.borrar(i)
+
+        // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
+        // i = suPosicion
+        // lista.borrar(i)
+    }
 }
 
 Jugador *Juego::obtenerGanador()
@@ -173,63 +226,6 @@ void Juego::preguntarMoverUnidad()
                     }
                 }
             }
-        }
-
-        // MOVER A UN METODO NUEVO PRIVADO; (JUGADOR, POS ANTIGUA, POS NUEVA)
-        if (nuevaCasilla->getTipo() == VACIO)
-        {
-            nuevaCasilla->setTipo(casillaActual->getTipo());
-            if (casillaActual->getTipo() == SOLDADO)
-            {
-                // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
-                // cursor.get() = nuevaCasilla;
-            }
-            if (casillaActual->getTipo() == BARCO ||
-                casillaActual->getTipo() == AVION)
-            {
-                // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
-                // cursor.get() = nuevaCasilla;
-            }
-
-            casillaActual->setTipo(VACIO);
-        }
-        else if (nuevaCasilla->getTipo() == MINA)
-        {
-            // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
-            // i = suPosicion
-            // lista.borrar(i)
-
-            // recorer TODOS LOS JUGADORES
-            // Comparo su ID
-            // Recorrer su LISTA DE MINAS
-            //  i = suPosicion
-            //  lista.borrar(i)
-
-            casillaActual->setTipo(VACIO);
-            nuevaCasilla->desactivar(CANTIDAD_TURNOS_INACTIVOS_MINA);
-        }
-        else
-        {
-            // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
-            // i = suPosicion
-            // lista.borrar(i)
-
-            // recorer TODOS LOS JUGADORES
-            // Comparo su ID
-            // recorrer TODAS SUS LISTAS:
-              // i = suPosicion
-            // lista.borrar(i)
-
-
-
-            //este JUGADOR::
-            // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
-            // i = suPosicion
-            // lista.borrar(i)
-
-            // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
-            // i = suPosicion
-            // lista.borrar(i)
         }
     }
 }
