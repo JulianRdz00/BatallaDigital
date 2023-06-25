@@ -29,7 +29,7 @@ public:
     /*POS:  Devuelve la coordenada que indica la ubicacion de la casilla en el tablero.*/
     Coordenada *getUbicacion();
 
-    /*PRE:  x,y,z son valores en el intervalo [-1, 1] y no pueden ser todos 0.*/
+    /*PRE:  x,y,z son valores en el intervalo [-1, 1]*/
     /*Post: Devuelve la casilla en una posicion relativa a si misma*/
     Casilla ****getVecinos();
 

@@ -45,71 +45,75 @@ Juego::Juego()
     jugadores->reiniciarCursor();
     while (jugadores->avanzarCursor())
     {
-        Lista<Unidad *> *soldadosJugador = jugadores->getCursor()->getSoldados();
-
-        soldadosJugador->reiniciarCursor();
-        while (soldadosJugador->avanzarCursor())
+        for (int s = 0; s < soldadosPorJugador; s++)
         {
-            mapa->colococarAleatoriamente(soldadosJugador->getCursor());
+            mapa->colococarAleatoriamente(jugadores->getCursor(), SOLDADO);
         }
     }
 }
 
+void Juego::ponerMina(Casilla *objetivo)
+{
+    TipoUnidad tipo = objetivo->getTipo();
+    if (objetivo->esActiva())
+    {
+        if (tipo == VACIO)
+        {
+            objetivo->setDuenio(jugadorActivo->getValor()->getId());
+            objetivo->setTipo(MINA);
+            jugadorActivo->getValor()->agregarUnidad(objetivo);
+        }
+        else
+        {
+            Jugador *duenio = getJugadorSegunId(objetivo->getIdDuenio());
+            duenio->quitarUnidad(objetivo);
+            objetivo->setDuenio(SIN_DUENIO);
+            objetivo->setTipo(VACIO);
+            objetivo->desactivar(CANTIDAD_TURNOS_INACTIVOS_MINA);
+        }
+    }
+}
+
+// Cambiar nombre
 void Juego::comprobarColisiones(Jugador *jugador, Casilla *anterior, Casilla *nueva)
 {
-    if (nueva->getTipo() == VACIO) // Caso TODO OK, se mueve nomas
+    if (nueva->getTipo() == VACIO)
     {
+        jugador->quitarUnidad(anterior);
+        jugador->agregarUnidad(nueva);
+
         nueva->setTipo(anterior->getTipo());
-        
-        if (anterior->getTipo() == SOLDADO)
-        {
-            // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
-            // cursor.get() = nuevaCasilla;
-        }
-        if (anterior->getTipo() == BARCO ||
-            anterior->getTipo() == AVION)
-        {
-            // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
-            // cursor.get() = nuevaCasilla;
-        }
+        nueva->setDuenio(jugador->getId());
 
         anterior->setTipo(VACIO);
+        anterior->setDuenio(SIN_DUENIO);
     }
-    else if (nueva->getTipo() == MINA) // Caso Se movio hacia una mina
+    else if (nueva->getTipo() == MINA)
     {
-        // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
-        // i = suPosicion
-        // lista.borrar(i)
-
-        // recorer TODOS LOS JUGADORES
-        // Comparo su ID
-        // Recorrer su LISTA DE MINAS
-        //  i = suPosicion
-        //  lista.borrar(i)
+        Jugador *duenioDeMina = getJugadorSegunId(nueva->getIdDuenio());
+        duenioDeMina->quitarUnidad(nueva);
+        jugador->quitarUnidad(anterior);
 
         anterior->setTipo(VACIO);
+        anterior->setDuenio(SIN_DUENIO);
+
+        nueva->setTipo(VACIO);
+        nueva->setDuenio(SIN_DUENIO);
         nueva->desactivar(CANTIDAD_TURNOS_INACTIVOS_MINA);
     }
-    else // Caso, coliciono contra algo, ambos se destruyen.
+    else
     {
-        // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
-        // i = suPosicion
-        // lista.borrar(i)
+        Jugador *duenioDeCasillaNueva = getJugadorSegunId(nueva->getIdDuenio());
+        Jugador *duenioDeCasillaAnterior = getJugadorSegunId(anterior->getIdDuenio());
 
-        // recorer TODOS LOS JUGADORES
-        // Comparo su ID
-        // recorrer TODAS SUS LISTAS:
-        // i = suPosicion
-        // lista.borrar(i)
+        duenioDeCasillaAnterior->quitarUnidad(anterior);
+        duenioDeCasillaNueva->quitarUnidad(nueva);
 
-        // este JUGADOR::
-        //  Recorer la lista y comparar las Ubicaciones, si coincide entonces:
-        //  i = suPosicion
-        //  lista.borrar(i)
+        anterior->setTipo(VACIO);
+        anterior->setDuenio(SIN_DUENIO);
 
-        // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
-        // i = suPosicion
-        // lista.borrar(i)
+        nueva->setTipo(VACIO);
+        nueva->setDuenio(SIN_DUENIO);
     }
 }
 
@@ -166,68 +170,51 @@ void Juego::eliminarPerdedores()
 
 void Juego::ejecutarTurno()
 {
-    darCartaAJugador();     // OK
-    preguntarUsoCarta();    // OK
-    preguntarPonerMina();   // OK
-    preguntarMoverUnidad(); // OK
+    darCartaAJugador();  // OK
+    preguntarUsoCarta(); // OK
+    ponerMina();         // OK
+    moverUnidad();       // OK
 
-    comprobarColisiones(); // HACER
-    eliminarPerdedores();  // OK
+    eliminarPerdedores(); // OK
 }
 
-void Juego::preguntarPonerMina()
+void Juego::preguntarPonerMina() // ok
 {
-    bool invalido = true;
-    Unidad *mina;
-    while (invalido)
+    bool valido = false;
+    Casilla *objetivo;
+    while (!valido)
     {
         Coordenada *posicion = io->preguntarDondeColocarMina();
-        mina = new Unidad(posicion, MINA);
 
         if (mapa->laUbicacionEsValida(posicion))
         {
-            invalido = false;
-        }
-        else
-        {
-            delete mina;
+            valido = true;
+
+            objetivo = mapa->getCasilla(posicion);
+            TipoUnidad tipo = objetivo->getTipo();
+            objetivo = mapa->getCasilla(posicion);
+
+            ponerMina(objetivo);
         }
     }
 }
 
-void Juego::preguntarMoverUnidad()
+void Juego::moverUnidad() // ok
 {
-    Coordenada *posicionUnidadAMover = io->preguntarUnidadAMover(jugadorActivo->getValor());
+    Casilla *actual = io->preguntarUnidadAMover(jugadorActivo->getValor());
+    Casilla *nuevaCasilla;
+
     bool nuevaPosicionInvalida = true;
     Coordenada *nuevaPosicionUnidad;
-    Casilla *casillaActual;
+
     while (nuevaPosicionInvalida)
     {
         nuevaPosicionUnidad = io->preguntarDondeMoverUnidad();
-        casillaActual = mapa->getCasilla(posicionUnidadAMover);
-        Casilla ****vecinos = casillaActual->getVecinos();
-
-        bool revisandoAdyacentes = true;
-        int i, j, k = 0;
-
-        Casilla *nuevaCasilla;
-        while (revisandoAdyacentes && i < 3)
-        {
-            while (revisandoAdyacentes && j < 3)
-            {
-                while (revisandoAdyacentes && k < 3)
-                {
-                    if (vecinos[i][j][k]->getUbicacion()->esIgualA(nuevaPosicionUnidad) &&
-                        vecinos[i][j][k]->esActiva())
-                    {
-                        nuevaCasilla = vecinos[i][j][k];
-                        revisandoAdyacentes = false;
-                        nuevaPosicionInvalida = false;
-                    }
-                }
-            }
-        }
+        nuevaCasilla = mapa->getCasilla(nuevaPosicionUnidad);
+        nuevaPosicionInvalida = mapa->sonVecinas(actual, nuevaCasilla);
     }
+
+    comprobarColisiones(jugadorActivo->getValor(), actual, nuevaCasilla);
 }
 
 bool Juego::avanzarTurno()
@@ -301,21 +288,21 @@ void Juego::jugarPasarTurno(Jugador *usuario)
     usuario->setEstadoSalteado(true);
 }
 
-void Juego::jugarDestructorArmamento(Jugador *usuario)
+void Juego::jugarDestructorArmamento(Jugador *objetivo) // OKas
 {
-    /*
-        if (!tipo == DESTRUCTORARMAMENTO)
-        {
-            throw "El tipo de carta debe ser DESTRUCTORARMAMENTO";
-        }
-    */
-
-    if (usuario == NULL)
+    if (objetivo == NULL)
     {
-        throw "El usuario no debe ser nulo";
+        throw "El jugador objetivo no debe ser nulo";
     }
 
-    Lista<Unidad *> *armamentos = usuario->getArmamentos();
+    Lista<Casilla *> *armamentos = objetivo->getArmamentos();
+
+    armamentos->reiniciarCursor();
+    while (armamentos->avanzarCursor())
+    {
+        armamentos->getCursor()->setDuenio(SIN_DUENIO);
+        armamentos->getCursor()->setTipo(VACIO);
+    }
 
     for (size_t i = armamentos->contarElementos(); i > 0; i--)
     {
@@ -325,34 +312,47 @@ void Juego::jugarDestructorArmamento(Jugador *usuario)
 
 void Juego::jugarSuperMina(Tablero *tablero, EntradaSalida *io, Jugador *usuario)
 {
-    Coordenada *posicion = io->pedirCoordenada();
-    /*
-        if (!tipo == SUPERMINA)
-        {
-            throw "El tipo de carta debe ser SUPERMINA";
-        }
-    */
-
-    if (!tablero->laUbicacionEsValida(posicion))
+    bool valido = false;
+    Coordenada *posicion;
+    while (!valido)
     {
-        throw "La posicion ingresada debe estar dentro de los limites del tablero";
+        posicion = io->preguntarDondeColocarMina();
+
+        if (mapa->laUbicacionEsValida(posicion))
+        {
+            valido = true;
+        }
     }
-    Unidad *ataque = new Unidad(posicion, MINA);
-    tablero->insertar(ataque);
-    atacarAdyacentes(tablero, ataque, MINA);
+
+    Casilla *centro = mapa->getCasilla(posicion);
+    delete posicion;
+
+    for (size_t i = 0; i < 3; i++)
+    {
+        for (size_t j = 0; j < 3; j++)
+        {
+            for (size_t k = 0; k < 3; k++)
+            {
+                ponerMina(centro->getVecinos()[i][j][k]);
+            }
+        }
+    }
 }
 
 Lista<Coordenada *> *Juego::jugarRadar(Tablero *tablero, EntradaSalida *io)
 {
-    Coordenada *posicion = io->pedirCoordenada();
-
-    /*
-    if (!tipo == RADAR)
+    bool valido = false;
+    Coordenada *posicion;
+    while (!valido)
     {
-        throw "El tipo de carta debe ser RADAR";
-    }
-    */
+        posicion = io->preguntarDondeColocarMina();
 
+        if (mapa->laUbicacionEsValida(posicion))
+        {
+            valido = true;
+        }
+    }
+    
     if (!tablero->laUbicacionEsValida(posicion))
     {
         throw "La posicion ingresada debe estar dentro de los limites del tablero";

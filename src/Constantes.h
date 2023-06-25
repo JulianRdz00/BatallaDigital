@@ -44,6 +44,8 @@ enum TipoTerreno {
     AIRE
 };
 
+static const int SIN_DUENIO = 314;
+
 static const int PROFUNDIDAD_TABLERO_DEFAULT = 10;
 static const int ANCHO_TABLERO_DEFAULT = 10;
 static const int LARGO_TABLERO_DEFAULT = 10;

@@ -17,22 +17,13 @@ private:
     EstadoJugador estado;
     bool estaSalteado;
 
-    /*
-    Pre:-
-    Post: Crea todos los soldados del jugador con las coordenadas default (-1, -1, -1).
-    */
+    /*Post: Crea todos los soldados del jugador con las coordenadas default (-1, -1, -1).*/
     void crearSoldados(int cantidadDeSoldados);
 
-    /*
-    Pre:-
-    Post: Recorre la lista de cartar para eliminar cada carta de la memoria dinamica
-    */
+    /*Post: Recorre la lista de cartar para eliminar cada carta de la memoria dinamica */
     void deleteMano();
 
-    /*
-    Pre:-
-    Post: Recorre la lista de cartar para eliminar cada carta de la memoria dinamica
-    */
+    /*Post: Recorre la lista de cartar para eliminar cada carta de la memoria dinamica*/
     void deleteSoldados();
 
     /*
@@ -46,6 +37,22 @@ private:
     Post: Recorre la lista de cartar para eliminar cada carta de la memoria dinamica
     */
     void deleteArmamentos();
+
+    void eliminarDeListaSegunPosicion(Lista<Casilla *> *lista, Coordenada *posicion)
+    {
+        lista->reiniciarCursor();
+        int i = 1;
+        bool buscando = true;
+        while (buscando && lista->avanzarCursor())
+        {
+            if (lista->getCursor()->getUbicacion()->esIgualA(posicion))
+            {
+                lista->remover(i);
+                buscando = false;
+            }
+            i++;
+        }
+    }
 
 public:
     /*
@@ -131,6 +138,43 @@ public:
     Post: Elimina al jugador con sus cartas, soldados, minas y Armamentos
     */
     virtual ~Jugador();
+
+    void quitarUnidad(Casilla *casilla)
+    {
+        int i = 1;
+        bool buscando = true;
+        TipoUnidad tipo = casilla->getTipo();
+
+        if (tipo == SOLDADO)
+        {
+            eliminarDeListaSegunPosicion(soldados, casilla->getUbicacion());
+        }
+        else if (tipo == MINA)
+        {
+            eliminarDeListaSegunPosicion(minas, casilla->getUbicacion());
+        }
+        else
+        {
+            eliminarDeListaSegunPosicion(armamentos, casilla->getUbicacion());
+        }
+    }
+
+    void agregarUnidad(Casilla *casilla)
+    {
+        TipoUnidad tipo = casilla->getTipo();
+        if (tipo == SOLDADO)
+        {
+            soldados->add(casilla);
+        }
+        else if (tipo == MINA)
+        {
+            minas->add(casilla);
+        }
+        else
+        {
+            armamentos->add(casilla);
+        }
+    }
 };
 
 #endif

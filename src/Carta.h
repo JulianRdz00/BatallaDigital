@@ -8,8 +8,6 @@ class Carta
 private:
     TipoDeCarta tipo;
 
-
-
 public:
     /*Pre: El id debe ser mayor a 0
      *Post: Crea la carta con su tipo e id indicado
@@ -26,8 +24,6 @@ public:
     TipoDeCarta getTipo();
 
     std::string getNombre();
-
-
 };
 
 #endif

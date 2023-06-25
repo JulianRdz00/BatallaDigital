@@ -31,20 +31,23 @@ Coordenada *EntradaSalida::preguntarDondeMoverUnidad()
     return pedirCoordenada();
 }
 
-Coordenada *EntradaSalida::preguntarUnidadAMover(Jugador *jugador)//OK
+Casilla *EntradaSalida::preguntarUnidadAMover(Jugador *jugador) // OK
 {
     bool buscando = true;
+    Casilla *casilla;
     Coordenada *posicion;
     std::cout << "Escriba las coordenadas del soldado o armamento a mover";
     while (buscando)
     {
         posicion = pedirCoordenada();
+
         jugador->getSoldados()->reiniciarCursor();
         while (buscando && jugador->getSoldados()->avanzarCursor())
         {
             if (jugador->getSoldados()->getCursor()->getUbicacion()->esIgualA(posicion))
             {
                 buscando = false;
+                casilla = jugador->getSoldados()->getCursor();
             }
         }
 
@@ -54,14 +57,16 @@ Coordenada *EntradaSalida::preguntarUnidadAMover(Jugador *jugador)//OK
             if (jugador->getArmamentos()->getCursor()->getUbicacion()->esIgualA(posicion))
             {
                 buscando = false;
+                casilla = jugador->getArmamentos()->getCursor();
             }
         }
 
-        if(buscando){
+        if (buscando)
+        {
             delete posicion;
         }
     }
-    return posicion;
+    return casilla;
 }
 
 Coordenada *EntradaSalida::preguntarDondeColocarMina()

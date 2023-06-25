@@ -134,22 +134,22 @@ public:
         return new Coordenada(x, y, z);
     }
 
-    Coordenada *getPosicionAleatoriaVacia() // OK
+    Casilla *getCasillaAleatoriaVacia() // OK
     {
         Coordenada *ubicacionVacia = NULL;
+        Casilla *resultado;
         while (ubicacionVacia == NULL)
         {
             Coordenada *posicionRandom = getPosicionAleatoria();
-            if (getCasilla(posicionRandom)->getUnidad() == VACIO)
+            resultado = getCasilla(posicionRandom);
+            if (resultado->getTipo() == VACIO)
             {
                 ubicacionVacia = posicionRandom;
             }
-            else
-            {
-                delete posicionRandom;
-            }
+
+            delete posicionRandom;
         }
-        return ubicacionVacia;
+        return resultado;
     }
 
     // Devuelve true solo si las componentes de la ubicacion dada son positivas y estan dentro del tamaño del tablero.
@@ -210,6 +210,40 @@ public:
             delete this->mapa->get(i);
         }
         delete this->mapa;
+    }
+
+    bool sonVecinas(Casilla *a, Casilla *b)
+    {
+        bool sonVecinas = false;
+        int i, j, k = 0;
+
+        Casilla ****vecinosDeA = a->getVecinos();
+
+        while (!sonVecinas && i < 3)
+        {
+            while (!sonVecinas && j < 3)
+            {
+                while (!sonVecinas && k < 3)
+                {
+                    if (vecinosDeA[i][j][k]->getUbicacion()->esIgualA(b->getUbicacion()) &&
+                        vecinosDeA[i][j][k]->esActiva())
+                    {
+                        sonVecinas = true;
+                    }
+                }
+            }
+        }
+    }
+
+    void Tablero::colococarAleatoriamente(Jugador *jugador, TipoUnidad tipo)
+    {
+        bool buscando = true;
+        Casilla *casilla = getCasillaAleatoriaVacia();
+
+        casilla->setDuenio(jugador->getId());
+        casilla->setTipo(tipo);
+
+        jugador->agregarUnidad(casilla);
     }
 };
 

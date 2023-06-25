@@ -20,7 +20,7 @@ public:
 
     Coordenada *preguntarDondeMoverUnidad();
 
-    Coordenada *preguntarUnidadAMover(Jugador *jugador);
+    Casilla *preguntarUnidadAMover(Jugador *jugador);
 
     /*  POS: pregunta a donde quiere colocar una mina y devuelve la coordenada cuyo nombre es nombreCoordenada*/
     Coordenada *preguntarDondeColocarMina();

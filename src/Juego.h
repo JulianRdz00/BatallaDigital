@@ -77,6 +77,23 @@ private:
         Pos: Saltea por un turno al jugador indicado */
     void jugarPasarTurno(Jugador *usuario);
 
+    /*  PRE: devuelve */
+    Jugador *getJugadorSegunId(unsigned int id)
+    {
+        unsigned int cantidad = jugadores->contarElementos();
+        unsigned int i = 1;
+        Jugador* resultado = NULL;
+
+        jugadores->reiniciarCursor();
+        while ((i <= cantidad) && jugadores->avanzarCursor())
+        {
+            if(jugadores->getCursor()->getId() == id){
+                resultado = jugadores->getCursor();
+            }
+        }
+        return resultado;
+    }
+
 public:
     /*  Pre: Los valores deben ser mayores a 0.
             La cantidad de soldados por jugador * la cantidad de jugadores debe ser menor a la cantidad de casillas del tablero
@@ -105,10 +122,12 @@ public:
             ejecuta las reglas del juego y luego pasa de turno al siguiente jugador. */
     void ejecutarTurno();
 
-    /*  POST: */
     void preguntarPonerMina();
 
-    void preguntarMoverUnidad();
+    /*  POST: */
+    void ponerMina(Casilla *objetivo)
+
+    void moverUnidad();
 
     // POST: avanza el turno al siguiente jugador correspondiente, devuelve false cuando hay un ganador o un empate, sino, devuelve true.
     bool avanzarTurno();
