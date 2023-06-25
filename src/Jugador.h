@@ -2,7 +2,7 @@
 #define JUGADOR_H
 
 #include "Carta.h"
-#include "Unidad.h"
+#include "Casilla.h"
 #include "Constantes.h"
 #include "Lista.hpp"
 
@@ -11,9 +11,9 @@ class Jugador
 private:
     unsigned int id;
     Lista<Carta *> *mano;
-    Lista<Unidad *> *soldados;
-    Lista<Unidad *> *minas;
-    Lista<Unidad *> *armamentos;
+    Lista<Casilla *> *soldados;
+    Lista<Casilla *> *minas;
+    Lista<Casilla *> *armamentos;
     EstadoJugador estado;
     bool estaSalteado;
 
@@ -88,19 +88,19 @@ public:
     Pre:-
     Post: Devuelve los soldados que tiene el jugador
     */
-    Lista<Unidad *> *getSoldados();
+    Lista<Casilla *> *getSoldados();
 
     /*
     Pre:-
     Post: Devuelve las minas que tiene el jugador
     */
-    Lista<Unidad *> *getMinas();
+    Lista<Casilla *> *getMinas();
 
     /*
     Pre:-
     Post: Devuelve los armamentos que tiene el jugador
     */
-    Lista<Unidad *> *getArmamentos();
+    Lista<Casilla *> *getArmamentos();
 
     /*
     Pre:-

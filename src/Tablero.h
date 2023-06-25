@@ -5,7 +5,7 @@
 #include "Unidad.h"
 #include "Lista.hpp"
 
-class Tablero
+class Tablesro
 {
 private:
     Lista<Unidad *> *mapa;
@@ -18,6 +18,8 @@ private:
 
 public:
     Coordenada *obtenerPosicionAleatoria();
+
+    
     Casilla *obtenerEnPosicion(Coordenada *posicion);
 
     // Devuelve true solo si las componentes de la ubicacion dada son positivas y estan dentro del tamaño del tablero.

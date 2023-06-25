@@ -139,7 +139,7 @@ Lista<Carta *> *Jugador::getMano()
 Pre:-
 Post: Devuelve los soldados que tiene el jugador
 */
-Lista<Unidad *> *Jugador::getSoldados()
+Lista<Casilla *> *Jugador::getSoldados()
 {
     return this->soldados;
 }
@@ -148,7 +148,7 @@ Lista<Unidad *> *Jugador::getSoldados()
 Pre:-
 Post: Devuelve las minas que tiene el jugador
 */
-Lista<Unidad *> *Jugador::getMinas()
+Lista<Casilla *> *Jugador::getMinas()
 {
     return this->minas;
 }
@@ -157,7 +157,7 @@ Lista<Unidad *> *Jugador::getMinas()
 Pre:-
 Post: Devuelve los armamentos que tiene el jugador
 */
-Lista<Unidad *> *Jugador::getArmamentos()
+Lista<Casilla *> *Jugador::getArmamentos()
 {
     return this->armamentos;
 }

@@ -1,7 +1,7 @@
 #ifndef JUEGO_H
 #define JUEGO_H
 
-#include "Tablero.h"
+#include "Tablero.hpp"
 #include "Jugador.h"
 #include "ListaCircular.hpp"
 #include "Video.h"

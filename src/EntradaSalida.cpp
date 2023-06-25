@@ -16,7 +16,6 @@ Coordenada *EntradaSalida::pedirCoordenada()
 
 EntradaSalida::EntradaSalida()
 {
-
 }
 
 Coordenada *EntradaSalida::coordenadaSoldadoExistente()
@@ -32,7 +31,7 @@ Coordenada *EntradaSalida::preguntarDondeMoverUnidad()
     return pedirCoordenada();
 }
 
-Coordenada *EntradaSalida::preguntarUnidadAMover(Jugador *jugador)
+Coordenada *EntradaSalida::preguntarUnidadAMover(Jugador *jugador)//OK
 {
     bool buscando = true;
     Coordenada *posicion;
@@ -41,22 +40,28 @@ Coordenada *EntradaSalida::preguntarUnidadAMover(Jugador *jugador)
     {
         posicion = pedirCoordenada();
         jugador->getSoldados()->reiniciarCursor();
-        while (jugador->getSoldados()->avanzarCursor())
+        while (buscando && jugador->getSoldados()->avanzarCursor())
         {
             if (jugador->getSoldados()->getCursor()->getUbicacion()->esIgualA(posicion))
             {
                 buscando = false;
             }
         }
+
         jugador->getArmamentos()->reiniciarCursor();
-        while (jugador->getArmamentos()->avanzarCursor())
+        while (buscando && jugador->getArmamentos()->avanzarCursor())
         {
             if (jugador->getArmamentos()->getCursor()->getUbicacion()->esIgualA(posicion))
             {
                 buscando = false;
             }
         }
+
+        if(buscando){
+            delete posicion;
+        }
     }
+    return posicion;
 }
 
 Coordenada *EntradaSalida::preguntarDondeColocarMina()
@@ -169,5 +174,4 @@ void EntradaSalida::inicializarPartida(int *ancho, int *largo, int *alto, int *c
 
 EntradaSalida::~EntradaSalida()
 {
-
 }

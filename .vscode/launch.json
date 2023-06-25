@@ -7,9 +7,9 @@
       "request": "launch",
       "args": [],
       "stopAtEntry": false,
-      "externalConsole": true,
-      "cwd": "c:/Users/Lilithe/Desktop/TP/BatallaDigital",
-      "program": "c:/Users/Lilithe/Desktop/TP/BatallaDigital/build/Debug/outDebug",
+      "externalConsole": false,
+      "cwd": "/home/lilite/Documents/BTDG/BatallaDigital-1/src",
+      "program": "/home/lilite/Documents/BTDG/BatallaDigital-1/src/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

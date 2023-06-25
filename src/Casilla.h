@@ -6,17 +6,36 @@
 class Casilla
 {
 private:
-    Unidad* unidad;
     TipoTerreno terreno;
+    Casilla ****vecinos;
+    Coordenada *ubicacion;
+    TipoUnidad tipo;
+    unsigned int idDuenio;
+    int turnosInactiva;
 
 public:
     Casilla();
 
-    Casilla(Unidad *unidad, TipoTerreno terreno);
+    Casilla(TipoTerreno terreno, Coordenada *ubicacion);
 
-    Unidad *getUnidad();
+    TipoUnidad getTipo();
+
+    Coordenada* getUbicacion();
+
+    /*PRE:  x,y,z son valores en el intervalo [-1, 1] y no pueden ser todos 0.*/
+    /*Post: Devuelve la casilla en una posicion relativa a si misma*/
+    Casilla ****getVecinos();
+
+    void setVecinos(Casilla ****vecinos);
 
     TipoTerreno getTerreno();
+
+    void setTipo(TipoUnidad tipo);
+
+    void desactivar(int cantidadDeTurnos);
+
+    bool esActiva();
+
 };
 
 #endif

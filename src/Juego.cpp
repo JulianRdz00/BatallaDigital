@@ -17,6 +17,8 @@ void Juego::preguntarUsoCarta()
 
 void Juego::pasarTurno()
 {
+    mapa.disminuirTurnosInactivos();
+    // avanzar cursor de la lista circular
 }
 
 void Juego::darCarta()
@@ -143,23 +145,93 @@ void Juego::preguntarPonerMina()
 void Juego::preguntarMoverUnidad()
 {
     Coordenada *posicionUnidadAMover = io->preguntarUnidadAMover(jugadorActivo->getValor());
-    bool posicionInvalida = true;
+    bool nuevaPosicionInvalida = true;
     Coordenada *nuevaPosicionUnidad;
-    while (posicionInvalida)
+    Casilla *casillaActual;
+    while (nuevaPosicionInvalida)
     {
         nuevaPosicionUnidad = io->preguntarDondeMoverUnidad();
-        mapa->obtenerAdyacentes(posicionUnidadAMover)->reiniciarCursor();
-        while (mapa->obtenerAdyacentes(posicionUnidadAMover)->avanzarCursor())
+        casillaActual = mapa->getCasilla(posicionUnidadAMover);
+        Casilla ****vecinos = casillaActual->getVecinos();
+
+        bool revisandoAdyacentes = true;
+        int i, j, k = 0;
+
+        Casilla *nuevaCasilla;
+        while (revisandoAdyacentes && i < 3)
         {
-            if (
-                (mapa->obtenerEnPosicion(mapa->obtenerAdyacentes(posicionUnidadAMover)->getCursor())->getUnidad()->esActiva()) &&
-                (mapa->obtenerAdyacentes(posicionUnidadAMover)->getCursor()->esIgualA(nuevaPosicionUnidad)))
+            while (revisandoAdyacentes && j < 3)
             {
-                posicionInvalida = false;
+                while (revisandoAdyacentes && k < 3)
+                {
+                    if (vecinos[i][j][k]->getUbicacion()->esIgualA(nuevaPosicionUnidad) &&
+                        vecinos[i][j][k]->esActiva())
+                    {
+                        nuevaCasilla = vecinos[i][j][k];
+                        revisandoAdyacentes = false;
+                        nuevaPosicionInvalida = false;
+                    }
+                }
             }
         }
+
+        // MOVER A UN METODO NUEVO PRIVADO; (JUGADOR, POS ANTIGUA, POS NUEVA)
+        if (nuevaCasilla->getTipo() == VACIO)
+        {
+            nuevaCasilla->setTipo(casillaActual->getTipo());
+            if (casillaActual->getTipo() == SOLDADO)
+            {
+                // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
+                // cursor.get() = nuevaCasilla;
+            }
+            if (casillaActual->getTipo() == BARCO ||
+                casillaActual->getTipo() == AVION)
+            {
+                // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
+                // cursor.get() = nuevaCasilla;
+            }
+
+            casillaActual->setTipo(VACIO);
+        }
+        else if (nuevaCasilla->getTipo() == MINA)
+        {
+            // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
+            // i = suPosicion
+            // lista.borrar(i)
+
+            // recorer TODOS LOS JUGADORES
+            // Comparo su ID
+            // Recorrer su LISTA DE MINAS
+            //  i = suPosicion
+            //  lista.borrar(i)
+
+            casillaActual->setTipo(VACIO);
+            nuevaCasilla->desactivar(CANTIDAD_TURNOS_INACTIVOS_MINA);
+        }
+        else
+        {
+            // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
+            // i = suPosicion
+            // lista.borrar(i)
+
+            // recorer TODOS LOS JUGADORES
+            // Comparo su ID
+            // recorrer TODAS SUS LISTAS:
+              // i = suPosicion
+            // lista.borrar(i)
+
+
+
+            //este JUGADOR::
+            // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
+            // i = suPosicion
+            // lista.borrar(i)
+
+            // Recorer la lista y comparar las Ubicaciones, si coincide entonces:
+            // i = suPosicion
+            // lista.borrar(i)
+        }
     }
-    mapa->obtenerEnPosicion(posicionUnidadAMover)->getUnidad()->setUbicacion(nuevaPosicionUnidad);
 }
 
 bool Juego::avanzarTurno()
@@ -183,7 +255,6 @@ void Juego::darCartaAJugador()
 
 void Juego::actualizarImagenes()
 {
-    
 }
 
 void Juego::usarCarta(Tablero *tablero, EntradaSalida *io, Jugador *usuario, TipoDeCarta tipo)

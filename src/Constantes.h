@@ -34,7 +34,7 @@ enum TipoUnidad {
     BARCO,
     MINA,
     SOLDADO,
-    QUIMICO,
+    QUIMICO,//BORRAR
     VACIO
 };
 
@@ -63,6 +63,8 @@ static const std::string NOMBRE_CARTA_PASARTURNO = " Pasar turno";
 static const char ICONO_CASILLA_VACIA = 'X';
 
 static const int CANTIDAD_TIPOS_DE_CARTAS = 6;
+
+static const int CANTIDAD_TURNOS_INACTIVOS_MINA = 6;
 
 // POST: Devuelve un numero aleatorio entre el minimo y maximo dados como argumentos.
 int getRandom(int minimo, int maximo);

@@ -1,21 +1,38 @@
 #include "Casilla.h"
 
-
 Casilla::Casilla()
 {
-    this->unidad = NULL;
     this->terreno = AIRE;
+    this->tipo = VACIO;
+    this->vecinos = NULL;
+    this->turnosInactiva = 0;
+    this->ubicacion = NULL;
 }
 
-Casilla::Casilla(Unidad *unidad, TipoTerreno terreno)
+Casilla::Casilla(TipoTerreno terreno, Coordenada *posicion)
 {
-    this->unidad = unidad;
     this->terreno = terreno;
+    this->tipo = VACIO;
+    this->vecinos = NULL;
+    this->turnosInactiva = 0;
+    this->ubicacion = posicion;
 }
 
-Unidad *Casilla::getUnidad()
+TipoUnidad Casilla::getUnidad()
 {
-    return this->unidad;
+    return this->tipo;
+}
+
+/*PRE:  x,y,z son valores en el intervalo [-1, 1] y no pueden ser todos 0.*/
+/*Post: Devuelve la casilla en una posicion relativa a si misma*/
+Casilla ****Casilla::getVecinos()
+{
+    return this->vecinos;
+}
+
+void Casilla::setVecinos(Casilla ****vecinos)
+{
+    this->vecinos = vecinos;
 }
 
 TipoTerreno Casilla::getTerreno()
