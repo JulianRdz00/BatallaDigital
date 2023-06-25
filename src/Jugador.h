@@ -17,9 +17,6 @@ private:
     EstadoJugador estado;
     bool estaSalteado;
 
-    /*Post: Crea todos los soldados del jugador con las coordenadas default (-1, -1, -1).*/
-    void crearSoldados(int cantidadDeSoldados);
-
     /*Post: Recorre la lista de cartar para eliminar cada carta de la memoria dinamica */
     void deleteMano();
 
@@ -38,21 +35,7 @@ private:
     */
     void deleteArmamentos();
 
-    void eliminarDeListaSegunPosicion(Lista<Casilla *> *lista, Coordenada *posicion)
-    {
-        lista->reiniciarCursor();
-        int i = 1;
-        bool buscando = true;
-        while (buscando && lista->avanzarCursor())
-        {
-            if (lista->getCursor()->getUbicacion()->esIgualA(posicion))
-            {
-                lista->remover(i);
-                buscando = false;
-            }
-            i++;
-        }
-    }
+    void eliminarDeListaSegunPosicion(Lista<Casilla *> *lista, Coordenada *posicion);
 
 public:
     /*
@@ -139,42 +122,9 @@ public:
     */
     virtual ~Jugador();
 
-    void quitarUnidad(Casilla *casilla)
-    {
-        int i = 1;
-        bool buscando = true;
-        TipoUnidad tipo = casilla->getTipo();
+    void quitarUnidad(Casilla *casilla);
 
-        if (tipo == SOLDADO)
-        {
-            eliminarDeListaSegunPosicion(soldados, casilla->getUbicacion());
-        }
-        else if (tipo == MINA)
-        {
-            eliminarDeListaSegunPosicion(minas, casilla->getUbicacion());
-        }
-        else
-        {
-            eliminarDeListaSegunPosicion(armamentos, casilla->getUbicacion());
-        }
-    }
-
-    void agregarUnidad(Casilla *casilla)
-    {
-        TipoUnidad tipo = casilla->getTipo();
-        if (tipo == SOLDADO)
-        {
-            soldados->add(casilla);
-        }
-        else if (tipo == MINA)
-        {
-            minas->add(casilla);
-        }
-        else
-        {
-            armamentos->add(casilla);
-        }
-    }
+    void agregarUnidad(Casilla *casilla);
 };
 
 #endif

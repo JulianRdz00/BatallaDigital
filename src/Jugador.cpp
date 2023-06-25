@@ -1,16 +1,5 @@
 #include "Jugador.h"
 
-/*
-Pre:-
-Post: Crea todos los soldados del jugador con las coordenadas default (-1, -1, -1).
-*/
-void Jugador::crearSoldados(int cantidadDeSoldados)
-{
-    for (int i = 0; i < cantidadDeSoldados; i++)
-    {
-        this->soldados->add(new Unidad(new Coordenada(), SOLDADO));
-    }
-}
 
 /*
 Pre:-
@@ -21,7 +10,7 @@ void Jugador::deleteMano()
     mano->reiniciarCursor();
     while (mano->avanzarCursor())
     {
-        mano->getCursor()->~Carta();
+        delete mano->getCursor();
     }
 }
 
@@ -34,7 +23,8 @@ void Jugador::deleteSoldados()
     soldados->reiniciarCursor();
     while (soldados->avanzarCursor())
     {
-        soldados->getCursor()->~Unidad();
+        soldados->getCursor()->setTipo(VACIO);
+        soldados->getCursor()->setDuenio(SIN_DUENIO);
     }
 }
 
@@ -47,7 +37,8 @@ void Jugador::deleteMinas()
     minas->reiniciarCursor();
     while (minas->avanzarCursor())
     {
-        minas->getCursor()->~Unidad();
+        minas->getCursor()->setTipo(VACIO);
+        minas->getCursor()->setDuenio(SIN_DUENIO);
     }
 }
 
@@ -60,9 +51,28 @@ void Jugador::deleteArmamentos()
     armamentos->reiniciarCursor();
     while (armamentos->avanzarCursor())
     {
-        armamentos->getCursor()->~Unidad();
+        armamentos->getCursor()->setTipo(VACIO);
+        armamentos->getCursor()->setDuenio(SIN_DUENIO);
     }
 }
+
+
+void Jugador::eliminarDeListaSegunPosicion(Lista<Casilla *> *lista, Coordenada *posicion)
+{
+    lista->reiniciarCursor();
+    int i = 1;
+    bool buscando = true;
+    while (buscando && lista->avanzarCursor())
+    {
+        if (lista->getCursor()->getUbicacion()->esIgualA(posicion))
+        {
+            lista->remover(i);
+            buscando = false;
+        }
+        i++;
+    }
+}
+
 
 /*
 Pre:-
@@ -71,12 +81,11 @@ Post: Crea un de jugador con la cantidad de soldados default
 Jugador::Jugador()
 {
     mano = new Lista<Carta *>();
-    soldados = new Lista<Unidad *>();
-    minas = new Lista<Unidad *>();
-    armamentos = new Lista<Unidad *>();
+    soldados = new Lista<Casilla *>();
+    minas = new Lista<Casilla *>();
+    armamentos = new Lista<Casilla *>();
     estado = VIVO;
     estaSalteado = false;
-    crearSoldados(CANTIDAD_SOLDADOS_DEFAULT);
 }
 
 /*
@@ -86,12 +95,11 @@ Post: Crea una instancia de jugador con la cantidad de soldados pasados como arg
 Jugador::Jugador(int cantidadDeSoldados)
 {
     mano = new Lista<Carta *>();
-    soldados = new Lista<Unidad *>();
-    minas = new Lista<Unidad *>();
-    armamentos = new Lista<Unidad *>();
+    soldados = new Lista<Casilla *>();
+    minas = new Lista<Casilla *>();
+    armamentos = new Lista<Casilla *>();
     estado = VIVO;
     estaSalteado = false;
-    crearSoldados(cantidadDeSoldados);
 }
 
 /*
@@ -215,3 +223,39 @@ Jugador::~Jugador()
 }
 
 
+void Jugador::quitarUnidad(Casilla *casilla)
+{
+    int i = 1;
+    bool buscando = true;
+    TipoUnidad tipo = casilla->getTipo();
+
+    if (tipo == SOLDADO)
+    {
+        eliminarDeListaSegunPosicion(soldados, casilla->getUbicacion());
+    }
+    else if (tipo == MINA)
+    {
+        eliminarDeListaSegunPosicion(minas, casilla->getUbicacion());
+    }
+    else
+    {
+        eliminarDeListaSegunPosicion(armamentos, casilla->getUbicacion());
+    }
+}
+
+void Jugador::agregarUnidad(Casilla *casilla)
+{
+    TipoUnidad tipo = casilla->getTipo();
+    if (tipo == SOLDADO)
+    {
+        soldados->add(casilla);
+    }
+    else if (tipo == MINA)
+    {
+        minas->add(casilla);
+    }
+    else
+    {
+        armamentos->add(casilla);
+    }
+}
