@@ -213,3 +213,5 @@ Jugador::~Jugador()
     deleteArmamentos();
     delete armamentos;
 }
+
+
