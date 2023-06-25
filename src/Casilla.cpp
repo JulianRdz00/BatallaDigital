@@ -18,13 +18,21 @@ Casilla::Casilla(TipoTerreno terreno, Coordenada *posicion)
     this->ubicacion = posicion;
 }
 
-TipoUnidad Casilla::getUnidad()
+TipoUnidad Casilla::getTipo()
 {
     return this->tipo;
 }
 
-/*PRE:  x,y,z son valores en el intervalo [-1, 1] y no pueden ser todos 0.*/
-/*Post: Devuelve la casilla en una posicion relativa a si misma*/
+void Casilla::setTipo(TipoUnidad tipo)
+{
+    this->tipo = tipo;
+}
+
+Coordenada *Casilla::getUbicacion()
+{
+    return this->ubicacion;
+}
+
 Casilla ****Casilla::getVecinos()
 {
     return this->vecinos;
@@ -38,4 +46,42 @@ void Casilla::setVecinos(Casilla ****vecinos)
 TipoTerreno Casilla::getTerreno()
 {
     return this->terreno;
+}
+
+void Casilla::setTerreno(TipoTerreno terreno)
+{
+    this->terreno = terreno;
+}
+
+void Casilla::desactivar(int cantidadDeTurnos)
+{
+    this->turnosInactiva = cantidadDeTurnos;
+}
+
+void Casilla::restarTurnoInactividad()
+{
+    if (turnosInactiva > 0)
+    {
+        this->turnosInactiva--;
+    }
+}
+
+bool Casilla::esActiva()
+{
+    if (this->turnosInactiva < 1)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+unsigned int Casilla::getIdDuenio(){
+    return this->idDuenio;
+}
+
+void Casilla::setDuenio(unsigned int id){
+    this->idDuenio = id;
 }
