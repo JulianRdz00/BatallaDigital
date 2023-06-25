@@ -16,6 +16,8 @@ private:
     EntradaSalida *io;
     Video *video;
 
+    void jugarArmamentos();
+
     void preguntarUsoCarta();
 
     /*
@@ -28,66 +30,65 @@ private:
     */
     void darCarta();
 
-    /*Pre: mapa no debe ser nulo;
-     *  Post: determina la cantidad de turnos que se mantendra el ataque en cada casilla.
-     */
-    void determinarTurnos(Tablero *mapa, Coordenada *posicion, Coordenada *nuevaPosicion);
-    /*Pre: casilla no debe ser nula
-     *Post: ataca las posiciones adyacentes a la casilla indicada con el tipo indicado
-     */
-    void atacarAdyacentes(Tablero *tablero, Unidad *unidad, TipoUnidad tipo);
-
     /*Pre: el tablero no debe ser nulo.
      *Post: detecta las posiciones donde hay minas y las devuelve.
      */
     Lista<Coordenada *> *buscarMinas(Tablero *tablero);
 
-    void usarCarta(Tablero *tablero, EntradaSalida *io, Jugador *usuario, TipoDeCarta tipo); // Recotcar
+    void Juego::moverUnidad();
+
+    void atacarQuimicamente(Casilla *objetivo, int duracion);
+
+    void usarCarta(TipoDeCarta tipo); // Recotcar
 
     /*Pre: El tablero no debe ser nulo.
      *		La posicion debe estar dentro de los limites del tablero.
      *Post: ataca a la posicion indicada y contamina 125 casilleros,
      *		por 10 turnos en el centro, 8 en el siguiente radio y asi.
      */
-    void jugarAtaqueQuimico(Tablero *tablero, EntradaSalida *io, Jugador *usuario);
+    void jugarAtaqueQuimico();
 
     /*Pre: El tablero no debe ser nulo.
      *	La posicion debe estar dentro de los limites del tablero y en regiones con agua.
      *Post: Dispara un misil hacia la posicion indicada del tablero
      */
-    void jugarBarco(Tablero *tablero, EntradaSalida *io, Jugador *usuario);
+    void jugarBarco();
 
     /*Pre: El tablero no debe ser nulo.
        La posicion debe estar dentro de los limites del tablero y en regiones con aire.
     *Post: Detecta todas las minas enemigas que haya en los casilleros de aire
     */
-    Lista<Coordenada *> *jugarRadar(Tablero *tablero, EntradaSalida *io);
+    void Juego::jugarRadar();
 
     /*Pre: El tablero no debe ser nulo.
         La posicion debe estar dentro de los limites del tablero.
     *Post: Coloca una mina que impacta a la posicion indicada y a todas sus adyacentes
     */
-    void jugarSuperMina(Tablero *tablero, EntradaSalida *io, Jugador *usuario);
+    void jugarSuperMina();
 
     /*  Pre: El jugador no debe ser nulo
         Pos: Destruye todo el armamento del jugador indicado */
-    void jugarDestructorArmamento(Jugador *usuario);
+    void jugarDestructorArmamento();
 
     /*  Pre: EL jugador no debe ser nulo
         Pos: Saltea por un turno al jugador indicado */
-    void jugarPasarTurno(Jugador *usuario);
+    void jugarPasarTurno();
+
+    void Juego::jugarAtaqueQuimico();
+    void Juego::usarRadarEnAvion(Casilla *avion);
 
     /*  PRE: devuelve */
     Jugador *getJugadorSegunId(unsigned int id)
     {
         unsigned int cantidad = jugadores->contarElementos();
         unsigned int i = 1;
-        Jugador* resultado = NULL;
+        Jugador *resultado = NULL;
 
         jugadores->reiniciarCursor();
         while ((i <= cantidad) && jugadores->avanzarCursor())
         {
-            if(jugadores->getCursor()->getId() == id){
+            if (jugadores->getCursor()->getId() == id)
+            {
                 resultado = jugadores->getCursor();
             }
         }
@@ -125,9 +126,9 @@ public:
     void preguntarPonerMina();
 
     /*  POST: */
-    void ponerMina(Casilla *objetivo)
+    void ponerMina(Casilla *objetivo);
 
-    void moverUnidad();
+        void moverUnidad();
 
     // POST: avanza el turno al siguiente jugador correspondiente, devuelve false cuando hay un ganador o un empate, sino, devuelve true.
     bool avanzarTurno();

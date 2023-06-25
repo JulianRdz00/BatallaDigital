@@ -1,8 +1,8 @@
 #ifndef CASILLA_H
 #define CASILLA_H
 
-#include "Unidad.h"
-
+#include "Constantes.h"
+#include "Coordenada.h"
 class Casilla
 {
 private:

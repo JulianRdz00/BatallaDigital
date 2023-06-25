@@ -12,10 +12,11 @@ public:
     /*  POS: devuelve el valor de la coordenada ingresada por consola */
     Coordenada *pedirCoordenada();
 
+    void mostrarCoordenadasDeMinas(Lista<Casilla *> *minas);
     /*  POS: */
     EntradaSalida();
 
-    //POS: pregunta que soldado se desea mover y devuelve la coordenada cuyo nombre es nombreCoordenada
+    // POS: pregunta que soldado se desea mover y devuelve la coordenada cuyo nombre es nombreCoordenada
     Coordenada *coordenadaSoldadoExistente();
 
     Coordenada *preguntarDondeMoverUnidad();

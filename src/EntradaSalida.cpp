@@ -74,6 +74,18 @@ Coordenada *EntradaSalida::preguntarDondeColocarMina()
     std::cout << "Donde quiere colocar una mina? " << std::endl;
     return pedirCoordenada();
 }
+void EntradaSalida::mostrarCoordenadasDeMinas(Lista<Casilla *> *minas)
+{
+    std::cout << "Hay Minas en las siguiente posicion\n";
+
+    minas->reiniciarCursor();
+    while (minas->avanzarCursor())
+    {
+        std::cout << "[" << minas->getCursor()->getUbicacion()->getX();
+        std::cout << ";" << minas->getCursor()->getUbicacion()->getY();
+        std::cout << ";" << minas->getCursor()->getUbicacion()->getZ() << "]\n";
+    }
+}
 
 bool EntradaSalida::preguntarSiUsarCarta(Jugador *jugador)
 {
@@ -156,8 +168,8 @@ void EntradaSalida::inicializarPartida(int *ancho, int *largo, int *alto, int *c
     {
 
         *ancho = preguntarEnteroPositivo("ingrese el Ancho del tablero.");
-        *largo = preguntarEnteroPositivo("ingrese el Ancho del tablero.");
-        *alto = preguntarEnteroPositivo("ingrese el Ancho del tablero.");
+        *largo = preguntarEnteroPositivo("ingrese el Largo del tablero.");
+        *alto = preguntarEnteroPositivo("ingrese el Alto del tablero.");
 
         *cantidadJugadores = preguntarEnteroPositivo("ingrese la cantidad de jugadores.");
         *soldadosPorJugador = preguntarEnteroPositivo("ingrese la cantidad de soldados iniciales para cada jugador.");
@@ -165,7 +177,7 @@ void EntradaSalida::inicializarPartida(int *ancho, int *largo, int *alto, int *c
         int espaciosNecesarios = (*cantidadJugadores) * (*soldadosPorJugador);
         int espaciosTotales = (*ancho) * (*largo) * (*alto);
 
-        if (espaciosNecesarios * 2 < espaciosTotales)
+        if (espaciosNecesarios * 2 > espaciosTotales)
         {
             std::cout << "El tamanio del tablero no cumple los requisitos de tamanio para la cantidad de jugadores y soldados. \n";
         }

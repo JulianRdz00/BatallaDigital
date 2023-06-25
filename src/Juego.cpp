@@ -6,7 +6,7 @@ void Juego::preguntarUsoCarta()
     if (seUsaCarta)
     {
         unsigned int indiceDeCarta = io->elejirCartaParaJugar(jugadorActivo->getValor());
-        usarCarta(mapa, io, jugadorActivo->getValor(), jugadorActivo->getValor()->getMano()->get(indiceDeCarta)->getTipo());
+        usarCarta(jugadorActivo->getValor()->getMano()->get(indiceDeCarta)->getTipo());
         jugadorActivo->getValor()->getMano()->remover(indiceDeCarta);
     }
     else
@@ -70,6 +70,28 @@ void Juego::ponerMina(Casilla *objetivo)
             objetivo->setDuenio(SIN_DUENIO);
             objetivo->setTipo(VACIO);
             objetivo->desactivar(CANTIDAD_TURNOS_INACTIVOS_MINA);
+        }
+    }
+}
+
+void Juego::atacarQuimicamente(Casilla *objetivo, int duracion)
+{
+    TipoUnidad tipo = objetivo->getTipo();
+    if (objetivo->esActiva())
+    {
+        if (tipo == VACIO)
+        {
+            objetivo->setDuenio(jugadorActivo->getValor()->getId());
+            objetivo->setTipo(MINA);
+            jugadorActivo->getValor()->agregarUnidad(objetivo);
+        }
+        else
+        {
+            Jugador *duenio = getJugadorSegunId(objetivo->getIdDuenio());
+            duenio->quitarUnidad(objetivo);
+            objetivo->setDuenio(SIN_DUENIO);
+            objetivo->setTipo(VACIO);
+            objetivo->desactivar(duracion);
         }
     }
 }
@@ -170,12 +192,30 @@ void Juego::eliminarPerdedores()
 
 void Juego::ejecutarTurno()
 {
-    darCartaAJugador();  // OK
-    preguntarUsoCarta(); // OK
-    ponerMina();         // OK
-    moverUnidad();       // OK
-
+    darCartaAJugador();   // OK
+    preguntarUsoCarta();  // OK
+    preguntarPonerMina(); // OK
+    moverUnidad();        // OK
+    jugarArmamentos();
     eliminarPerdedores(); // OK
+}
+
+void Juego::jugarArmamentos()
+{
+    jugadorActivo->getValor()->getArmamentos()->reiniciarCursor();
+    while (jugadorActivo->getValor()->getArmamentos()->avanzarCursor())
+    {
+        TipoUnidad tipo = jugadorActivo->getValor()->getArmamentos()->getCursor()->getTipo();
+
+        if (tipo == AVION)
+        {
+            usarRadarEnAvion(jugadorActivo->getValor()->getArmamentos()->getCursor());
+        }
+        else if (tipo == BARCO)
+        {
+            dispararConBarco();
+        }
+    }
 }
 
 void Juego::preguntarPonerMina() // ok
@@ -240,56 +280,58 @@ void Juego::actualizarImagenes()
 {
 }
 
-void Juego::usarCarta(Tablero *tablero, EntradaSalida *io, Jugador *usuario, TipoDeCarta tipo)
+void Juego::usarCarta(TipoDeCarta tipo)
 {
 
     if (tipo == ATAQUEQUIMICO)
     {
-        jugarAtaqueQuimico(tablero, io, usuario);
+        jugarAtaqueQuimico();
     }
     else if (tipo == BARCO)
     {
-        jugarBarco(tablero, io, usuario);
+        jugarBarco();
     }
     else if (tipo == RADAR)
     {
-        jugarRadar(tablero, io);
+        jugarRadar();
     }
     else if (tipo == SUPERMINA)
     {
-        jugarSuperMina(tablero, io, usuario);
+        jugarSuperMina();
     }
     else if (tipo == DESTRUCTORARMAMENTO)
     {
-        jugarDestructorArmamento(usuario);
+        jugarDestructorArmamento();
     }
     else if (tipo == PASARTURNO)
     {
-        jugarPasarTurno(usuario);
+        jugarPasarTurno(); // que busque un objetivo dentro.
     }
 
     throw "No hay carta del tipo solicitado";
 }
 
-void Juego::jugarPasarTurno(Jugador *usuario)
+void Juego::jugarPasarTurno()
 {
     /*
-        if (!tipo == PASARTURNO)
-        {
-            throw "El tipo de carta debe ser PASARTURNO";
-        }
+que busque un objetivo dentro.
     */
 
-    if (usuario == NULL)
+    Jugador *objetivo;
+    if (objetivo == NULL)
     {
         throw "El usuario no debe ser nulo";
     }
 
-    usuario->setEstadoSalteado(true);
+    objetivo->setEstadoSalteado(true);
 }
 
-void Juego::jugarDestructorArmamento(Jugador *objetivo) // OKas
+void Juego::jugarDestructorArmamento() // OKas
 {
+
+    // Buscar esgun ids
+    Jugador *objetivo;
+
     if (objetivo == NULL)
     {
         throw "El jugador objetivo no debe ser nulo";
@@ -310,7 +352,7 @@ void Juego::jugarDestructorArmamento(Jugador *objetivo) // OKas
     }
 }
 
-void Juego::jugarSuperMina(Tablero *tablero, EntradaSalida *io, Jugador *usuario)
+void Juego::jugarSuperMina()
 {
     bool valido = false;
     Coordenada *posicion;
@@ -339,10 +381,60 @@ void Juego::jugarSuperMina(Tablero *tablero, EntradaSalida *io, Jugador *usuario
     }
 }
 
-Lista<Coordenada *> *Juego::jugarRadar(Tablero *tablero, EntradaSalida *io)
+void Juego::jugarRadar()
 {
     bool valido = false;
     Coordenada *posicion;
+    Casilla *casilla;
+    while (!valido)
+    {
+        posicion = io->pedirCoordenada();
+
+        if (mapa->laUbicacionEsValida(posicion))
+        {
+            casilla = mapa->getCasilla(posicion);
+            if (casilla->esActiva() && casilla->getTipo() == VACIO && casilla->getTerreno() == AIRE)
+            {
+                valido = true;
+            }
+        }
+        delete posicion;
+    }
+
+    casilla->setTipo(AVION);
+    casilla->setDuenio(jugadorActivo->getValor()->getId());
+}
+
+void Juego::jugarBarco()
+{
+    bool valido = false;
+    Coordenada *posicion;
+    Casilla *casilla;
+    while (!valido)
+    {
+        posicion = io->pedirCoordenada();
+
+        if (mapa->laUbicacionEsValida(posicion))
+        {
+            casilla = mapa->getCasilla(posicion);
+            if (casilla->esActiva() && casilla->getTipo() == VACIO && casilla->getTerreno() == MAR)
+            {
+                valido = true;
+            }
+        }
+        delete posicion;
+    }
+
+    casilla->setTipo(BARCO);
+    casilla->setDuenio(jugadorActivo->getValor()->getId());
+}
+
+void Juego::jugarAtaqueQuimico()
+{
+    bool valido = false;
+    Coordenada *posicion;
+    Casilla *centro;
+
     while (!valido)
     {
         posicion = io->preguntarDondeColocarMina();
@@ -352,156 +444,75 @@ Lista<Coordenada *> *Juego::jugarRadar(Tablero *tablero, EntradaSalida *io)
             valido = true;
         }
     }
-    
-    if (!tablero->laUbicacionEsValida(posicion))
+
+    centro = mapa->getCasilla(posicion);
+    delete posicion;
+
+    Casilla ****r2;
+    // R3
+    for (size_t i = 0; i < 3; i++)
     {
-        throw "La posicion ingresada debe estar dentro de los limites del tablero";
-    }
-    if (tablero->obtenerEnPosicion(posicion)->getTerreno() != AIRE)
-    {
-        throw "Esta carta solo es valida en las regiones con aire";
-    }
-
-    return buscarMinas(tablero);
-}
-
-void Juego::jugarBarco(Tablero *tablero, EntradaSalida *io, Jugador *usuario)
-{
-    Coordenada *posicionAtacada = io->pedirCoordenada();
-    Coordenada *posicionBarco = io->pedirCoordenada();
-
-    /*
-    if (!tipo == BARCO)
-    {
-        throw "El tipo de carta debe ser BARCO";
-    }
-    */
-
-    if (!tablero->laUbicacionEsValida(posicionAtacada))
-    {
-        throw "La posicion ingresada debe estar dentro de los limites del tablero";
-    }
-
-    if (!tablero->laUbicacionEsValida(posicionBarco))
-    {
-        throw "La posicion ingresada debe estar dentro de los limites del tablero";
-    }
-
-    if (tablero->obtenerEnPosicion(posicionBarco)->getTerreno() != MAR)
-    {
-        throw "Esta carta solo es valida en las regiones con agua";
-    }
-
-    Unidad *torpedo = new Unidad(posicionAtacada, MINA);
-    Unidad *barco = new Unidad(posicionBarco, BARCO);
-
-    tablero->insertar(torpedo);
-    tablero->insertar(barco);
-}
-
-void Juego::jugarAtaqueQuimico(Tablero *tablero, EntradaSalida *io, Jugador *usuario)
-{
-    Coordenada *posicion = io->pedirCoordenada();
-    /*
-        if (!tipo == ATAQUEQUIMICO)
+        for (size_t j = 0; j < 3; j++)
         {
-            throw "El tipo de carta debe ser ATAQUEQUIMICO";
-        }
-    */
-
-    if (!tablero->laUbicacionEsValida(posicion))
-    {
-        throw "La posicion ingresada debe estar dentro de los limites del tablero";
-    }
-
-    for (int i = 0; i < 5; ++i)
-    {
-        for (int j = 0; j < 5; ++j)
-        {
-            for (int k = 0; k < 5; ++k)
+            for (size_t k = 0; k < 3; k++)
             {
-
-                posicion->getX() - 2 + i;
-                posicion->getY() - 2 + j;
-                posicion->getZ() - 2 + k;
-                Coordenada *posicionAux = NULL;
-                posicionAux->setCoordenada(posicion->getX() - 2 + i, posicion->getY() - 2 + j, posicion->getZ() - 2 + k);
-                tablero->obtenerEnPosicion(posicionAux)->getUnidad()->setTipo(QUIMICO);
-                tablero->insertar(tablero->obtenerEnPosicion(posicionAux)->getUnidad());
-                determinarTurnos(tablero, posicion, posicionAux);
+                for (size_t u = 0; u < 3; u++)
+                {
+                    for (size_t v = 0; v < 3; v++)
+                    {
+                        for (size_t w = 0; w < 3; w++)
+                        {
+                            atacarQuimicamente(centro->getVecinos()[i][j][k]->getVecinos()[u][v][w], 6);
+                        }
+                    }
+                }
             }
         }
     }
+    // R2
+    for (size_t i = 0; i < 3; i++)
+    {
+
+        for (size_t j = 0; j < 3; j++)
+        {
+            for (size_t k = 0; k < 3; k++)
+            {
+                atacarQuimicamente(centro->getVecinos()[i][j][k], 8);
+            }
+        }
+    }
+
+    // R1
+    atacarQuimicamente(centro, 10);
 }
 
-Lista<Coordenada *> *Juego::buscarMinas(Tablero *tablero)
+void Juego::usarRadarEnAvion(Casilla *avion)
 {
-    Lista<Coordenada *> *ocupantes = new Lista<Coordenada *>();
+    avion->getVecinos();
 
-    for (int i = 5; i < tablero->getAltura(); ++i)
+    Lista<Casilla *> *minasCercanas = new Lista<Casilla *>();
+
+    for (size_t i = 0; i < 3; i++)
     {
-        for (int j = 0; j < tablero->getAncho(); ++j)
+
+        for (size_t j = 0; j < 3; j++)
         {
-            for (int k = 0; k < tablero->getLargo(); ++k)
+            for (size_t k = 0; k < 3; k++)
             {
-                Coordenada *posicionAux = NULL;
-                posicionAux->setCoordenada(i, j, k);
-                if (tablero->obtenerEnPosicion(posicionAux)->getUnidad()->getTipo() == MINA)
+                if (avion->getVecinos()[i][j][k]->getTipo() == MINA)
                 {
-                    ocupantes->add(tablero->obtenerEnPosicion(posicionAux)->getUnidad()->getUbicacion());
+                    minasCercanas->add(avion->getVecinos()[i][j][k]);
                 }
             }
         }
     }
 
-    return ocupantes;
+    io->mostrarCoordenadasDeMinas(minasCercanas);
+
+    delete minasCercanas;
 }
 
-void Juego::atacarAdyacentes(Tablero *tablero, Unidad *unidad, TipoUnidad tipo)
+void dispararConBarco()
 {
-
-    if (unidad == NULL)
-    {
-        throw "unidad no debe ser nula";
-    }
-
-    for (int i = 1; i < 3; ++i)
-    {
-        Lista<Coordenada *> *posiciones = tablero->obtenerAdyacentes(unidad->getUbicacion());
-
-        posiciones->reiniciarCursor();
-        while (posiciones->avanzarCursor())
-        {
-            Coordenada *coordenada = posiciones->getCursor();
-            unidad->setTipo(tipo);
-        }
-    }
-}
-
-void Juego::determinarTurnos(Tablero *mapa, Coordenada *posicion, Coordenada *nuevaPosicion)
-{
-
-    if (mapa == NULL)
-    {
-        throw "mapa no debe ser nulo";
-    }
-
-    mapa->obtenerAdyacentes(posicion)->reiniciarCursor();
-
-    while (mapa->obtenerAdyacentes(posicion)->avanzarCursor())
-    {
-        Coordenada *posicionAdyacente = mapa->obtenerAdyacentes(posicion)->getCursor();
-        if (nuevaPosicion == posicion)
-        {
-            mapa->obtenerEnPosicion(posicion)->getUnidad()->desactivar(10);
-        }
-        else if (nuevaPosicion == posicionAdyacente)
-        {
-            mapa->obtenerEnPosicion(posicionAdyacente)->getUnidad()->desactivar(8);
-        }
-        else
-        {
-            mapa->obtenerEnPosicion(nuevaPosicion)->getUnidad()->desactivar(6);
-        }
-    }
+    // recibe posicion.
 }
