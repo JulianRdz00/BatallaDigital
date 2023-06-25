@@ -89,7 +89,7 @@ public:
     Juego();
 
     /*  POST: Elimina a los Soldados en casillas inactivas o minadas */
-    void comprobarColisiones();
+    void comprobarColisiones(Jugador *jugador, Casilla *anterior, Casilla *nueva);
 
     /*  PRE: Debe haber almenos un jugador en el juego. */
     Jugador *obtenerGanador();

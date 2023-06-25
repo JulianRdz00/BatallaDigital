@@ -103,9 +103,10 @@ public:
         }
     }
 
-    //PRE:  El tablero ya esta definido y poblado por casillas.
-    //POST: Recorre el tablero, restandole un turno de inactividad a todas las casillas inactivas.
-    void disminuirTurnosInactivos(){
+    // PRE:  El tablero ya esta definido y poblado por casillas.
+    // POST: Recorre el tablero, restandole un turno de inactividad a todas las casillas inactivas.
+    void disminuirTurnosInactivos()
+    {
         mapa->reiniciarCursor();
         while (this->mapa->avanzarCursor())
         {
@@ -115,12 +116,12 @@ public:
                 mapa->getCursor()->getCursor()->reiniciarCursor();
                 while (mapa->getCursor()->getCursor()->avanzarCursor())
                 {
-                    if(!mapa->getCursor()->getCursor()->getCursor()->esActiva()){
+                    if (!mapa->getCursor()->getCursor()->getCursor()->esActiva())
+                    {
                         mapa->getCursor()->getCursor()->getCursor().restarTurnoInactiva();
                     }
                 }
             }
-            
         }
     }
 
@@ -193,7 +194,7 @@ public:
         return this->largo;
     }
 
-    ~Tablero()//Reemplazar fors por whiles, para ahorrar lecturas.
+    ~Tablero() // Reemplazar fors por whiles, para ahorrar lecturas.
     {
         for (int i = ancho; i >= 1; i--)
         {
