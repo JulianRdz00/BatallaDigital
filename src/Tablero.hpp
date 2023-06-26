@@ -92,7 +92,6 @@ public:
             this->mapa->add(capa);
         }
 
-
         // mapa->reiniciarCursor();
         // int i, j, k = 1;
         // while (this->mapa->avanzarCursor())
@@ -114,7 +113,6 @@ public:
         //     }
         //     i++;
         // }
-        
 
         for (int i = 1; i <= ancho; i++)
         {
@@ -173,8 +171,10 @@ public:
             {
                 ubicacionVacia = posicionRandom;
             }
-
-            delete posicionRandom;
+            else
+            {
+                delete posicionRandom;
+            }
         }
         return resultado;
     }
@@ -264,7 +264,6 @@ public:
 
     void colococarAleatoriamente(Jugador *jugador, TipoUnidad tipo)
     {
-        bool buscando = true;
         Casilla *casilla = getCasillaAleatoriaVacia();
 
         casilla->setDuenio(jugador->getId());

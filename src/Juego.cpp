@@ -34,22 +34,27 @@ Juego::Juego()
 
     // TODO
     mapa = new Tablero(ancho, largo, alto);
+    jugadores = new ListaCircular<Jugador *>();
 
     video = new Video();
 
     for (int i = 0; i < cantidadJugadores; i++)
     {
-        jugadores->add(new Jugador(soldadosPorJugador, i+1)); // !!Completar constructor
+        jugadores->add(new Jugador(soldadosPorJugador, i + 1)); // !!Completar constructor
     }
 
     jugadores->reiniciarCursor();
-    while (jugadores->avanzarCursor())
+
+    while (cantidadJugadores > 0 && jugadores->avanzarCursor())
     {
         for (int s = 0; s < soldadosPorJugador; s++)
         {
             mapa->colococarAleatoriamente(jugadores->getCursor(), SOLDADO);
         }
+        cantidadJugadores--;
     }
+
+    jugadorActivo = jugadores->getNodo(1);
 }
 
 void Juego::ponerMina(Casilla *objetivo)

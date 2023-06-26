@@ -84,8 +84,10 @@ Jugador::Jugador()
     soldados = new Lista<Casilla *>();
     minas = new Lista<Casilla *>();
     armamentos = new Lista<Casilla *>();
+
     estado = VIVO;
     estaSalteado = false;
+    this->id = 0;
 }
 
 /*
@@ -98,6 +100,7 @@ Jugador::Jugador(int cantidadDeSoldados, int id)
     this->soldados = new Lista<Casilla *>();
     this->minas = new Lista<Casilla *>();
     this->armamentos = new Lista<Casilla *>();
+
     this->estado = VIVO;
     this->estaSalteado = false;
     this->id = id;
