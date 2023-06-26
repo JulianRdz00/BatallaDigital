@@ -92,14 +92,15 @@ Jugador::Jugador()
 Pre:-
 Post: Crea una instancia de jugador con la cantidad de soldados pasados como argumento
 */
-Jugador::Jugador(int cantidadDeSoldados)
+Jugador::Jugador(int cantidadDeSoldados, int id)
 {
-    mano = new Lista<Carta *>();
-    soldados = new Lista<Casilla *>();
-    minas = new Lista<Casilla *>();
-    armamentos = new Lista<Casilla *>();
-    estado = VIVO;
-    estaSalteado = false;
+    this->mano = new Lista<Carta *>();
+    this->soldados = new Lista<Casilla *>();
+    this->minas = new Lista<Casilla *>();
+    this->armamentos = new Lista<Casilla *>();
+    this->estado = VIVO;
+    this->estaSalteado = false;
+    this->id = id;
 }
 
 /*

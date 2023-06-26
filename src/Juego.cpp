@@ -39,7 +39,7 @@ Juego::Juego()
 
     for (int i = 0; i < cantidadJugadores; i++)
     {
-        jugadores->add(new Jugador(soldadosPorJugador)); // !!Completar constructor
+        jugadores->add(new Jugador(soldadosPorJugador, i+1)); // !!Completar constructor
     }
 
     jugadores->reiniciarCursor();
@@ -213,7 +213,7 @@ void Juego::jugarArmamentos()
         }
         else if (tipo == BARCO)
         {
-            dispararConBarco();
+            ponerMina(mapa->getCasilla(io->preguntarDisparoBarco()));
         }
     }
 }
@@ -510,9 +510,4 @@ void Juego::usarRadarEnAvion(Casilla *avion)
     io->mostrarCoordenadasDeMinas(minasCercanas);
 
     delete minasCercanas;
-}
-
-void dispararConBarco()
-{
-    // recibe posicion.
 }

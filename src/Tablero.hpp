@@ -3,6 +3,7 @@
 
 #include "Lista.hpp"
 #include "Casilla.h"
+#include "Jugador.h"
 
 class Tablero
 {
@@ -73,6 +74,8 @@ public:
         this->largo = largo;
         this->alto = alto;
 
+        mapa = new Lista<Lista<Lista<Casilla *> *> *>();
+
         for (int i = 1; i <= ancho; i++)
         {
             Lista<Lista<Casilla *> *> *capa = new Lista<Lista<Casilla *> *>();
@@ -88,6 +91,30 @@ public:
             }
             this->mapa->add(capa);
         }
+
+
+        // mapa->reiniciarCursor();
+        // int i, j, k = 1;
+        // while (this->mapa->avanzarCursor())
+        // {
+        //     j = 1;
+        //     mapa->getCursor()->reiniciarCursor();
+        //     while (mapa->getCursor()->avanzarCursor())
+        //     {
+        //         k = 1;
+        //         mapa->getCursor()->getCursor()->reiniciarCursor();
+        //         while (mapa->getCursor()->getCursor()->avanzarCursor())
+        //         {
+        //             Coordenada *posicion = new Coordenada(i, j, k);
+        //             this->mapa->get(i)->get(j)->get(k)->setVecinos(buscarVecinos(posicion));
+        //             delete posicion;
+        //             k++;
+        //         }
+        //         j++;
+        //     }
+        //     i++;
+        // }
+        
 
         for (int i = 1; i <= ancho; i++)
         {
@@ -118,7 +145,7 @@ public:
                 {
                     if (!mapa->getCursor()->getCursor()->getCursor()->esActiva())
                     {
-                        mapa->getCursor()->getCursor()->getCursor().restarTurnoInactiva();
+                        mapa->getCursor()->getCursor()->getCursor()->restarTurnoInactividad();
                     }
                 }
             }
@@ -235,7 +262,7 @@ public:
         }
     }
 
-    void Tablero::colococarAleatoriamente(Jugador *jugador, TipoUnidad tipo)
+    void colococarAleatoriamente(Jugador *jugador, TipoUnidad tipo)
     {
         bool buscando = true;
         Casilla *casilla = getCasillaAleatoriaVacia();

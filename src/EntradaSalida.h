@@ -42,6 +42,8 @@ public:
     /*  POS: devuelve un puntero a un Juego con unos parametros elejidos por el usuario. */
     void inicializarPartida(int *ancho, int *largo, int *alto, int *cantidadJugadores, int *soldadosPorJugador);
 
+    Coordenada* preguntarDisparoBarco();
+
     ~EntradaSalida();
 };
 

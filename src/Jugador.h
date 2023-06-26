@@ -48,7 +48,7 @@ public:
     Pre:-
     Post: Crea una instancia de jugador con la cantidad de soldados pasados como argumento
     */
-    Jugador(int cantidadDeSoldados);
+    Jugador(int cantidadDeSoldados, int id);
 
     /*
     Pre:-

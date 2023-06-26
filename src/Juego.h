@@ -35,7 +35,7 @@ private:
      */
     Lista<Coordenada *> *buscarMinas(Tablero *tablero);
 
-    void Juego::moverUnidad();
+    void moverUnidad();
 
     void atacarQuimicamente(Casilla *objetivo, int duracion);
 
@@ -58,7 +58,7 @@ private:
        La posicion debe estar dentro de los limites del tablero y en regiones con aire.
     *Post: Detecta todas las minas enemigas que haya en los casilleros de aire
     */
-    void Juego::jugarRadar();
+    void jugarRadar();
 
     /*Pre: El tablero no debe ser nulo.
         La posicion debe estar dentro de los limites del tablero.
@@ -74,8 +74,7 @@ private:
         Pos: Saltea por un turno al jugador indicado */
     void jugarPasarTurno();
 
-    void Juego::jugarAtaqueQuimico();
-    void Juego::usarRadarEnAvion(Casilla *avion);
+    void usarRadarEnAvion(Casilla *avion);
 
     /*  PRE: devuelve */
     Jugador *getJugadorSegunId(unsigned int id)
@@ -127,8 +126,6 @@ public:
 
     /*  POST: */
     void ponerMina(Casilla *objetivo);
-
-        void moverUnidad();
 
     // POST: avanza el turno al siguiente jugador correspondiente, devuelve false cuando hay un ganador o un empate, sino, devuelve true.
     bool avanzarTurno();

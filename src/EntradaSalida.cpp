@@ -189,6 +189,12 @@ void EntradaSalida::inicializarPartida(int *ancho, int *largo, int *alto, int *c
     }
 }
 
+Coordenada* EntradaSalida::preguntarDisparoBarco()
+{
+    std::cout<<"Donde queres disparar el torpedo?"<<std::endl;
+    return pedirCoordenada();
+}
+
 EntradaSalida::~EntradaSalida()
 {
 }

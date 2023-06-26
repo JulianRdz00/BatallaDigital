@@ -16,13 +16,13 @@ void Video::asigarTerrenos(
         switch (casilla->getTerreno())
         {
         case TIERRA:
-            matrizTerrenos[casilla->getUnidad()->getUbicacion()->getX()][casilla->getUnidad()->getUbicacion()->getY()] = TIERRA;
+            matrizTerrenos[casilla->getUbicacion()->getX()][casilla->getUbicacion()->getY()] = TIERRA;
             break;
         case MAR:
-            matrizTerrenos[casilla->getUnidad()->getUbicacion()->getX()][casilla->getUnidad()->getUbicacion()->getY()] = MAR;
+            matrizTerrenos[casilla->getUbicacion()->getX()][casilla->getUbicacion()->getY()] = MAR;
             break;
         default:
-            matrizTerrenos[casilla->getUnidad()->getUbicacion()->getX()][casilla->getUnidad()->getUbicacion()->getY()] = AIRE;
+            matrizTerrenos[casilla->getUbicacion()->getX()][casilla->getUbicacion()->getY()] = AIRE;
             break;
         };
     }
