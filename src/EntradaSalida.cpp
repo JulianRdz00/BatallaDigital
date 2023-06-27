@@ -104,12 +104,16 @@ bool EntradaSalida::preguntarSiUsarCarta(Jugador *jugador)
             std::cout << "Se decidio utilizar una carta" << std::endl;
             seUsaCarta = true;
             respuestaInvalida = false;
+            seUsaCarta = true;
+            return seUsaCarta;
         }
         else if (respuesta == 'N')
         {
             std::cout << "Se decidio no utilizar ninguna carta" << std::endl;
             seUsaCarta = false;
             respuestaInvalida = false;
+            seUsaCarta = false;
+            return seUsaCarta;
         }
     }
 
@@ -130,15 +134,21 @@ void EntradaSalida::listarCartas(Jugador *jugador)
 
 unsigned int EntradaSalida::elejirCartaParaJugar(Jugador *jugador)
 {
-
     TipoDeCarta cartaElejida;
     bool respuestaInvalida = true;
-
-    unsigned int indice = 0;
     Lista<Carta *> *cartas = jugador->getMano();
+    unsigned int indice = 0;
+    int i=1;
     while (respuestaInvalida)
     {
         std::cout << "Elije una carta valida [X]:\n";
+        cartas->reiniciarCursor();
+        while(cartas->avanzarCursor()){
+            std::cout << i<<"." ;
+            cartas->getCursor()->getNombre();
+            std::cout << std::endl;
+            i++;
+        }
         std::cin >> indice;
         if ((indice > 0) & (indice < cartas->contarElementos()))
         {
