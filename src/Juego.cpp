@@ -252,7 +252,7 @@ void Juego::moverUnidad() // ok
     bool nuevaPosicionInvalida = true;
     Coordenada *nuevaPosicionUnidad;
 
-    while (nuevaPosicionInvalida)
+    while (nuevaPosicionInvalida) // por aca se rompee
     {
         nuevaPosicionUnidad = io->preguntarDondeMoverUnidad();
         nuevaCasilla = mapa->getCasilla(nuevaPosicionUnidad);
@@ -283,6 +283,13 @@ void Juego::darCartaAJugador()
 
 void Juego::actualizarImagenes()
 {
+    jugadores->reiniciarCursor();
+    int i = jugadores->contarElementos();
+    while (i > 0 && jugadores->avanzarCursor())
+    {
+        video->dibujarTablero(mapa, jugadores->getCursor());
+        i--;
+    }
 }
 
 void Juego::usarCarta(TipoDeCarta tipo)

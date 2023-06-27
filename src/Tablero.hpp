@@ -58,7 +58,7 @@ private:
                         z = 1;
                     }
 
-                    vecinos[u][v][w] = this->mapa->get(x)->get(y)->get(z);
+                    vecinos[u][v][w] = this->mapa->get(z)->get(y)->get(x);
                 }
             }
         }
@@ -76,51 +76,42 @@ public:
 
         mapa = new Lista<Lista<Lista<Casilla *> *> *>();
 
-        for (int i = 1; i <= ancho; i++)
+        for (int i = 1; i <= alto; i++)
         {
             Lista<Lista<Casilla *> *> *capa = new Lista<Lista<Casilla *> *>();
 
             for (int j = 1; j <= largo; j++)
             {
                 Lista<Casilla *> *eje = new Lista<Casilla *>();
-                for (int k = 1; k <= alto; k++)
+                for (int k = 1; k <= ancho; k++)
                 {
-                    eje->add(new Casilla(AIRE, new Coordenada(i, j, k)));
+                    TipoTerreno terreno;
+                    if (i < 2)
+                    {
+                        terreno = TIERRA;
+                    }
+                    else if (i > 1 && i < 6)
+                    {
+                        terreno = MAR;
+                    }
+                    else
+                    {
+                        terreno = AIRE;
+                    }
+                    eje->add(new Casilla(terreno, new Coordenada(k, j, i)));
                 }
                 capa->add(eje);
             }
             this->mapa->add(capa);
         }
 
-        // mapa->reiniciarCursor();
-        // int i, j, k = 1;
-        // while (this->mapa->avanzarCursor())
-        // {
-        //     j = 1;
-        //     mapa->getCursor()->reiniciarCursor();
-        //     while (mapa->getCursor()->avanzarCursor())
-        //     {
-        //         k = 1;
-        //         mapa->getCursor()->getCursor()->reiniciarCursor();
-        //         while (mapa->getCursor()->getCursor()->avanzarCursor())
-        //         {
-        //             Coordenada *posicion = new Coordenada(i, j, k);
-        //             this->mapa->get(i)->get(j)->get(k)->setVecinos(buscarVecinos(posicion));
-        //             delete posicion;
-        //             k++;
-        //         }
-        //         j++;
-        //     }
-        //     i++;
-        // }
-
-        for (int i = 1; i <= ancho; i++)
+        for (int i = 1; i <= alto; i++)
         {
             for (int j = 1; j <= largo; j++)
             {
-                for (int k = 1; k <= alto; k++)
+                for (int k = 1; k <= ancho; k++)
                 {
-                    Coordenada *posicion = new Coordenada(i, j, k);
+                    Coordenada *posicion = new Coordenada(k, j, i);
                     this->mapa->get(i)->get(j)->get(k)->setVecinos(buscarVecinos(posicion));
                     delete posicion;
                 }
@@ -200,7 +191,7 @@ public:
     // POST: Devuelve un puntero a un con la posicion dada.//revisar
     Casilla *getCasilla(Coordenada *posicion)
     {
-        return this->mapa->get(posicion->getX())->get(posicion->getY())->get(posicion->getZ());
+        return this->mapa->get(posicion->getZ())->get(posicion->getY())->get(posicion->getX());
     }
 
     // Devuelve la altura maxima que puede tener una posicion dentro del tablero
@@ -270,6 +261,11 @@ public:
         casilla->setTipo(tipo);
 
         jugador->agregarUnidad(casilla);
+    }
+
+    Lista<Lista<Lista<Casilla *> *> *> *getTablero() const
+    {
+        return this->mapa;
     }
 };
 

@@ -8,19 +8,22 @@ static const char ICONO_MAR = '~';
 static const char ICONO_AIRE = ' ';
 static const char ICONO_TIERRA = '#';
 
-enum EstadoPartida {
+enum EstadoPartida
+{
     EMPATE,
     TERMINADA,
     ENMARCHA
 };
 
-enum EstadoJugador {
+enum EstadoJugador
+{
     VIVO,
     MUERTO,
     SALTEADO,
 };
 
-enum TipoDeCarta {
+enum TipoDeCarta
+{
     SUPERMINA,
     RADAR,
     ATAQUEQUIMICO,
@@ -29,16 +32,18 @@ enum TipoDeCarta {
     PASARTURNO
 };
 
-enum TipoUnidad {
+enum TipoUnidad
+{
     AVION,
     BARCO,
     MINA,
     SOLDADO,
-    QUIMICO,//BORRAR
+    QUIMICO, // BORRAR
     VACIO
 };
 
-enum TipoTerreno {
+enum TipoTerreno
+{
     TIERRA,
     MAR,
     AIRE
@@ -50,8 +55,11 @@ static const int PROFUNDIDAD_TABLERO_DEFAULT = 10;
 static const int ANCHO_TABLERO_DEFAULT = 10;
 static const int LARGO_TABLERO_DEFAULT = 10;
 static const int ALTO_TABLERO_DEFAULT = 10;
-static const int TAMANIO_LADO_CASILLA_DEFAULT = 10;
+
+static const int TAMANIO_LADO_CASILLA_DEFAULT = 64;
 static const int TAMANIO_OCUPANTE_DEFAULT = TAMANIO_LADO_CASILLA_DEFAULT / 2;
+static const int OFFSET_OCUPANTE_Y_CASILLA = TAMANIO_OCUPANTE_DEFAULT / 2;
+
 static const int CANTIDAD_JUGADORES_DEFAULT = 2;
 static const int CANTIDAD_SOLDADOS_DEFAULT = 3;
 
