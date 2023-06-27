@@ -279,7 +279,7 @@ bool Juego::avanzarTurno()
 
 void Juego::darCartaAJugador()
 {
-    this->jugadores->getCursor()->agregarCartaAMano(new Carta());
+    this->jugadorActivo->getValor()->agregarCartaAMano(new Carta());
 }
 
 void Juego::actualizarImagenes()
