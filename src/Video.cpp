@@ -164,11 +164,4 @@ void Video::dibujarCapa(Lista<Lista<Casilla *> *> *capa, Jugador *jugador, bitma
             dibujarOcupante(x, y, capa->getCursor()->getCursor(), jugador, imagen);
         }
     }
-
-    for (int x = 1; x <= PROFUNDIDAD_TABLERO_DEFAULT; x++)
-    {
-        for (int y = 1; y <= LARGO_TABLERO_DEFAULT; y++)
-        {
-        }
-    }
 }
