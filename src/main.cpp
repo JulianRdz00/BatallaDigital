@@ -9,11 +9,11 @@ int main()
 
     Juego *batallaDigital = new Juego();
 
-    while (batallaDigital->avanzarTurno()) // lista de jugadores
-    {
+    
+    do{
         batallaDigital->actualizarImagenes();
         batallaDigital->ejecutarTurno();
-    }
+    }while (batallaDigital->avanzarTurno()); // lista de jugadores
 
     batallaDigital->avanzarTurno();
 

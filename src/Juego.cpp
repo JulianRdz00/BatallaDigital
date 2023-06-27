@@ -54,6 +54,7 @@ Juego::Juego()
         cantidadJugadores--;
     }
 
+    jugadores->reiniciarCursor();
     jugadorActivo = jugadores->getNodo(1);
 }
 
