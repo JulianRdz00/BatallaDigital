@@ -108,7 +108,7 @@ public:
     Pre:-
     Post: Devuelve true o false en funcion de si el jugador esta salteado o no
     */
-    bool Salteado();
+    bool salteado();
 
     /*
     Pre:-
