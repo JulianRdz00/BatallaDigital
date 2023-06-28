@@ -196,7 +196,7 @@ void Jugador::setEstadoSalteado(bool estado)
 Pre:-
 Post: Devuelve true o false en funcion de si el jugador esta salteado o no
 */
-bool Jugador::Salteado()
+bool Jugador::salteado()
 {
     return this->estaSalteado;
 }
