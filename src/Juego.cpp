@@ -87,9 +87,7 @@ void Juego::atacarQuimicamente(Casilla *objetivo, int duracion)
     {
         if (tipo == VACIO)
         {
-            objetivo->setDuenio(jugadorActivo->getValor()->getId());
-            objetivo->setTipo(MINA);
-            jugadorActivo->getValor()->agregarUnidad(objetivo);
+            objetivo->desactivar(duracion);
         }
         else
         {
@@ -342,8 +340,9 @@ que busque un objetivo dentro.
 void Juego::jugarDestructorArmamento() // OKas
 {
 
-    // Buscar esgun ids
-    Jugador *objetivo;
+    int idJugadorObjetivo = this->io->preguntarEnteroPositivo("Ingrese el ID del Jugador cuyo armamento quieres destruir: ");
+
+    Jugador *objetivo = this->getJugadorSegunId(idJugadorObjetivo);
 
     if (objetivo == NULL)
     {
@@ -382,13 +381,15 @@ void Juego::jugarSuperMina()
     Casilla *centro = mapa->getCasilla(posicion);
     delete posicion;
 
+    Casilla**** vecinos = centro->getVecinos();
+
     for (size_t i = 0; i < 3; i++)
     {
         for (size_t j = 0; j < 3; j++)
         {
             for (size_t k = 0; k < 3; k++)
             {
-                ponerMina(centro->getVecinos()[i][j][k]);
+                ponerMina(vecinos[i][j][k]);
             }
         }
     }
@@ -450,7 +451,7 @@ void Juego::jugarAtaqueQuimico()
 
     while (!valido)
     {
-        posicion = io->preguntarDondeColocarMina();
+        posicion = io->preguntarDondeColocarQuimico();
 
         if (mapa->laUbicacionEsValida(posicion))
         {

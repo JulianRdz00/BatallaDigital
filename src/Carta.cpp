@@ -7,7 +7,8 @@ Carta::Carta(TipoDeCarta tipo)
 
 Carta::Carta()
 {
-    this->tipo = TipoDeCarta(getRandom(0, CANTIDAD_TIPOS_DE_CARTAS - 1));
+    //this->tipo = TipoDeCarta(getRandom(0, CANTIDAD_TIPOS_DE_CARTAS - 1));
+    this->tipo = TipoDeCarta(SUPERMINA);
 }
 
 Carta::~Carta()
@@ -24,22 +25,24 @@ std::string Carta::getNombre()
     switch (tipo)
     {
     case SUPERMINA:
-        std::cout << NOMBRE_CARTA_SUPERMINA << std::endl;
+        return NOMBRE_CARTA_SUPERMINA;
         break;
     case RADAR:
-        std::cout << NOMBRE_CARTA_RADAR << std::endl;
+        return NOMBRE_CARTA_RADAR;
         break;
     case ATAQUEQUIMICO:
-        std::cout << NOMBRE_CARTA_ATAQUEQUIMICO << std::endl;
+        return NOMBRE_CARTA_ATAQUEQUIMICO;
         break;
     case USARBARCO:
-        std::cout << NOMBRE_CARTA_USARBARCO << std::endl;
+        return NOMBRE_CARTA_USARBARCO;
         break;
     case DESTRUCTORARMAMENTO:
-        std::cout << NOMBRE_CARTA_DESTRUCTORARMAMENTO << std::endl;
+        return NOMBRE_CARTA_DESTRUCTORARMAMENTO;
         break;
     case PASARTURNO:
-        std::cout << NOMBRE_CARTA_PASARTURNO << std::endl;
+        return NOMBRE_CARTA_PASARTURNO;
+        break;
+    default:
         break;
     }
 }

@@ -74,6 +74,7 @@ Coordenada *EntradaSalida::preguntarDondeColocarMina()
     std::cout << "Donde quiere colocar una mina? " << std::endl;
     return pedirCoordenada();
 }
+
 void EntradaSalida::mostrarCoordenadasDeMinas(Lista<Casilla *> *minas)
 {
     std::cout << "Hay Minas en las siguiente posicion\n";
@@ -85,6 +86,12 @@ void EntradaSalida::mostrarCoordenadasDeMinas(Lista<Casilla *> *minas)
         std::cout << ";" << minas->getCursor()->getUbicacion()->getY();
         std::cout << ";" << minas->getCursor()->getUbicacion()->getZ() << "]\n";
     }
+}
+
+Coordenada *EntradaSalida::preguntarDondeColocarQuimico()
+{
+    std::cout << "Donde quiere iniciar el ataque quimico? " << std::endl;
+    return pedirCoordenada();
 }
 
 bool EntradaSalida::preguntarSiUsarCarta(Jugador *jugador)
@@ -138,19 +145,19 @@ unsigned int EntradaSalida::elejirCartaParaJugar(Jugador *jugador)
     bool respuestaInvalida = true;
     Lista<Carta *> *cartas = jugador->getMano();
     unsigned int indice = 0;
-    int i=1;
     while (respuestaInvalida)
     {
+        int i = 1;
         std::cout << "Elije una carta valida [X]:\n";
         cartas->reiniciarCursor();
         while(cartas->avanzarCursor()){
             std::cout << i<<"." ;
-            cartas->getCursor()->getNombre();
+            std::cout << cartas->getCursor()->getNombre() << std::endl;
             std::cout << std::endl;
             i++;
         }
         std::cin >> indice;
-        if ((indice > 0) & (indice < cartas->contarElementos()))
+        if ((indice > 0) & (indice <= cartas->contarElementos()))
         {
             respuestaInvalida = false;
         }

@@ -26,6 +26,8 @@ public:
     /*  POS: pregunta a donde quiere colocar una mina y devuelve la coordenada cuyo nombre es nombreCoordenada*/
     Coordenada *preguntarDondeColocarMina();
 
+    Coordenada *preguntarDondeColocarQuimico();
+
     /*  POS: devuelve un string con el nombre de la carta a jugar y en caso de no jugar carta devuelve 0
     REVISAR lista de cartas mano (const) */
     bool preguntarSiUsarCarta(Jugador *jugador);

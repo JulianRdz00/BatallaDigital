@@ -38,8 +38,7 @@ enum TipoUnidad
     BARCO,
     MINA,
     SOLDADO,
-    QUIMICO, // BORRAR
-    VACIO
+    VACIO,
 };
 
 enum TipoTerreno
