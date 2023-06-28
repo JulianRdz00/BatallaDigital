@@ -2,37 +2,37 @@
 
 Video::Video()
 {
-    this->colorAgua.red = 0;
-    this->colorAgua.green = 180;
-    this->colorAgua.blue = 255;
+    this->colorAgua.red = COLOR_AGUA_R;
+    this->colorAgua.green = COLOR_AGUA_G;
+    this->colorAgua.blue = COLOR_AGUA_B;
 
-    this->colorTierra.red = 210;
-    this->colorTierra.green = 180;
-    this->colorTierra.blue = 110;
+    this->colorTierra.red = COLOR_TIERRA_R;
+    this->colorTierra.green = COLOR_TIERRA_G;
+    this->colorTierra.blue = COLOR_TIERRA_B;
 
-    this->colorAire.red = 240;
-    this->colorAire.green = 240;
-    this->colorAire.blue = 240;
+    this->colorAire.red = COLOR_AIRE_R;
+    this->colorAire.green = COLOR_AIRE_G;
+    this->colorAire.blue = COLOR_AIRE_B;
 
-    this->colorSoldado.red = 112;
-    this->colorSoldado.green = 112;
-    this->colorSoldado.blue = 192;
+    this->colorSoldado.red = COLOR_SOLDADO_R;
+    this->colorSoldado.green = COLOR_SOLDADO_G;
+    this->colorSoldado.blue = COLOR_SOLDADO_B;
 
-    this->colorMina.red = 265;
-    this->colorMina.green = 55;
-    this->colorMina.blue = 20;
+    this->colorMina.red = COLOR_MINA_R;
+    this->colorMina.green = COLOR_MINA_R;
+    this->colorMina.blue = COLOR_MINA_R;
 
-    this->colorAvion.red = 0;
-    this->colorAvion.green = 0;
-    this->colorAvion.blue = 0;
+    this->colorAvion.red = COLOR_AVION_R;
+    this->colorAvion.green = COLOR_AVION_G;
+    this->colorAvion.blue = COLOR_AVION_B;
 
-    this->colorBarco.red = 255;
-    this->colorBarco.green = 255;
-    this->colorBarco.blue = 255;
+    this->colorBarco.red =COLOR_BARCO_R;
+    this->colorBarco.green = COLOR_BARCO_G;
+    this->colorBarco.blue = COLOR_BARCO_B;
 
-    this->colorInactiva.red = 55;
-    this->colorInactiva.green = 255;
-    this->colorInactiva.blue = 100;
+    this->colorInactiva.red = COLOR_INACTIVA_R;
+    this->colorInactiva.green = COLOR_INACTIVA_G;
+    this->colorInactiva.blue = COLOR_INACTIVA_B;
 }
 
 void Video::dibujarTerreno(int x, int y, Casilla *casilla, bitmap_image *imagen)
@@ -91,15 +91,30 @@ void Video::dibujarOcupante(int x, int y, Casilla *casilla, Jugador *jugador, bi
         }
         dibujar = true;
     }
+
     if (dibujar)
     {
-        for (int i = x * TAMANIO_LADO_CASILLA_DEFAULT + OFFSET_OCUPANTE_Y_CASILLA; i <= x * TAMANIO_LADO_CASILLA_DEFAULT + TAMANIO_LADO_CASILLA_DEFAULT - OFFSET_OCUPANTE_Y_CASILLA; i++)
+        int xInicial = x * TAMANIO_LADO_CASILLA_DEFAULT + OFFSET_OCUPANTE_Y_CASILLA;
+        int xFinal = x * TAMANIO_LADO_CASILLA_DEFAULT + TAMANIO_LADO_CASILLA_DEFAULT - OFFSET_OCUPANTE_Y_CASILLA;
+        int yInicial = y * TAMANIO_LADO_CASILLA_DEFAULT + OFFSET_OCUPANTE_Y_CASILLA;
+        int yFinal = y * TAMANIO_LADO_CASILLA_DEFAULT + TAMANIO_LADO_CASILLA_DEFAULT - OFFSET_OCUPANTE_Y_CASILLA;
+
+        for (int i = xInicial; i <= xFinal; i++)
         {
-            for (int j = y * TAMANIO_LADO_CASILLA_DEFAULT + OFFSET_OCUPANTE_Y_CASILLA; j <= y * TAMANIO_LADO_CASILLA_DEFAULT + TAMANIO_LADO_CASILLA_DEFAULT - OFFSET_OCUPANTE_Y_CASILLA; j++)
+            for (int j = yInicial; j <= yFinal; j++)
             {
                 imagen->set_pixel(i, j, color);
             }
         }
+
+        image_drawer draw(*imagen);
+        draw.pen_width(1);
+        draw.pen_color(COLOR_BORDES_R,COLOR_BORDES_G, COLOR_BORDES_B);
+        draw.rectangle(
+                xInicial,
+                yInicial,
+                xFinal,
+                yFinal);
     }
 }
 
@@ -135,15 +150,14 @@ void Video::dibujarCapa(Lista<Lista<Casilla *> *> *capa, Jugador *jugador, bitma
 {
     image_drawer draw(*imagen);
     draw.pen_width(1);
-    draw.pen_color(200, 200, 200);
+    draw.pen_color(COLOR_BORDES_R,COLOR_BORDES_G, COLOR_BORDES_B);
     int y = 1;
     int x = 1;
-    int yMaximo;
+    int yMaximo=1;
 
     capa->reiniciarCursor();
     while (capa->avanzarCursor())
     {
-
         capa->getCursor()->reiniciarCursor();
         while (capa->getCursor()->avanzarCursor())
         {
@@ -151,10 +165,8 @@ void Video::dibujarCapa(Lista<Lista<Casilla *> *> *capa, Jugador *jugador, bitma
             yMaximo = capa->getCursor()->contarElementos();
             y = yMaximo - capa->getCursor()->getCursor()->getUbicacion()->getY();
 
-            TipoTerreno terreno = capa->getCursor()->getCursor()->getTerreno();
-            rgb_t colorTerreno;
-
             dibujarTerreno(x, y, capa->getCursor()->getCursor(), imagen);
+
             draw.rectangle(
                 x * TAMANIO_LADO_CASILLA_DEFAULT,
                 y * TAMANIO_LADO_CASILLA_DEFAULT,

@@ -1,21 +1,6 @@
-#ifndef _TABLERO_H_
-#define _TABLERO_H_
+#include "Tablero.h"
 
-#include "Lista.hpp"
-#include "Casilla.h"
-#include "Jugador.h"
-
-class Tablero
-{
-private:
-    Lista<Lista<Lista<Casilla *> *> *> *mapa;
-
-    int ancho;
-    int largo;
-    int alto;
-
-    /*PRE: El ancho, largo y alto ya estan definidos*/
-    Casilla ****buscarVecinos(Coordenada *posicion)
+    Casilla ****Tablero::buscarVecinos(Coordenada *posicion)
     {
         Casilla ****vecinos = new Casilla ***[3];
         for (size_t u = 0; u < 3; u++)
@@ -66,9 +51,7 @@ private:
         return vecinos;
     }
 
-public:
-    // POST: Crea un tablero con las dimensiones dadas como argumento.
-    Tablero(int ancho, int largo, int alto) // OK
+    Tablero::Tablero(int ancho, int largo, int alto)
     {
         this->ancho = ancho;
         this->largo = largo;
@@ -119,9 +102,7 @@ public:
         }
     }
 
-    // PRE:  El tablero ya esta definido y poblado por casillas.
-    // POST: Recorre el tablero, restandole un turno de inactividad a todas las casillas inactivas.
-    void disminuirTurnosInactivos()
+    void Tablero::disminuirTurnosInactivos()
     {
         mapa->reiniciarCursor();
         while (this->mapa->avanzarCursor())
@@ -141,7 +122,7 @@ public:
         }
     }
 
-    Coordenada *getPosicionAleatoria() // OK
+    Coordenada *Tablero::getPosicionAleatoria()
     {
         int x = getRandom(1, this->ancho);
         int y = getRandom(1, this->largo);
@@ -150,7 +131,7 @@ public:
         return new Coordenada(x, y, z);
     }
 
-    Casilla *getCasillaAleatoriaVacia() // OK
+    Casilla *Tablero::getCasillaAleatoriaVacia()
     {
         Coordenada *ubicacionVacia = NULL;
         Casilla *resultado;
@@ -170,8 +151,7 @@ public:
         return resultado;
     }
 
-    // Devuelve true solo si las componentes de la ubicacion dada son positivas y estan dentro del tamaño del tablero.
-    bool laUbicacionEsValida(Coordenada *ubicacion) // OK
+    bool Tablero::laUbicacionEsValida(Coordenada *ubicacion)
     {
         if (ubicacion->getX() <= this->ancho &&
             ubicacion->getX() > 0 &&
@@ -188,31 +168,27 @@ public:
         }
     }
 
-    // POST: Devuelve un puntero a un con la posicion dada.//revisar
-    Casilla *getCasilla(Coordenada *posicion)
+    Casilla *Tablero::getCasilla(Coordenada *posicion)
     {
         return this->mapa->get(posicion->getZ())->get(posicion->getY())->get(posicion->getX());
     }
 
-    // Devuelve la altura maxima que puede tener una posicion dentro del tablero
-    int getAltura()
+    int Tablero::getAltura()
     {
         return this->alto;
     }
 
-    // Devuelve el ancho maxima que puede tener una posicion dentro del tablero
-    int getAncho()
+    int Tablero::getAncho()
     {
         return this->ancho;
     }
 
-    // Devuelve el largo maxima que puede tener una posicion dentro del tablero
-    int getLargo()
+    int Tablero::getLargo()
     {
         return this->largo;
     }
 
-    ~Tablero() // Reemplazar fors por whiles, para ahorrar lecturas.
+    ~Tablero::Tablero()
     {
         for (int i = ancho; i >= 1; i--)
         {
@@ -230,7 +206,7 @@ public:
         delete this->mapa;
     }
 
-    bool sonVecinas(Casilla *a, Casilla *b)
+    bool Tablero::sonVecinas(Casilla *a, Casilla *b)
     {
         bool sonVecinas = false;
         int i, j, k = 0;
@@ -253,7 +229,7 @@ public:
         }
     }
 
-    void colococarAleatoriamente(Jugador *jugador, TipoUnidad tipo)
+    void Tablero::colococarAleatoriamente(Jugador *jugador, TipoUnidad tipo)
     {
         Casilla *casilla = getCasillaAleatoriaVacia();
 
@@ -262,11 +238,3 @@ public:
 
         jugador->agregarUnidad(casilla);
     }
-
-    Lista<Lista<Lista<Casilla *> *> *> *getTablero() const
-    {
-        return this->mapa;
-    }
-};
-
-#endif
