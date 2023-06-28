@@ -2,37 +2,37 @@
 
 Video::Video()
 {
-    this->colorAgua.blue = 255;
-    this->colorAgua.green = 128;
     this->colorAgua.red = 0;
+    this->colorAgua.green = 180;
+    this->colorAgua.blue = 255;
 
-    this->colorTierra.blue = 0;
-    this->colorTierra.green = 51;
-    this->colorTierra.red = 102;
+    this->colorTierra.red = 210;
+    this->colorTierra.green = 180;
+    this->colorTierra.blue = 110;
 
-    this->colorAire.blue = 255;
-    this->colorAire.green = 255;
-    this->colorAire.red = 100;
+    this->colorAire.red = 240;
+    this->colorAire.green = 240;
+    this->colorAire.blue = 240;
 
-    this->colorSoldado.blue = 0;
-    this->colorSoldado.green = 153;
-    this->colorSoldado.red = 0;
+    this->colorSoldado.red = 112;
+    this->colorSoldado.green = 112;
+    this->colorSoldado.blue = 192;
 
-    this->colorMina.blue = 255;
-    this->colorMina.green = 128;
-    this->colorMina.red = 0;
+    this->colorMina.red = 265;
+    this->colorMina.green = 55;
+    this->colorMina.blue = 20;
 
-    this->colorAvion.blue = 192;
-    this->colorAvion.green = 192;
-    this->colorAvion.red = 192;
+    this->colorAvion.red = 0;
+    this->colorAvion.green = 0;
+    this->colorAvion.blue = 0;
 
-    this->colorBarco.blue = 120;
-    this->colorBarco.green = 120;
-    this->colorBarco.red = 120;
+    this->colorBarco.red = 255;
+    this->colorBarco.green = 255;
+    this->colorBarco.blue = 255;
 
-    this->colorInactiva.blue = 21;
-    this->colorInactiva.green = 21;
-    this->colorInactiva.red = 255;
+    this->colorInactiva.red = 55;
+    this->colorInactiva.green = 255;
+    this->colorInactiva.blue = 100;
 }
 
 void Video::dibujarTerreno(int x, int y, Casilla *casilla, bitmap_image *imagen)
