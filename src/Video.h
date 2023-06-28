@@ -9,22 +9,15 @@
 class Video
 {
 private:
-    void asigarTerrenos(
-        TipoTerreno matrizTerrenos[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT],
-        Lista<Casilla *> *casillas);
 
-    void asignarOcupante(
-        TipoUnidad matrizOcupantes[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT],
-        Lista<Casilla *> *casillas,
-        Jugador *jugador);
-
+    /*POS:  Dada un x,y de una casilla, dibuja en la imagen un rectangulo con el color correspondiente al terreno de la misma.*/
     void dibujarTerreno(int x, int y, Casilla *casilla, bitmap_image *imagen);
 
-    void dibujarTerrenos(TipoTerreno matrizTerrenos[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT], bitmap_image *imagen);
-
+    /*POS:  Dado un x,y de una casilla dibuja en la imagen un rectangulo con un color 
+    correspondiente a la unidad que hay en la casilla solo si esta pertence al jugador pasado.*/
     void dibujarOcupante(int x, int y, Casilla *casilla, Jugador *jugador, bitmap_image *imagen);
 
-    void dibujarOcupantes(TipoUnidad matrizOcupantes[PROFUNDIDAD_TABLERO_DEFAULT][LARGO_TABLERO_DEFAULT], bitmap_image *imagen);
+    /*Dada una capa de casillas, dibuja una imagen */
     void dibujarCapa(Lista<Lista<Casilla *> *> *capa, Jugador *jugador, bitmap_image *imagen);
 
 public:
@@ -39,9 +32,13 @@ public:
 
     rgb_t colorInactiva;
 
+    /**/
     Video();
+
+    /*POS:  Dado un tablero y un jugador, crea un archivo .bmp por
+     cada capa (x,y) del tablero dando un total de z imagenes.
+     Las imagenes resultantes corresponden a la perspectiva del jugador*/
     void dibujarTablero(Tablero *tablero, Jugador *jugador);
-    void dibujarTableros(Tablero *tablero, Lista<Jugador *> *jugadores);
 };
 
 #endif
