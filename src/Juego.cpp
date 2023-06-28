@@ -90,6 +90,9 @@ void Juego::ponerMina(Casilla *objetivo)
             objetivo->setTipo(MINA);
             jugadorActivo->getValor()->agregarUnidad(objetivo);
         }
+        else if (tipo == MINA)
+        {
+        }
         else
         {
             Jugador *duenio = getJugadorSegunId(objetivo->getIdDuenio());
@@ -144,51 +147,51 @@ void Juego::comprobarColisiones(Jugador *jugador, Casilla *anterior, Casilla *nu
     }
 
 
-        if(!jugador->salteado() &&
+    if(!jugador->salteado() &&
         jugador->getEstado() != MUERTO){
 
 
 
 
-    if (nueva->getTipo() == VACIO)
-    {
-        jugador->quitarUnidad(anterior);
-        jugador->agregarUnidad(nueva);
+        if (nueva->getTipo() == VACIO)
+        {
+            jugador->quitarUnidad(anterior);
+            jugador->agregarUnidad(nueva);
 
-        nueva->setTipo(anterior->getTipo());
-        nueva->setDuenio(jugador->getId());
+            nueva->setTipo(anterior->getTipo());
+            nueva->setDuenio(jugador->getId());
 
-        anterior->setTipo(VACIO);
-        anterior->setDuenio(SIN_DUENIO);
-    }
-    else if (nueva->getTipo() == MINA)
-    {
-        Jugador *duenioDeMina = getJugadorSegunId(nueva->getIdDuenio());
-        duenioDeMina->quitarUnidad(nueva);
-        jugador->quitarUnidad(anterior);
-
-        anterior->setTipo(VACIO);
-        anterior->setDuenio(SIN_DUENIO);
-
-        nueva->setTipo(VACIO);
-        nueva->setDuenio(SIN_DUENIO);
-        nueva->desactivar(CANTIDAD_TURNOS_INACTIVOS_MINA);
-    }
-    else
-    {
-        Jugador *duenioDeCasillaNueva = getJugadorSegunId(nueva->getIdDuenio());
-        Jugador *duenioDeCasillaAnterior = getJugadorSegunId(anterior->getIdDuenio());
-
-        duenioDeCasillaAnterior->quitarUnidad(anterior);
-        duenioDeCasillaNueva->quitarUnidad(nueva);
-
-        anterior->setTipo(VACIO);
-        anterior->setDuenio(SIN_DUENIO);
-
-        nueva->setTipo(VACIO);
-        nueva->setDuenio(SIN_DUENIO);
-    }
+            anterior->setTipo(VACIO);
+            anterior->setDuenio(SIN_DUENIO);
         }
+        else if (nueva->getTipo() == MINA)
+        {
+            Jugador *duenioDeMina = getJugadorSegunId(nueva->getIdDuenio());
+            duenioDeMina->quitarUnidad(nueva);
+            jugador->quitarUnidad(anterior);
+
+            anterior->setTipo(VACIO);
+            anterior->setDuenio(SIN_DUENIO);
+
+            nueva->setTipo(VACIO);
+            nueva->setDuenio(SIN_DUENIO);
+            nueva->desactivar(CANTIDAD_TURNOS_INACTIVOS_MINA);
+        }
+        else
+        {
+            Jugador *duenioDeCasillaNueva = getJugadorSegunId(nueva->getIdDuenio());
+            Jugador *duenioDeCasillaAnterior = getJugadorSegunId(anterior->getIdDuenio());
+
+            duenioDeCasillaAnterior->quitarUnidad(anterior);
+            duenioDeCasillaNueva->quitarUnidad(nueva);
+
+            anterior->setTipo(VACIO);
+            anterior->setDuenio(SIN_DUENIO);
+
+            nueva->setTipo(VACIO);
+            nueva->setDuenio(SIN_DUENIO);
+        }
+    }
 }
 
 Jugador *Juego::obtenerGanador()
@@ -245,15 +248,19 @@ void Juego::eliminarPerdedores()
 
 void Juego::ejecutarTurno()
 {
-        if(!jugadorActivo->getValor()->salteado() &&
+    if(!jugadorActivo->getValor()->salteado() &&
         jugadorActivo->getValor()->getEstado() != MUERTO){
 
-    darCartaAJugador();   // OK
-    preguntarUsoCarta();  // OK
-    preguntarPonerMina(); // OK
-    moverUnidad();        // OK
-    jugarArmamentos();
-        }
+        actualizarImagenes();
+        jugarArmamentos();
+        actualizarImagenes();
+        darCartaAJugador();
+        preguntarUsoCarta();
+        actualizarImagenes();
+        preguntarPonerMina();
+        actualizarImagenes();
+        moverUnidad();
+    }
     eliminarPerdedores(); // OK
 }
 
@@ -281,50 +288,48 @@ void Juego::jugarArmamentos()
 
 void Juego::preguntarPonerMina() // ok
 {
-        if(!jugadorActivo->getValor()->salteado() &&
-        jugadorActivo->getValor()->getEstado() != MUERTO){
-
-    bool valido = false;
-    Casilla *objetivo;
-    while (!valido)
+    if(!jugadorActivo->getValor()->salteado() &&
+        jugadorActivo->getValor()->getEstado() != MUERTO)
     {
-        Coordenada *posicion = io->preguntarDondeColocarMina();
 
-        if (mapa->laUbicacionEsValida(posicion))
+        bool valido = false;
+        Casilla *objetivo;
+        while (!valido)
         {
-            valido = true;
+            Coordenada *posicion = io->preguntarDondeColocarMina();
 
-            objetivo = mapa->getCasilla(posicion);
-            TipoUnidad tipo = objetivo->getTipo();
-            objetivo = mapa->getCasilla(posicion);
-
-            ponerMina(objetivo);
-        }else{
-            delete posicion;
+            if (mapa->laUbicacionEsValida(posicion))
+            {
+                valido = true;
+                objetivo = mapa->getCasilla(posicion);
+                ponerMina(objetivo);
+            }else{
+                delete posicion;
+            }
         }
     }
-        }
 }
 
 void Juego::moverUnidad()
 {
-        if(!jugadorActivo->getValor()->salteado() &&
-        jugadorActivo->getValor()->getEstado() != MUERTO){
-    Casilla *actual = io->preguntarUnidadAMover(jugadorActivo->getValor());
-    Casilla *nuevaCasilla;
-
-    bool nuevaPosicionInvalida = true;
-    Coordenada *nuevaPosicionUnidad;
-
-    while (nuevaPosicionInvalida)
+    if(!jugadorActivo->getValor()->salteado() &&
+        jugadorActivo->getValor()->getEstado() != MUERTO)
     {
-        nuevaPosicionUnidad = io->preguntarDondeMoverUnidad();
-        nuevaCasilla = mapa->getCasilla(nuevaPosicionUnidad);
-        nuevaPosicionInvalida = mapa->sonVecinas(actual, nuevaCasilla);
-    }
+        Casilla *actual = io->preguntarUnidadAMover(jugadorActivo->getValor());
+        Casilla *nuevaCasilla;
 
-    comprobarColisiones(jugadorActivo->getValor(), actual, nuevaCasilla);
+        bool nuevaPosicionInvalida = true;
+        Coordenada *nuevaPosicionUnidad;
+
+        while (nuevaPosicionInvalida)
+        {
+            nuevaPosicionUnidad = io->preguntarDondeMoverUnidad();
+            nuevaCasilla = mapa->getCasilla(nuevaPosicionUnidad);
+            nuevaPosicionInvalida = !mapa->sonVecinas(actual, nuevaCasilla);
         }
+
+        comprobarColisiones(jugadorActivo->getValor(), actual, nuevaCasilla);
+    }
 }
 
 bool Juego::avanzarTurno()
