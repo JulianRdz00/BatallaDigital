@@ -69,11 +69,11 @@
                 for (int k = 1; k <= ancho; k++)
                 {
                     TipoTerreno terreno;
-                    if (i < 2)
+                    if (i < INICIO_NIVEL_DE_AGUA)
                     {
                         terreno = TIERRA;
                     }
-                    else if (i > 1 && i < 6)
+                    else if (i >= INICIO_NIVEL_DE_AGUA && i < INICIO_NIVEL_DE_AIRE)
                     {
                         terreno = MAR;
                     }

@@ -105,6 +105,9 @@ static const int COLOR_SOLDADO_R = 0;
 static const int COLOR_SOLDADO_G = 0;
 static const int COLOR_SOLDADO_B = 100;
 
+static const int INICIO_NIVEL_DE_AGUA = 3;
+static const int INICIO_NIVEL_DE_AIRE = 5;
+
 // POST: Devuelve un numero aleatorio entre el minimo y maximo dados como argumentos.
 int getRandom(int minimo, int maximo);
 
