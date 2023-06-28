@@ -11,7 +11,7 @@ private:
     Coordenada *ubicacion;
     TipoUnidad tipo;
     unsigned int idDuenio;
-    unsigned int turnosInactiva;
+    int turnosInactiva;
 
 public:
     /*Crea una casilla con valores por defecto*/
@@ -43,7 +43,7 @@ public:
     void setTerreno(TipoTerreno terreno);
 
     /*POS:  Deja la casilla inactiva por al cantidad de turnos pasada como argumento*/
-    void desactivar(unsigned int cantidadDeTurnos);
+    void desactivar(int cantidadDeTurnos);
 
     /*POS:  Resta un turno de inactividad a la casilla si es que tiene turnos inactivos.*/
     void restarTurnoInactividad();

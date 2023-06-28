@@ -2,12 +2,7 @@
 
 void Juego::preguntarUsoCarta()
 {
-    if(jugadorActivo == NULL){
-        throw("No hay jugador")
-    }
-
-    if(!jugadorActivo->getValor()->salteado() &&
-        jugadorActivo->getValor()->getEstado() != MUERTO){
+    io->listarCartas(jugadorActivo->getValor());
 
     bool seUsaCarta = io->preguntarSiUsarCarta(jugadorActivo->getValor());
     if (seUsaCarta)
@@ -16,29 +11,17 @@ void Juego::preguntarUsoCarta()
         usarCarta(jugadorActivo->getValor()->getMano()->get(indiceDeCarta)->getTipo());
         jugadorActivo->getValor()->getMano()->remover(indiceDeCarta);
     }
-    else
-    {
-        std::cout << "No se usa ninguna carta\n";
-    }
-        }
 }
 
 void Juego::pasarTurno()
 {
     mapa->disminuirTurnosInactivos();
+    // avanzar cursor de la lista circular
 }
 
 void Juego::darCarta()
 {
-
-    if(jugadorActivo == NULL){
-        throw("No hay jugador")
-    }
-
-        if(!jugadorActivo->getValor()->salteado() &&
-        jugadorActivo->getValor()->getEstado() != MUERTO){
     jugadorActivo->getValor()->agregarCartaAMano(new Carta());
-        }
 }
 
 Juego::Juego()
@@ -47,6 +30,7 @@ Juego::Juego()
     io = new EntradaSalida();
     io->inicializarPartida(&ancho, &largo, &alto, &cantidadJugadores, &soldadosPorJugador);
 
+    // TODO
     mapa = new Tablero(ancho, largo, alto);
     jugadores = new ListaCircular<Jugador *>();
 
@@ -74,15 +58,6 @@ Juego::Juego()
 
 void Juego::ponerMina(Casilla *objetivo)
 {
-
-    if(jugadorActivo == NULL){
-        throw("No hay jugador")
-    }
-
-    if(objetivo == NULL){
-        throw("No hay objetivo")
-    }
-
     TipoUnidad tipo = objetivo->getTipo();
     if (objetivo->esActiva())
     {
@@ -103,17 +78,8 @@ void Juego::ponerMina(Casilla *objetivo)
     }
 }
 
-void Juego::atacarQuimicamente(Casilla *objetivo, unsgined int duracion)
+void Juego::atacarQuimicamente(Casilla *objetivo, int duracion)
 {
-
-    if(jugadorActivo == NULL){
-        throw("No hay jugador")
-    }
-
-    if(objetivo == NULL){
-        throw("No hay objetivo")
-    }
-
     TipoUnidad tipo = objetivo->getTipo();
     if (objetivo->esActiva())
     {
@@ -135,23 +101,6 @@ void Juego::atacarQuimicamente(Casilla *objetivo, unsgined int duracion)
 // Cambiar nombre
 void Juego::comprobarColisiones(Jugador *jugador, Casilla *anterior, Casilla *nueva)
 {
-    if(jugador == NULL){
-        throw("No hay jugador")
-    }
-    if(anterior == NULL){
-        throw("No hay una casilla anterior")
-    }
-    if(nueva == NULL){
-        throw("No hay una nueva casilla")
-    }
-
-
-        if(!jugador->salteado() &&
-        jugador->getEstado() != MUERTO){
-
-
-
-
     if (nueva->getTipo() == VACIO)
     {
         jugador->quitarUnidad(anterior);
@@ -190,7 +139,6 @@ void Juego::comprobarColisiones(Jugador *jugador, Casilla *anterior, Casilla *nu
         nueva->setTipo(VACIO);
         nueva->setDuenio(SIN_DUENIO);
     }
-        }
 }
 
 Jugador *Juego::obtenerGanador()
@@ -236,9 +184,10 @@ void Juego::eliminarPerdedores()
                 i++;
             }
 
-            if (i == jugadores->contarElementos() + 1)
+            if (i > jugadores->contarElementos())
             {
                 hayPerdedores = false;
+                buscando = false;
             }
         }
     }
@@ -246,23 +195,25 @@ void Juego::eliminarPerdedores()
 
 void Juego::ejecutarTurno()
 {
-        if(!jugadorActivo->getValor()->salteado() &&
-        jugadorActivo->getValor()->getEstado() != MUERTO){
+    darCartaAJugador();  // OK
+    preguntarUsoCarta(); // OK
+    actualizarImagenes();
 
-    darCartaAJugador();   // OK
-    preguntarUsoCarta();  // OK
     preguntarPonerMina(); // OK
-    moverUnidad();        // OK
+    actualizarImagenes();
+
+    moverUnidad(); // OK
+    actualizarImagenes();
+
     jugarArmamentos();
-        }
+    actualizarImagenes();
+
     eliminarPerdedores(); // OK
+    actualizarImagenes();
 }
 
 void Juego::jugarArmamentos()
 {
-        if(!jugadorActivo->getValor()->salteado() &&
-        jugadorActivo->getValor()->getEstado() != MUERTO){
-
     jugadorActivo->getValor()->getArmamentos()->reiniciarCursor();
     while (jugadorActivo->getValor()->getArmamentos()->avanzarCursor())
     {
@@ -277,14 +228,10 @@ void Juego::jugarArmamentos()
             ponerMina(mapa->getCasilla(io->preguntarDisparoBarco()));
         }
     }
-        }
 }
 
 void Juego::preguntarPonerMina() // ok
 {
-        if(!jugadorActivo->getValor()->salteado() &&
-        jugadorActivo->getValor()->getEstado() != MUERTO){
-
     bool valido = false;
     Casilla *objetivo;
     while (!valido)
@@ -301,21 +248,22 @@ void Juego::preguntarPonerMina() // ok
 
             ponerMina(objetivo);
         }
-    }
+        else
+        {
+            delete posicion;
         }
+    }
 }
 
-void Juego::moverUnidad()
+void Juego::moverUnidad() // ok
 {
-        if(!jugadorActivo->getValor()->salteado() &&
-        jugadorActivo->getValor()->getEstado() != MUERTO){
     Casilla *actual = io->preguntarUnidadAMover(jugadorActivo->getValor());
     Casilla *nuevaCasilla;
 
     bool nuevaPosicionInvalida = true;
     Coordenada *nuevaPosicionUnidad;
 
-    while (nuevaPosicionInvalida)
+    while (nuevaPosicionInvalida) // por aca se rompee
     {
         nuevaPosicionUnidad = io->preguntarDondeMoverUnidad();
         nuevaCasilla = mapa->getCasilla(nuevaPosicionUnidad);
@@ -323,7 +271,6 @@ void Juego::moverUnidad()
     }
 
     comprobarColisiones(jugadorActivo->getValor(), actual, nuevaCasilla);
-        }
 }
 
 bool Juego::avanzarTurno()
@@ -338,19 +285,16 @@ bool Juego::avanzarTurno()
     {
         return false;
     }
+    system("cls");
 }
 
 void Juego::darCartaAJugador()
 {
-        if(!jugadorActivo->getValor()->salteado() &&
-        jugadorActivo->getValor()->getEstado() != MUERTO){
     this->jugadorActivo->getValor()->agregarCartaAMano(new Carta());
-        }
 }
 
 void Juego::actualizarImagenes()
 {
-
     jugadores->reiniciarCursor();
     int i = jugadores->contarElementos();
     while (i > 0 && jugadores->avanzarCursor())
@@ -362,12 +306,6 @@ void Juego::actualizarImagenes()
 
 void Juego::usarCarta(TipoDeCarta tipo)
 {
-    if(jugadorActivo->getValor() == NULL){
-
-    }
-
-    if(!jugadorActivo->getValor()->salteado() &&
-        jugadorActivo->getValor()->getEstado() != MUERTO){
 
     if (tipo == ATAQUEQUIMICO)
     {
@@ -392,11 +330,9 @@ void Juego::usarCarta(TipoDeCarta tipo)
     else if (tipo == PASARTURNO)
     {
         jugarPasarTurno(); // que busque un objetivo dentro.
-    }else{
-    throw "No hay carta del tipo solicitado";
-
     }
-        }
+
+    throw "No hay carta del tipo solicitado";
 }
 
 void Juego::jugarPasarTurno()
@@ -416,9 +352,7 @@ que busque un objetivo dentro.
 
 void Juego::jugarDestructorArmamento() // OKas
 {
-    if(!jugadorActivo->getValor()->salteado() &&
-        jugadorActivo->getValor()->getEstado() != MUERTO){
-    
+
     int idJugadorObjetivo = this->io->preguntarEnteroPositivo("Ingrese el ID del Jugador cuyo armamento quieres destruir: ");
 
     Jugador *objetivo = this->getJugadorSegunId(idJugadorObjetivo);
@@ -441,18 +375,10 @@ void Juego::jugarDestructorArmamento() // OKas
     {
         armamentos->remover(i);
     }
-        }
 }
 
 void Juego::jugarSuperMina()
 {
-        if(!jugadorActivo->getValor() == NULL){
-        throw("No hay jugador")
-    }
-
-    if(!jugadorActivo->getValor()->salteado() &&
-        jugadorActivo->getValor()->getEstado() != MUERTO){
-
     bool valido = false;
     Coordenada *posicion;
     while (!valido)
@@ -468,7 +394,7 @@ void Juego::jugarSuperMina()
     Casilla *centro = mapa->getCasilla(posicion);
     delete posicion;
 
-    Casilla**** vecinos = centro->getVecinos();
+    Casilla ****vecinos = centro->getVecinos();
 
     for (size_t i = 0; i < 3; i++)
     {
@@ -480,19 +406,10 @@ void Juego::jugarSuperMina()
             }
         }
     }
-
-        }
 }
 
 void Juego::jugarRadar()
 {
-    if(!jugadorActivo->getValor() == NULL){
-        throw("No hay jugador")
-    }
-
-        if(!jugadorActivo->getValor()->salteado() &&
-        jugadorActivo->getValor()->getEstado() != MUERTO){
-
     bool valido = false;
     Coordenada *posicion;
     Casilla *casilla;
@@ -513,18 +430,10 @@ void Juego::jugarRadar()
 
     casilla->setTipo(AVION);
     casilla->setDuenio(jugadorActivo->getValor()->getId());
-        }
 }
 
 void Juego::jugarBarco()
 {
-    if(!jugadorActivo->getValor() == NULL){
-        throw("No hay jugador")
-    }
-
-        if(!jugadorActivo->getValor()->salteado() &&
-        jugadorActivo->getValor()->getEstado() != MUERTO){
-
     bool valido = false;
     Coordenada *posicion;
     Casilla *casilla;
@@ -545,15 +454,10 @@ void Juego::jugarBarco()
 
     casilla->setTipo(BARCO);
     casilla->setDuenio(jugadorActivo->getValor()->getId());
-
-        }
 }
 
 void Juego::jugarAtaqueQuimico()
 {
-    if(!jugadorActivo->getValor()->salteado() &&
-        jugadorActivo->getValor()->getEstado() != MUERTO){
-
     bool valido = false;
     Coordenada *posicion;
     Casilla *centro;
@@ -607,15 +511,11 @@ void Juego::jugarAtaqueQuimico()
 
     // R1
     atacarQuimicamente(centro, 10);
-
-        }
 }
 
 void Juego::usarRadarEnAvion(Casilla *avion)
 {
-        if(!jugadorActivo->getValor()->salteado() &&
-        jugadorActivo->getValor()->getEstado() != MUERTO){
-
+    avion->getVecinos();
 
     Lista<Casilla *> *minasCercanas = new Lista<Casilla *>();
 
@@ -637,5 +537,4 @@ void Juego::usarRadarEnAvion(Casilla *avion)
     io->mostrarCoordenadasDeMinas(minasCercanas);
 
     delete minasCercanas;
-        }
 }

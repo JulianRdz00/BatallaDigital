@@ -122,6 +122,10 @@ bool EntradaSalida::preguntarSiUsarCarta(Jugador *jugador)
             seUsaCarta = false;
             return seUsaCarta;
         }
+        else
+        {
+            std::cout << "Respuesta invalida, debe ser [S] o [N]\n";
+        }
     }
 
     return 0;
@@ -150,8 +154,9 @@ unsigned int EntradaSalida::elejirCartaParaJugar(Jugador *jugador)
         int i = 1;
         std::cout << "Elije una carta valida [X]:\n";
         cartas->reiniciarCursor();
-        while(cartas->avanzarCursor()){
-            std::cout << i<<"." ;
+        while (cartas->avanzarCursor())
+        {
+            std::cout << i << ".";
             std::cout << cartas->getCursor()->getNombre() << std::endl;
             std::cout << std::endl;
             i++;
@@ -206,9 +211,9 @@ void EntradaSalida::inicializarPartida(int *ancho, int *largo, int *alto, int *c
     }
 }
 
-Coordenada* EntradaSalida::preguntarDisparoBarco()
+Coordenada *EntradaSalida::preguntarDisparoBarco()
 {
-    std::cout<<"Donde queres disparar el torpedo?"<<std::endl;
+    std::cout << "Donde queres disparar el torpedo?" << std::endl;
     return pedirCoordenada();
 }
 

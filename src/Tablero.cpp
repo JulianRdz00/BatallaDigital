@@ -59,14 +59,14 @@
 
         mapa = new Lista<Lista<Lista<Casilla *> *> *>();
 
-        for (int i = 1; i <= alto; i++)
+        for (size_t i = 1; i <= alto; i++)
         {
             Lista<Lista<Casilla *> *> *capa = new Lista<Lista<Casilla *> *>();
 
-            for (int j = 1; j <= largo; j++)
+            for (size_t j = 1; j <= largo; j++)
             {
                 Lista<Casilla *> *eje = new Lista<Casilla *>();
-                for (int k = 1; k <= ancho; k++)
+                for (size_t k = 1; k <= ancho; k++)
                 {
                     TipoTerreno terreno;
                     if (i < 2)
@@ -88,11 +88,11 @@
             this->mapa->add(capa);
         }
 
-        for (int i = 1; i <= alto; i++)
+        for (size_t i = 1; i <= alto; i++)
         {
-            for (int j = 1; j <= largo; j++)
+            for (size_t j = 1; j <= largo; j++)
             {
-                for (int k = 1; k <= ancho; k++)
+                for (size_t k = 1; k <= ancho; k++)
                 {
                     Coordenada *posicion = new Coordenada(k, j, i);
                     this->mapa->get(i)->get(j)->get(k)->setVecinos(buscarVecinos(posicion));
@@ -209,14 +209,18 @@
     bool Tablero::sonVecinas(Casilla *a, Casilla *b)
     {
         bool sonVecinas = false;
-        int i, j, k = 0;
+        int i = 0;
+        int j = 0;
+        int k = 0;
 
         Casilla ****vecinosDeA = a->getVecinos();
 
         while (!sonVecinas && i < 3)
         {
+            j = 0;
             while (!sonVecinas && j < 3)
             {
+                k = 0;
                 while (!sonVecinas && k < 3)
                 {
                     if (vecinosDeA[i][j][k]->getUbicacion()->esIgualA(b->getUbicacion()) &&
@@ -224,9 +228,11 @@
                     {
                         sonVecinas = true;
                     }
+                    k++;
                 }
             }
         }
+        return sonVecinas;
     }
 
     void Tablero::colococarAleatoriamente(Jugador *jugador, TipoUnidad tipo)
