@@ -209,14 +209,18 @@
     bool Tablero::sonVecinas(Casilla *a, Casilla *b)
     {
         bool sonVecinas = false;
-        int i, j, k = 0;
+         int i = 0;
+        int j = 0;
+        int k = 0;
 
         Casilla ****vecinosDeA = a->getVecinos();
 
         while (!sonVecinas && i < 3)
         {
+            j=0;
             while (!sonVecinas && j < 3)
             {
+                k=0;
                 while (!sonVecinas && k < 3)
                 {
                     if (vecinosDeA[i][j][k]->getUbicacion()->esIgualA(b->getUbicacion()) &&
@@ -224,9 +228,12 @@
                     {
                         sonVecinas = true;
                     }
+                    k++;
                 }
+                j++;
             }
         }
+        return sonVecinas;
     }
 
     void Tablero::colococarAleatoriamente(Jugador *jugador, TipoUnidad tipo)

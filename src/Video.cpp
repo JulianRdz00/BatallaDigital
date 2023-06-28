@@ -122,13 +122,14 @@ void Video::dibujarTablero(Tablero *tablero, Jugador *jugador)
 {
     Lista<Lista<Lista<Casilla *> *> *> *mapa = tablero->getTablero();
     int z = 1;
-    mapa->reiniciarCursor();
-    while (mapa->avanzarCursor())
-    {
-        bitmap_image *imagen = new bitmap_image(
+
+    bitmap_image *imagen = new bitmap_image(
             tablero->getAncho() * TAMANIO_LADO_CASILLA_DEFAULT + 1,
             tablero->getLargo() * TAMANIO_LADO_CASILLA_DEFAULT + 1);
 
+    mapa->reiniciarCursor();
+    while (mapa->avanzarCursor())
+    {
         Lista<Lista<Casilla *> *> *capa = mapa->getCursor();
 
         dibujarCapa(capa, jugador, imagen);
@@ -144,6 +145,7 @@ void Video::dibujarTablero(Tablero *tablero, Jugador *jugador)
         delete nombreImagen;
         z++;
     }
+    delete imagen;
 }
 
 void Video::dibujarCapa(Lista<Lista<Casilla *> *> *capa, Jugador *jugador, bitmap_image *imagen)
@@ -162,7 +164,7 @@ void Video::dibujarCapa(Lista<Lista<Casilla *> *> *capa, Jugador *jugador, bitma
         while (capa->getCursor()->avanzarCursor())
         {
             x = capa->getCursor()->getCursor()->getUbicacion()->getX() - 1;
-            yMaximo = capa->getCursor()->contarElementos();
+            yMaximo = capa->contarElementos();
             y = yMaximo - capa->getCursor()->getCursor()->getUbicacion()->getY();
 
             dibujarTerreno(x, y, capa->getCursor()->getCursor(), imagen);

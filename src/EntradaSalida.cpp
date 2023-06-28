@@ -121,6 +121,8 @@ bool EntradaSalida::preguntarSiUsarCarta(Jugador *jugador)
             respuestaInvalida = false;
             seUsaCarta = false;
             return seUsaCarta;
+        }else{
+               std::cout << "Respuesta invalida, debe ser [S] o [N]\n";
         }
     }
 
@@ -145,17 +147,12 @@ unsigned int EntradaSalida::elejirCartaParaJugar(Jugador *jugador)
     bool respuestaInvalida = true;
     Lista<Carta *> *cartas = jugador->getMano();
     unsigned int indice = 0;
+    int i=1;
     while (respuestaInvalida)
     {
-        int i = 1;
-        std::cout << "Elije una carta valida [X]:\n";
-        cartas->reiniciarCursor();
-        while(cartas->avanzarCursor()){
-            std::cout << i<<"." ;
-            std::cout << cartas->getCursor()->getNombre() << std::endl;
-            std::cout << std::endl;
-            i++;
-        }
+        i = 1;
+        std::cout << "\nElije una carta valida [X]:\n";
+
         std::cin >> indice;
         if ((indice > 0) & (indice <= cartas->contarElementos()))
         {

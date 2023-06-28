@@ -9,16 +9,14 @@ void Juego::preguntarUsoCarta()
     if(!jugadorActivo->getValor()->salteado() &&
         jugadorActivo->getValor()->getEstado() != MUERTO){
 
+    
+    io->listarCartas(jugadorActivo->getValor());
     bool seUsaCarta = io->preguntarSiUsarCarta(jugadorActivo->getValor());
     if (seUsaCarta)
     {
         unsigned int indiceDeCarta = io->elejirCartaParaJugar(jugadorActivo->getValor());
         usarCarta(jugadorActivo->getValor()->getMano()->get(indiceDeCarta)->getTipo());
         jugadorActivo->getValor()->getMano()->remover(indiceDeCarta);
-    }
-    else
-    {
-        std::cout << "No se usa ninguna carta\n";
     }
         }
 }
@@ -103,7 +101,7 @@ void Juego::ponerMina(Casilla *objetivo)
     }
 }
 
-void Juego::atacarQuimicamente(Casilla *objetivo, unsgined int duracion)
+void Juego::atacarQuimicamente(Casilla *objetivo, unsigined int duracion)
 {
 
     if(jugadorActivo == NULL){
@@ -236,9 +234,10 @@ void Juego::eliminarPerdedores()
                 i++;
             }
 
-            if (i == jugadores->contarElementos() + 1)
+            if (i > jugadores->contarElementos())
             {
                 hayPerdedores = false;
+                buscando = false;
             }
         }
     }
@@ -300,6 +299,8 @@ void Juego::preguntarPonerMina() // ok
             objetivo = mapa->getCasilla(posicion);
 
             ponerMina(objetivo);
+        }else{
+            delete posicion;
         }
     }
         }
