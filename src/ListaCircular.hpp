@@ -89,7 +89,12 @@ void ListaCircular<T>::add(T elemento, unsigned int posicion)
 	if ((posicion > 0) && (posicion <= this->tamanio + 1))
 	{ /* posición válida */
 		Nodo<T> *nuevoNodo = new Nodo<T>(elemento);
-		if (posicion == 1)
+		if (posicion == 1 && this->tamanio == 0)
+		{
+			this->primero = nuevoNodo;
+			nuevoNodo->setSiguiente(this->primero);
+		}
+		else if (posicion == 1)
 		{
 			nuevoNodo->setSiguiente(this->primero);
 			this->primero = nuevoNodo;

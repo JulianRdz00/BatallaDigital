@@ -245,6 +245,12 @@ void Jugador::quitarUnidad(Casilla *casilla)
     {
         eliminarDeListaSegunPosicion(armamentos, casilla->getUbicacion());
     }
+    
+    if (this->soldados->contarElementos() < 1)
+    {
+        this->setEstado(MUERTO);
+    }
+    
 }
 
 void Jugador::agregarUnidad(Casilla *casilla)
