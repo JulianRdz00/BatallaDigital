@@ -1,7 +1,7 @@
 #ifndef JUEGO_H
 #define JUEGO_H
 
-#include "Tablero.hpp"
+#include "Tablero.h"
 #include "Jugador.h"
 #include "ListaCircular.hpp"
 #include "Video.h"
@@ -100,6 +100,7 @@ private:
             {
                 resultado = jugadores->getCursor();
             }
+            i++;
         }
         return resultado;
     }

@@ -3,7 +3,7 @@
 void Juego::preguntarUsoCarta()
 {
     if(jugadorActivo == NULL){
-        throw("No hay jugador")
+        throw("No hay jugador");
     }
 
     if(!jugadorActivo->getValor()->salteado() &&
@@ -30,7 +30,7 @@ void Juego::darCarta()
 {
 
     if(jugadorActivo == NULL){
-        throw("No hay jugador")
+        throw("No hay jugador");
     }
 
         if(!jugadorActivo->getValor()->salteado() &&
@@ -74,11 +74,11 @@ void Juego::ponerMina(Casilla *objetivo)
 {
 
     if(jugadorActivo == NULL){
-        throw("No hay jugador")
+        throw("No hay jugador");
     }
 
     if(objetivo == NULL){
-        throw("No hay objetivo")
+        throw("No hay objetivo");
     }
 
     TipoUnidad tipo = objetivo->getTipo();
@@ -101,15 +101,15 @@ void Juego::ponerMina(Casilla *objetivo)
     }
 }
 
-void Juego::atacarQuimicamente(Casilla *objetivo, unsigined int duracion)
+void Juego::atacarQuimicamente(Casilla *objetivo, unsigned int duracion)
 {
 
     if(jugadorActivo == NULL){
-        throw("No hay jugador")
+        throw("No hay jugador");
     }
 
     if(objetivo == NULL){
-        throw("No hay objetivo")
+        throw("No hay objetivo");
     }
 
     TipoUnidad tipo = objetivo->getTipo();
@@ -134,13 +134,13 @@ void Juego::atacarQuimicamente(Casilla *objetivo, unsigined int duracion)
 void Juego::comprobarColisiones(Jugador *jugador, Casilla *anterior, Casilla *nueva)
 {
     if(jugador == NULL){
-        throw("No hay jugador")
+        throw("No hay jugador");
     }
     if(anterior == NULL){
-        throw("No hay una casilla anterior")
+        throw("No hay una casilla anterior");
     }
     if(nueva == NULL){
-        throw("No hay una nueva casilla")
+        throw("No hay una nueva casilla");
     }
 
 
@@ -374,7 +374,7 @@ void Juego::usarCarta(TipoDeCarta tipo)
     {
         jugarAtaqueQuimico();
     }
-    else if (tipo == BARCO)
+    else if (tipo == USARBARCO)
     {
         jugarBarco();
     }
@@ -447,8 +447,8 @@ void Juego::jugarDestructorArmamento() // OKas
 
 void Juego::jugarSuperMina()
 {
-        if(!jugadorActivo->getValor() == NULL){
-        throw("No hay jugador")
+        if(jugadorActivo->getValor() == NULL){
+        throw("No hay jugador");
     }
 
     if(!jugadorActivo->getValor()->salteado() &&
@@ -488,7 +488,7 @@ void Juego::jugarSuperMina()
 void Juego::jugarRadar()
 {
     if(!jugadorActivo->getValor() == NULL){
-        throw("No hay jugador")
+        throw("No hay jugador");
     }
 
         if(!jugadorActivo->getValor()->salteado() &&
@@ -520,7 +520,7 @@ void Juego::jugarRadar()
 void Juego::jugarBarco()
 {
     if(!jugadorActivo->getValor() == NULL){
-        throw("No hay jugador")
+        throw("No hay jugador");
     }
 
         if(!jugadorActivo->getValor()->salteado() &&

@@ -188,7 +188,7 @@
         return this->largo;
     }
 
-    ~Tablero::Tablero()
+    Tablero::~Tablero()
     {
         for (int i = ancho; i >= 1; i--)
         {
@@ -244,4 +244,9 @@
         casilla->setTipo(tipo);
 
         jugador->agregarUnidad(casilla);
+    }
+
+    Lista<Lista<Lista<Casilla *> *> *> * Tablero::getTablero()
+    {
+        return this->mapa;
     }

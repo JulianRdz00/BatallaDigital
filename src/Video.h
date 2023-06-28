@@ -4,7 +4,7 @@
 #include "Jugador.h"
 #include "bitmap_image.hpp"
 #include "Casilla.h"
-#include "Tablero.hpp"
+#include "Tablero.h"
 
 class Video
 {
