@@ -53,7 +53,7 @@ void Casilla::setTerreno(TipoTerreno terreno)
     this->terreno = terreno;
 }
 
-void Casilla::desactivar(int cantidadDeTurnos)
+void Casilla::desactivar(unsigned int cantidadDeTurnos)
 {
     this->turnosInactiva = cantidadDeTurnos;
 }

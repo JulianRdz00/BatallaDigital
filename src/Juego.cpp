@@ -80,7 +80,7 @@ void Juego::ponerMina(Casilla *objetivo)
     }
 }
 
-void Juego::atacarQuimicamente(Casilla *objetivo, int duracion)
+void Juego::atacarQuimicamente(Casilla *objetivo, unsgined int duracion)
 {
     TipoUnidad tipo = objetivo->getTipo();
     if (objetivo->esActiva())
