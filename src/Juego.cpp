@@ -182,14 +182,18 @@ void Juego::comprobarColisiones(Jugador *jugador, Casilla *anterior, Casilla *nu
             Jugador *duenioDeCasillaNueva = getJugadorSegunId(nueva->getIdDuenio());
             Jugador *duenioDeCasillaAnterior = getJugadorSegunId(anterior->getIdDuenio());
 
-            duenioDeCasillaAnterior->quitarUnidad(anterior);
-            duenioDeCasillaNueva->quitarUnidad(nueva);
+            if (duenioDeCasillaNueva != duenioDeCasillaAnterior)
+            {
 
-            anterior->setTipo(VACIO);
-            anterior->setDuenio(SIN_DUENIO);
+                duenioDeCasillaAnterior->quitarUnidad(anterior);
+                duenioDeCasillaNueva->quitarUnidad(nueva);
 
-            nueva->setTipo(VACIO);
-            nueva->setDuenio(SIN_DUENIO);
+                anterior->setTipo(VACIO);
+                anterior->setDuenio(SIN_DUENIO);
+
+                nueva->setTipo(VACIO);
+                nueva->setDuenio(SIN_DUENIO);
+            }
         }
     }
 }
@@ -492,7 +496,7 @@ void Juego::jugarSuperMina()
 
 void Juego::jugarRadar()
 {
-    if(!jugadorActivo->getValor() == NULL){
+    if(jugadorActivo->getValor() == NULL){
         throw("No hay jugador");
     }
 
@@ -524,7 +528,7 @@ void Juego::jugarRadar()
 
 void Juego::jugarBarco()
 {
-    if(!jugadorActivo->getValor() == NULL){
+    if(jugadorActivo->getValor() == NULL){
         throw("No hay jugador");
     }
 

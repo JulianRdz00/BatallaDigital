@@ -19,8 +19,8 @@ Video::Video()
     this->colorSoldado.blue = COLOR_SOLDADO_B;
 
     this->colorMina.red = COLOR_MINA_R;
-    this->colorMina.green = COLOR_MINA_R;
-    this->colorMina.blue = COLOR_MINA_R;
+    this->colorMina.green = COLOR_MINA_G;
+    this->colorMina.blue = COLOR_MINA_B;
 
     this->colorAvion.red = COLOR_AVION_R;
     this->colorAvion.green = COLOR_AVION_G;
