@@ -16,6 +16,9 @@ public:
     /*  POS: */
     EntradaSalida();
 
+    /*POS:  Describe el inicio del turno del jugador pasado.*/
+    void anunciarJugador(Jugador *jugador);
+
     // POS: pregunta que soldado se desea mover y devuelve la coordenada cuyo nombre es nombreCoordenada
     Coordenada *coordenadaSoldadoExistente();
 
@@ -44,7 +47,7 @@ public:
     /*  POS: devuelve un puntero a un Juego con unos parametros elejidos por el usuario. */
     void inicializarPartida(int *ancho, int *largo, int *alto, int *cantidadJugadores, int *soldadosPorJugador);
 
-    Coordenada* preguntarDisparoBarco();
+    Coordenada *preguntarDisparoBarco();
 
     ~EntradaSalida();
 };

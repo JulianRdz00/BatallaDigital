@@ -18,6 +18,12 @@ EntradaSalida::EntradaSalida()
 {
 }
 
+void EntradaSalida::anunciarJugador(Jugador *jugador)
+{
+    system("clear");
+    std::cout << "TURNO DEL JUGADOR: " << jugador->getId() << "\n\n";
+}
+
 Coordenada *EntradaSalida::coordenadaSoldadoExistente()
 {
     std::cout << "Que soldado desea mover? " << std::endl;
@@ -71,7 +77,7 @@ Casilla *EntradaSalida::preguntarUnidadAMover(Jugador *jugador) // OK
 
 Coordenada *EntradaSalida::preguntarDondeColocarMina()
 {
-    std::cout << "Donde quiere colocar una mina? " << std::endl;
+    std::cout << "Donde quiere colocar una mina?" << std::endl;
     return pedirCoordenada();
 }
 
@@ -90,7 +96,8 @@ void EntradaSalida::mostrarCoordenadasDeMinas(Lista<Casilla *> *minas)
 
 Coordenada *EntradaSalida::preguntarDondeColocarQuimico()
 {
-    std::cout << "Donde quiere iniciar el ataque quimico? " << std::endl;
+    std::cout << "Donde quiere iniciar el ataque quimico?\n"
+              << std::endl;
     return pedirCoordenada();
 }
 
@@ -100,12 +107,10 @@ bool EntradaSalida::preguntarSiUsarCarta(Jugador *jugador)
     bool respuestaInvalida = true;
     bool seUsaCarta = false;
     std::cout << "Queres usar una carta?" << std::endl;
-    std::cout << "[S]Si [N]No" << std::endl;
-    std::cin >> respuesta;
-    std::cout << std::endl;
-
+    std::cout << "[S]Si [N]No:" << std::endl;
     while (respuestaInvalida)
     {
+        std::cin >> respuesta;
         if (respuesta == 'S')
         {
             std::cout << "Se decidio utilizar una carta" << std::endl;
@@ -121,8 +126,10 @@ bool EntradaSalida::preguntarSiUsarCarta(Jugador *jugador)
             respuestaInvalida = false;
             seUsaCarta = false;
             return seUsaCarta;
-        }else{
-               std::cout << "Respuesta invalida, debe ser [S] o [N]\n";
+        }
+        else
+        {
+            std::cout << "Respuesta invalida, debe ser [S] o [N]\n";
         }
     }
 
@@ -147,7 +154,7 @@ unsigned int EntradaSalida::elejirCartaParaJugar(Jugador *jugador)
     bool respuestaInvalida = true;
     Lista<Carta *> *cartas = jugador->getMano();
     unsigned int indice = 0;
-    int i=1;
+    int i = 1;
     while (respuestaInvalida)
     {
         i = 1;
@@ -203,9 +210,9 @@ void EntradaSalida::inicializarPartida(int *ancho, int *largo, int *alto, int *c
     }
 }
 
-Coordenada* EntradaSalida::preguntarDisparoBarco()
+Coordenada *EntradaSalida::preguntarDisparoBarco()
 {
-    std::cout<<"Donde queres disparar el torpedo?"<<std::endl;
+    std::cout << "Donde queres disparar el torpedo?" << std::endl;
     return pedirCoordenada();
 }
 

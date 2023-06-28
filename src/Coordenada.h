@@ -17,11 +17,14 @@ public:
     */
     Coordenada();
 
+    
+
     /*
     Pre:-
     Post: Crea una coordenada con los valores x,y,z pasados como arguemento
     */
     Coordenada(int x, int y, int z);
+
 
     /*
     Pre:-

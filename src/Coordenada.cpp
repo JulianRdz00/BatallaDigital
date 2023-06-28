@@ -1,6 +1,5 @@
 #include "Coordenada.h"
 
-
 Coordenada::Coordenada()
 {
     this->setCoordenada(-1, -1, -1);
@@ -22,7 +21,6 @@ Coordenada::Coordenada(Coordenada *original)
 
 Coordenada::~Coordenada()
 {
-
 }
 
 bool Coordenada::esIgualA(Coordenada *otraCoordenada)
