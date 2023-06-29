@@ -9,13 +9,11 @@ int main()
 
     Juego *batallaDigital = new Juego();
 
-    
+
     do{
         batallaDigital->actualizarImagenes();
         batallaDigital->ejecutarTurno();
     }while (batallaDigital->avanzarTurno()); // lista de jugadores
-
-    batallaDigital->avanzarTurno();
 
     EstadoPartida resultado = batallaDigital->obtenerResultado();
 
@@ -23,9 +21,10 @@ int main()
     {
     case EMPATE:
         std::cout << "Hubo un empate\n";
+        break;
     case TERMINADA:
-    std:
         std::cout << "Hay un ganador!\n";
+        break;
     }
 
     return 0;

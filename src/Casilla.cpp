@@ -62,7 +62,7 @@ void Casilla::restarTurnoInactividad()
 {
     if (turnosInactiva > 0)
     {
-        this->turnosInactiva--;
+        (this->turnosInactiva)--;
     }
 }
 

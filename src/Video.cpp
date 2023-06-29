@@ -70,7 +70,7 @@ void Video::dibujarOcupante(int x, int y, Casilla *casilla, Jugador *jugador, bi
         color = this->colorInactiva;
         dibujar = true;
     }
-    else if (casilla->getIdDuenio() == jugador->getId())
+    if (casilla->getIdDuenio() == jugador->getId() && casilla->esActiva())
     {
         switch (casilla->getTipo())
         {

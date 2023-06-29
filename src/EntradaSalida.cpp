@@ -3,11 +3,11 @@
 Coordenada *EntradaSalida::pedirCoordenada()
 {
     int x, y, z;
-    std::cout << "Ingrese la coordenada x" << std::endl;
+    std::cout << "Ingrese la coordenada x: ";
     std::cin >> x;
-    std::cout << "Ingrese la coordenada y" << std::endl;
+    std::cout << "Ingrese la coordenada y: ";
     std::cin >> y;
-    std::cout << "Ingrese la coordenada z" << std::endl;
+    std::cout << "Ingrese la coordenada z: ";
     std::cin >> z;
     std::cout << std::endl;
 

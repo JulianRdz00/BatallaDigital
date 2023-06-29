@@ -228,15 +228,16 @@ EstadoPartida Juego::obtenerResultado()
 
 void Juego::eliminarPerdedores()
 {
-
-    bool hayPerdedores = true;
     bool buscando = true;
-    while (hayPerdedores)
+    int i = 1;
+    while (i <= jugadores->contarElementos())
     {
-        int i = 1;
         jugadores->reiniciarCursor();
-        while (buscando && jugadores->avanzarCursor())
+        i = 1;
+        while (buscando && i <= jugadores->contarElementos())
         {
+            
+            jugadores->avanzarCursor();
 
             if (jugadores->getCursor()->getEstado() == MUERTO)
             {
@@ -250,10 +251,10 @@ void Juego::eliminarPerdedores()
 
             if (i > jugadores->contarElementos())
             {
-                hayPerdedores = false;
                 buscando = false;
             }
         }
+        buscando = true;
     }
 }
 
@@ -262,6 +263,7 @@ void Juego::ejecutarTurno()
     if (!jugadorActivo->getValor()->salteado() &&
         jugadorActivo->getValor()->getEstado() != MUERTO)
     {
+        mapa->disminuirTurnosInactivos();
         io->anunciarJugador(jugadorActivo->getValor());
         actualizarImagenes();
         darCartaAJugador();
@@ -367,7 +369,10 @@ void Juego::moverUnidad()
 
 bool Juego::avanzarTurno()
 {
-    this->jugadorActivo = this->jugadorActivo->getSiguiente();
+    if (jugadorActivo != NULL)
+    {
+        this->jugadorActivo = this->jugadorActivo->getSiguiente();
+    }
 
     if (obtenerResultado() == ENMARCHA)
     {
