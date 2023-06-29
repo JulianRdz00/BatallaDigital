@@ -101,17 +101,17 @@ void Juego::ponerMina(Casilla *objetivo)
         else
         {
             Jugador *duenio = getJugadorSegunId(objetivo->getIdDuenio());
-            if (duenio->getId() == jugadorActivo->getValor()->getId())
-            {
-                // Un jugador no puede poner minas donde tiene soldados
-            }
-            else
-            {
+            // if (duenio->getId() == jugadorActivo->getValor()->getId())
+            // {
+            //     // Un jugador no puede poner minas donde tiene soldados
+            // }
+            // else
+            // {
                 duenio->quitarUnidad(objetivo);
                 objetivo->setDuenio(SIN_DUENIO);
                 objetivo->setTipo(VACIO);
                 objetivo->desactivar(CANTIDAD_TURNOS_INACTIVOS_MINA);
-            }
+            // }
         }
     }
 }

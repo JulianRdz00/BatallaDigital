@@ -190,9 +190,9 @@
 
     Tablero::~Tablero()
     {
-        for (int i = ancho; i >= 1; i--)
+        for (int i = alto; i >= 1; i--)
         {
-            for (int j = ancho; j >= 1; j--)
+            for (int j = largo; j >= 1; j--)
             {
                 for (int k = ancho; k >= 1; k--)
                 {

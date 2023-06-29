@@ -240,12 +240,31 @@ T ListaCircular<T>::getCursor() const
 template <class T>
 ListaCircular<T>::~ListaCircular()
 {
+	/*
 	while (this->primero != NULL)
 	{
 		Nodo<T> *nodoRemovido = this->primero;
-		this->primero = this->primero->getSiguiente();
+		if(this->primero == this->primero->getSiguiente()){
+			this->primero = this->primero.getSiguiente();
+		}else{
+			this->primero = NULL;
+		}
+		
 		delete nodoRemovido;
 	}
+	*/
+	if(primero != NULL){
+		Nodo<T>* reco = primero->getSiguiente();
+		Nodo<T>* bor;
+
+		while(reco != primero){
+			bor = reco;
+			reco = reco->getSiguiente();
+			delete bor;
+		}
+		delete primero;
+	}
+
 }
 
 /* PRIVATE: */
