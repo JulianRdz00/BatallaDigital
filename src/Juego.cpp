@@ -272,7 +272,13 @@ void Juego::ejecutarTurno()
         preguntarPonerMina();
         actualizarImagenes();
         moverUnidad();
+    };
+
+    if (jugadorActivo->getValor()->salteado())
+    {
+        jugadorActivo->getValor()->setEstadoSalteado(false);
     }
+    
     eliminarPerdedores(); // OK
 }
 
@@ -437,11 +443,14 @@ void Juego::usarCarta(TipoDeCarta tipo)
 
 void Juego::jugarPasarTurno()
 {
-    /*
-que busque un objetivo dentro.
-    */
+    int idJugadorObjetivo = io->preguntarEnteroPositivo("Ingresa el id del jugador que quieres saltear");
 
-    Jugador *objetivo;
+    while((idJugadorObjetivo > jugadores->contarElementos()) || (idJugadorObjetivo == jugadorActivo->getValor()->getId()))
+    {
+        idJugadorObjetivo = io->preguntarEnteroPositivo("Id invalida. Ingrese nuevo id");
+    }
+
+    Jugador *objetivo = getJugadorSegunId(idJugadorObjetivo);
     if (objetivo == NULL)
     {
         throw "El usuario no debe ser nulo";

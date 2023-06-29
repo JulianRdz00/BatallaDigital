@@ -7,8 +7,7 @@ Carta::Carta(TipoDeCarta tipo)
 
 Carta::Carta()
 {
-    // this->tipo = TipoDeCarta(getRandom(0, CANTIDAD_TIPOS_DE_CARTAS - 1));
-    this->tipo = TipoDeCarta(RADAR);
+    this->tipo = TipoDeCarta(getRandom(0, CANTIDAD_TIPOS_DE_CARTAS - 1));
 }
 
 Carta::~Carta()

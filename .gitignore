@@ -33,13 +33,12 @@
 *.app
 .vscode/*
 
-/.vscode
+/.vscode/*
 launch.json
 /.launch.json
 *.json
 
 /.metadata/
 /Debug/
-/src/build
-/build
-/build/
+/src/build/
+/src/build/*
