@@ -23,6 +23,7 @@ public:
     /*  Pos: Devuelve el tipo de la carta */
     TipoDeCarta getTipo();
 
+    /*  Pos: Devuelve el nombre de la carta */
     std::string getNombre();
 };
 

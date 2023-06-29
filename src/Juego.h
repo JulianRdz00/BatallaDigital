@@ -86,24 +86,8 @@ private:
   /*PRE: Existe un jugador con la id dada dentro de la lista de jugadores.
   POS: Devuelve un puntero al jugador con la id dada dentro de la lista de jugadores,
   si no existe ningun jugador en la lista devuelve NULL*/
-  Jugador *getJugadorSegunId(unsigned int id)
-  {
-    unsigned int cantidad = jugadores->contarElementos();
-    unsigned int i = 1;
-    Jugador *resultado = NULL;
-
-    jugadores->reiniciarCursor();
-    while ((i <= cantidad) && jugadores->avanzarCursor())
-    {
-      if (jugadores->getCursor()->getId() == id)
-      {
-        resultado = jugadores->getCursor();
-      }
-      i++;
-    }
-    return resultado;
-  }
-
+  Jugador *getJugadorSegunId(unsigned int id);
+  
 public:
   /*POS:  Pregunta al usuario los parametros iniciales del juego:
   Las dimensiones del tablero, la cantidad de jugadores, y la cantidad de soldados que va a tener cada jugador.

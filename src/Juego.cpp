@@ -140,7 +140,6 @@ void Juego::atacarQuimicamente(Casilla *objetivo, unsigned int duracion)
     }
 }
 
-// Cambiar nombre
 void Juego::comprobarColisiones(Jugador *jugador, Casilla *anterior, Casilla *nueva)
 {
     if (jugador == NULL)
@@ -162,12 +161,12 @@ void Juego::comprobarColisiones(Jugador *jugador, Casilla *anterior, Casilla *nu
 
         if (nueva->getTipo() == VACIO)
         {
-            jugador->quitarUnidad(anterior);
-            jugador->agregarUnidad(nueva);
-
             nueva->setTipo(anterior->getTipo());
             nueva->setDuenio(jugador->getId());
 
+            jugador->agregarUnidad(nueva);
+            jugador->quitarUnidad(anterior);
+            
             anterior->setTipo(VACIO);
             anterior->setDuenio(SIN_DUENIO);
         }
@@ -258,6 +257,24 @@ void Juego::eliminarPerdedores()
     }
 }
 
+Jugador * Juego::getJugadorSegunId(unsigned int id)
+  {
+    unsigned int cantidad = jugadores->contarElementos();
+    unsigned int i = 1;
+    Jugador *resultado = NULL;
+
+    jugadores->reiniciarCursor();
+    while ((i <= cantidad) && jugadores->avanzarCursor())
+    {
+      if (jugadores->getCursor()->getId() == id)
+      {
+        resultado = jugadores->getCursor();
+      }
+      i++;
+    }
+    return resultado;
+  }
+
 void Juego::ejecutarTurno()
 {
     if (!jugadorActivo->getValor()->salteado() &&
@@ -281,7 +298,7 @@ void Juego::ejecutarTurno()
         jugadorActivo->getValor()->setEstadoSalteado(false);
     }
     
-    eliminarPerdedores(); // OK
+    eliminarPerdedores();
 }
 
 void Juego::jugarArmamentos()

@@ -122,8 +122,16 @@ public:
     */
     virtual ~Jugador();
 
+    /*
+    Pre:-
+    Post: Quita una unidad de la lista del tipo de unidad indicado de un jugador
+    */
     void quitarUnidad(Casilla *casilla);
 
+     /*
+    Pre:-
+    Post: Agrega una unidad a la lista del tipo de unidad indicado de un jugador
+    */
     void agregarUnidad(Casilla *casilla);
 };
 

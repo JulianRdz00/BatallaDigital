@@ -62,6 +62,7 @@ public:
       POS:  Coloca aleatoriamente una Unidad del jugador pasado en una casilla vacia.*/
     void colococarAleatoriamente(Jugador *jugador, TipoUnidad tipo);
 
+    /*POS: Devuelve el tablero*/
     Lista<Lista<Lista<Casilla *> *> *> *getTablero();
 };
 

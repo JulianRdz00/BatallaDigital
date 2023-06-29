@@ -22,6 +22,7 @@ public:
     // POS: pregunta que soldado se desea mover y devuelve la coordenada cuyo nombre es nombreCoordenada
     Coordenada *coordenadaSoldadoExistente();
 
+    /*  POS: pregunta a donde quiere colocar mover la unidad y devuelve la coordenada*/
     Coordenada *preguntarDondeMoverUnidad();
 
     Casilla *preguntarUnidadAMover(Jugador *jugador);
@@ -29,6 +30,7 @@ public:
     /*  POS: pregunta a donde quiere colocar una mina y devuelve la coordenada cuyo nombre es nombreCoordenada*/
     Coordenada *preguntarDondeColocarMina();
 
+    /*  POS: pregunta a donde quiere colocar el ataque quimico y devuelve la coordenada*/
     Coordenada *preguntarDondeColocarQuimico();
 
     /*  POS: devuelve un string con el nombre de la carta a jugar y en caso de no jugar carta devuelve 0
@@ -47,6 +49,7 @@ public:
     /*  POS: devuelve un puntero a un Juego con unos parametros elejidos por el usuario. */
     void inicializarPartida(int *ancho, int *largo, int *alto, int *cantidadJugadores, int *soldadosPorJugador);
 
+    /*  POS: pregunta a donde quiere disparar el torpedo y devuelve la coordenada*/
     Coordenada *preguntarDisparoBarco();
 
     ~EntradaSalida();
