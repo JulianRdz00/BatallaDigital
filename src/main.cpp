@@ -23,7 +23,7 @@ int main()
         std::cout << "Hubo un empate\n";
         break;
     case TERMINADA:
-        std::cout << "Hay un ganador!\n";
+        std::cout << "El ganador de la partida es el jugador: " << batallaDigital->obtenerGanador()->getId() << std::endl;
         break;
     }
 

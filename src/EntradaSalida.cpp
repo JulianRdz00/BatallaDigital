@@ -33,7 +33,7 @@ Coordenada *EntradaSalida::coordenadaSoldadoExistente()
 
 Coordenada *EntradaSalida::preguntarDondeMoverUnidad()
 {
-    std::cout << "Ingrese una nueva posicion para la unidad";
+    std::cout << "Ingrese una nueva posicion para la unidad" << std::endl;
     return pedirCoordenada();
 }
 
@@ -42,7 +42,7 @@ Casilla *EntradaSalida::preguntarUnidadAMover(Jugador *jugador) // OK
     bool buscando = true;
     Casilla *casilla;
     Coordenada *posicion;
-    std::cout << "Escriba las coordenadas del soldado o armamento a mover";
+    std::cout << "Escriba las coordenadas del soldado o armamento a mover" << std::endl;
     while (buscando)
     {
         posicion = pedirCoordenada();
