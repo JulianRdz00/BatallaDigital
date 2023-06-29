@@ -56,6 +56,9 @@ public:
 
     /*POS: Cambia la ID del jugador que es duenio de esta casilla.*/
     void setDuenio(unsigned int id);
+
+    /*POST: Elimina la instancia de Casilla*/
+    ~Casilla();
 };
 
 #endif

@@ -136,6 +136,9 @@ public:
     POS: Crea archivos para cada Capa del tablero, para la perspectiva de cada jugador.
     Cada jugador solo puede ver sus Soldados, armamentos y minas propias.*/
   void actualizarImagenes();
+
+  /*POST: Elimina la instancia de juego y libera toda la memoria dinamica utilizada.*/
+  ~Juego();
 };
 
 #endif

@@ -85,3 +85,7 @@ unsigned int Casilla::getIdDuenio(){
 void Casilla::setDuenio(unsigned int id){
     this->idDuenio = id;
 }
+
+Casilla::~Casilla()
+{
+}

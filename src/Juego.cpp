@@ -101,10 +101,17 @@ void Juego::ponerMina(Casilla *objetivo)
         else
         {
             Jugador *duenio = getJugadorSegunId(objetivo->getIdDuenio());
-            duenio->quitarUnidad(objetivo);
-            objetivo->setDuenio(SIN_DUENIO);
-            objetivo->setTipo(VACIO);
-            objetivo->desactivar(CANTIDAD_TURNOS_INACTIVOS_MINA);
+            if (duenio->getId() == jugadorActivo->getValor()->getId())
+            {
+                // Un jugador no puede poner minas donde tiene soldados
+            }
+            else
+            {
+                duenio->quitarUnidad(objetivo);
+                objetivo->setDuenio(SIN_DUENIO);
+                objetivo->setTipo(VACIO);
+                objetivo->desactivar(CANTIDAD_TURNOS_INACTIVOS_MINA);
+            }
         }
     }
 }
@@ -722,4 +729,14 @@ void Juego::usarRadarEnAvion(Casilla *avion)
 
         delete minasCercanas;
     }
+}
+
+
+Juego::~Juego()
+{
+    delete this->mapa;
+    delete this->jugadores;
+    delete this->jugadorActivo;
+    delete this->io;
+    delete this->video;
 }

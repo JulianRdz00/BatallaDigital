@@ -179,3 +179,7 @@ void Video::dibujarCapa(Lista<Lista<Casilla *> *> *capa, Jugador *jugador, bitma
         }
     }
 }
+
+Video::~Video()
+{   
+}

@@ -32,13 +32,16 @@ public:
 
     rgb_t colorInactiva;
 
-    /**/
+    /*POST: Crea una instancia de TDA Video*/
     Video();
 
     /*POS:  Dado un tablero y un jugador, crea un archivo .bmp por
      cada capa (x,y) del tablero dando un total de z imagenes.
      Las imagenes resultantes corresponden a la perspectiva del jugador*/
     void dibujarTablero(Tablero *tablero, Jugador *jugador);
+
+    /*Elimina la instancia de Video*/
+    ~Video();
 };
 
 #endif

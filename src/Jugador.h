@@ -120,7 +120,7 @@ public:
     Pre:-
     Post: Elimina al jugador con sus cartas, soldados, minas y Armamentos
     */
-    virtual ~Jugador();
+    ~Jugador();
 
     /*
     Pre:-
@@ -133,6 +133,7 @@ public:
     Post: Agrega una unidad a la lista del tipo de unidad indicado de un jugador
     */
     void agregarUnidad(Casilla *casilla);
+
 };
 
 #endif

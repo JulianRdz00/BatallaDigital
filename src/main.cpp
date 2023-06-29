@@ -27,5 +27,7 @@ int main()
         break;
     }
 
+    delete batallaDigital;
+
     return 0;
 }
